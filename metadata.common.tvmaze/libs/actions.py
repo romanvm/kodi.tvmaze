@@ -21,13 +21,11 @@ from six.moves import urllib_parse
 import xbmcgui
 import xbmcplugin
 from . import tvmaze
-from web_pdb import set_trace
 
 _handle = int(sys.argv[1])
 
 
 def find_show(title, year=None):
-    # set_trace()
     try:
         result = tvmaze.search_show(title, year)
     except tvmaze.NotFoundError:
@@ -107,7 +105,6 @@ def get_episode_list(path):
 
 
 def get_episode_details(path):
-    set_trace()
     pass
 
 
