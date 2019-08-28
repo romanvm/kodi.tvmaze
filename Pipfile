@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+
+[packages]
+
+kodistubs = {git = "https://github.com/romanvm/kodistubs.git"}
+six = "*"
+requests = "*"
+requests-cache = "*"
+web-pdb = "*"
+
+
+[dev-packages]
+
+[requires]
+python_version = "2.7"
