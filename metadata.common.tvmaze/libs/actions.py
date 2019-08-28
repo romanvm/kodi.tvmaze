@@ -22,7 +22,7 @@ import xbmcgui
 import xbmcplugin
 from . import tvmaze
 
-_handle = int(sys.argv[1])
+_HANDLE = int(sys.argv[1])
 
 
 def find_show(title, year=None):
@@ -32,7 +32,7 @@ def find_show(title, year=None):
         pass
     else:
         li = xbmcgui.ListItem(result['name'], thumbnailImage=result['image']['original'])
-        xbmcplugin.addDirectoryItem(_handle, url=result['_links']['self']['href'], listitem=li)
+        xbmcplugin.addDirectoryItem(_HANDLE, url=result['_links']['self']['href'], listitem=li)
 
 
 def get_details(url):
@@ -60,7 +60,7 @@ def get_details(url):
             li.setProperty('video.actor{}.thumb'.format(i), item['person']['image']['original'])
         li.setProperty('video.studio', result['network']['name'])
         li.setProperty('video.episode_guide_url', url + '/episodes')
-        xbmcplugin.setResolvedUrl(_handle, True, li)
+        xbmcplugin.setResolvedUrl(_HANDLE, True, li)
 
 
 def get_episode_list(path):
@@ -127,4 +127,4 @@ def router(paramstring):
         get_episode_details(params['url'])
     else:
         raise ValueError('Invalid addon call: {}'.format(sys.argv))
-    xbmcplugin.endOfDirectory(_handle)
+    xbmcplugin.endOfDirectory(_HANDLE)
