@@ -16,67 +16,51 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from __future__ import absolute_import
-import os
-from requests_cache import CachedSession
-import xbmc
-import xbmcvfs
+from .utils import get_requests_session
 
-cache_dir = os.path.join(xbmc.translatePath('special://temp'), 'tvmaze')
-if not xbmcvfs.exists(cache_dir):
-    xbmcvfs.mkdir(cache_dir)
-cache_db = os.path.join(cache_dir, 'tvmaze')
+__all__ = ['search_show']
 
-HEADERS = {
-    'User-Agent': 'Kodi scraper for tvmaze.com by Roman V.M.; roman1972@gmail.com',
-    'Accept': 'application/json',
-}
-
-SINGLE_SEARCH = 'http://api.tvmaze.com/singlesearch/shows'
+SEARCH = 'http://api.tvmaze.com/search/shows'
+SHOW_INFO = 'http://api.tvmaze.com/shows/{}'
+SESSION = get_requests_session()
 
 
-class NotFoundError(Exception):
-    pass
+def _load_info(url, params=None):
+    # type: (str, dict) -> dict
+    """
+    Load info from TV Maze
+
+    :param url: API endpoint URL
+    :param params: URL query params
+    :return: API response
+    :raises requests.exceptions.HTTPError: if any error happens
+    """
+    response = SESSION.get(url, params=params)
+    if not response.ok:
+        response.raise_for_status()
+    return response.json()
 
 
-def load_info(url, params=None):
-    session = CachedSession(cache_db)
-    session.headers.update(HEADERS)
-    resp = session.get(url, params=params)
-    if resp.status_code == 404:
-        raise NotFoundError
-    return resp.json()
-
-
-def search_show(title, year=None):
+def search_show(title):
+    # type: (str) -> dict
     """
     Search a single TV show
 
-    :param title:
-    :type title: str
-    :param year:
-    :type year: str
+    :param title: TV show title to search
     :return: a dict with show data
-    :rtype: dict
-    :raises NotFoundError:
+    :raises requests.exceptions.HTTPError:
     """
-    if year is not None:
-        title += ' ' + year
-    return load_info(SINGLE_SEARCH, {'q': title})
+    return _load_info(SEARCH, {'q': title})
 
 
-def get_show_details(url):
+def get_show_info(show_id):
+    # type: (int) -> dict
     """
+    Get full info for a single show
 
-    :param url:
-    :return:
+    :param show_id: TV Maze show ID
+    :return: full show info
+    :raises requests.exceptions.HTTPError:
     """
-    return load_info(url, {'embed': 'cast'})
-
-
-def get_eposode_list(url):
-    """
-
-    :param url:
-    :return:
-    """
-    return load_info(url)
+    url = SHOW_INFO.format(show_id)
+    return _load_info(url, {'embed[]': ['cast', 'seasons', 'episodes']})
