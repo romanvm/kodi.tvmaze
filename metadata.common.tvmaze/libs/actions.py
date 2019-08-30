@@ -26,10 +26,24 @@ _HANDLE = int(sys.argv[1])
 
 
 def find_show(title, year=None):
-    pass
+    """Find a show by title"""
+    shows = tvmaze.search_show(title)
+    if year is not None:
+        show = tvmaze.filter_by_year(shows, year)
+        shows = [show] if show else ()
+    for show in shows:
+        show_name = u'{} ({})'.format(show['show']['name'], show['show']['premiered'][:4])
+        li = xbmcgui.ListItem(show_name, offscreen=True)
+        li.setArt({'thumb': show['show']['image']['medium']})
+        xbmcplugin.addDirectoryItem(
+            _HANDLE,
+            url=str(show['show']['id']),
+            listitem=li,
+            isFolder=True
+        )
 
 
-def get_details(url):
+def get_details(show_id):
     pass
 
 

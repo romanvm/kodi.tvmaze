@@ -26,7 +26,6 @@ HEADERS = (
 
 
 def get_requests_session():
-    # type: () -> Session
     """Create requests Session"""
     session = Session()
     session.headers.update(dict(HEADERS))

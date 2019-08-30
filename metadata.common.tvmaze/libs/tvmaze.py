@@ -20,13 +20,13 @@ from .utils import get_requests_session
 
 __all__ = ['search_show']
 
-SEARCH = 'http://api.tvmaze.com/search/shows'
-SHOW_INFO = 'http://api.tvmaze.com/shows/{}'
+SEARCH_URL = 'http://api.tvmaze.com/search/shows'
+SHOW_INFO_URL = 'http://api.tvmaze.com/shows/{}'
+
 SESSION = get_requests_session()
 
 
 def _load_info(url, params=None):
-    # type: (str, dict) -> dict
     """
     Load info from TV Maze
 
@@ -42,7 +42,6 @@ def _load_info(url, params=None):
 
 
 def search_show(title):
-    # type: (str) -> dict
     """
     Search a single TV show
 
@@ -50,11 +49,24 @@ def search_show(title):
     :return: a dict with show data
     :raises requests.exceptions.HTTPError:
     """
-    return _load_info(SEARCH, {'q': title})
+    return _load_info(SEARCH_URL, {'q': title})
 
 
-def get_show_info(show_id):
-    # type: (int) -> dict
+def filter_by_year(shows, year):
+    """
+    Filter a show by year
+
+    :param shows: the list of shows from TV Maze
+    :param year: premiere year
+    :return: a found show or None
+    """
+    for show in shows:
+        if show['show'].get('premiered', '').startswith(str(year)):
+            return show
+    return None
+
+
+def load_show_info(show_id):
     """
     Get full info for a single show
 
@@ -62,5 +74,5 @@ def get_show_info(show_id):
     :return: full show info
     :raises requests.exceptions.HTTPError:
     """
-    url = SHOW_INFO.format(show_id)
+    url = SHOW_INFO_URL.format(show_id)
     return _load_info(url, {'embed[]': ['cast', 'seasons', 'episodes']})
