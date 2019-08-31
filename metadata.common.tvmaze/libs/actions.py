@@ -15,12 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+"""Plugin route actions"""
+
 from __future__ import absolute_import
 import sys
 from six.moves import urllib_parse
 import xbmcgui
 import xbmcplugin
-from . import tvmaze
+from . import tvmaze, data_utils
 
 _HANDLE = int(sys.argv[1])
 
@@ -33,26 +35,29 @@ def find_show(title, year=None):
         shows = [show] if show else ()
     for show in shows:
         show_name = u'{} ({})'.format(show['show']['name'], show['show']['premiered'][:4])
-        li = xbmcgui.ListItem(show_name, offscreen=True)
-        li.setArt({'thumb': show['show']['image']['medium']})
+        list_item = xbmcgui.ListItem(show_name, offscreen=True)
+        list_item.setArt({'thumb': show['show']['image']['medium']})
         xbmcplugin.addDirectoryItem(
             _HANDLE,
             url=str(show['show']['id']),
-            listitem=li,
+            listitem=list_item,
             isFolder=True
         )
 
 
 def get_details(show_id):
-    pass
+    show_info = tvmaze.load_show_info(show_id)
+    list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
+    list_item = data_utils.add_main_show_info(list_item, show_info)
+    xbmcplugin.setResolvedUrl(_HANDLE, succeeded=True, listitem=list_item)
 
 
 def get_episode_list(path):
-    pass
+    raise NotImplementedError
 
 
 def get_episode_details(path):
-    pass
+    raise NotImplementedError
 
 
 def router(paramstring):

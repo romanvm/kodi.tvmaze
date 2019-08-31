@@ -15,15 +15,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from __future__ import absolute_import
-from .utils import get_requests_session
+"""Functions to interact with TV Maze API"""
 
-__all__ = ['search_show']
+from __future__ import absolute_import
+import os
+from six.moves import cPickle as pickle
+from .utils import get_requests_session, get_cache_directory
+from .data_utils import process_episode_list
 
 SEARCH_URL = 'http://api.tvmaze.com/search/shows'
 SHOW_INFO_URL = 'http://api.tvmaze.com/shows/{}'
 
 SESSION = get_requests_session()
+CACHE_DIR = get_cache_directory()
 
 
 def _load_info(url, params=None):
@@ -75,4 +79,9 @@ def load_show_info(show_id):
     :raises requests.exceptions.HTTPError:
     """
     url = SHOW_INFO_URL.format(show_id)
-    return _load_info(url, {'embed[]': ['cast', 'seasons', 'episodes']})
+    show_info = _load_info(url, {'embed[]': ['cast', 'seasons', 'episodes']})
+    process_episode_list(show_info)
+    file_name = str(show_id['id']) + '.pickle'
+    with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
+        pickle.dump(show_info, fo, protocol=2)
+    return show_info

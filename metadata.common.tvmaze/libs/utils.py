@@ -15,14 +15,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from __future__ import absolute_import
+"""Misc utils"""
 
+from __future__ import absolute_import
+import os
 from requests.sessions import Session
+from six import PY2
+import xbmc
+from xbmcaddon import Addon
+import xbmcvfs
 
 HEADERS = (
     ('User-Agent', 'Kodi scraper for tvmaze.com by Roman V.M.; roman1972@gmail.com'),
     ('Accept', 'application/json'),
 )
+
+ADDON = Addon()
 
 
 def get_requests_session():
@@ -30,3 +38,13 @@ def get_requests_session():
     session = Session()
     session.headers.update(dict(HEADERS))
     return session
+
+
+def get_cache_directory():
+    profile_dir = xbmc.translatePath(ADDON.getAddonInfo('profile'))
+    cache_dir = os.path.join(profile_dir, 'cache')
+    if PY2:
+        cache_dir = cache_dir.decode('utf-8')
+    if not xbmcvfs.exists(cache_dir):
+        xbmcvfs.mkdir(cache_dir)
+    return cache_dir
