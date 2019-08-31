@@ -18,7 +18,6 @@
 """Functions to process data"""
 
 import re
-import xbmcgui
 
 TAG_RE = re.compile(r'<[^>]+>')
 SUPPORTED_UNIQUE_IDS = {'imdb', 'tvdb', 'tmdb', 'anidb'}
