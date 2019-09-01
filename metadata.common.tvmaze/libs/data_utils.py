@@ -42,8 +42,15 @@ def _clean_plot(plot):
 def _get_cast(show_info):
     """Extract cast from show info dict"""
     cast = []
-    for item in show_info['_embedded']['cast']:
-        cast.append((item['person']['name'], item['character']['name']))
+    for index, item in enumerate(show_info['_embedded']['cast'], 1):
+        cast.append(
+            {
+                'name': item['person']['name'],
+                'role': item['character']['name'],
+                'thumbnail': item['person']['image']['medium'],
+                'order': index,
+            }
+        )
     return cast
 
 
@@ -56,19 +63,13 @@ def _get_unique_ids(show_info):
     return unique_ids
 
 
-def _add_seasons(list_item, show_info):
-    for season in show_info['_embedded']['seasons']:
-        list_item.addSeason(season['number'], season['name'])
-    return list_item
-
-
-def _add_show_artwork(list_item, show_info):
+def _get_show_artwork(show_info):
+    # Extract available images for a show
     artwork = {
         'thumb': show_info['image']['medium'],
         'poster': show_info['image']['original'],
     }
-    list_item.setArt(artwork)
-    return list_item
+    return artwork
 
 
 def add_main_show_info(list_item, show_info):
@@ -79,7 +80,7 @@ def add_main_show_info(list_item, show_info):
         'year': int(show_info['premiered'][:4]),
         'rating': show_info['rating']['average'],
         'plot': _clean_plot(show_info['summary']),
-        'castandrole': _get_cast(show_info),
+        'plotoutline': _clean_plot(show_info['summary']),
         'duration': show_info['runtime'] * 60,
         'title': show_info['name'],
         'tvshowtitle': show_info['name'],
@@ -89,7 +90,9 @@ def add_main_show_info(list_item, show_info):
         'mediatype': 'tvshow',
     }
     list_item.setInfo('video', video)
+    for season in show_info['_embedded']['seasons']:
+        list_item.addSeason(season['number'], season['name'])
     list_item.setUniqueIDs(_get_unique_ids(show_info))
-    list_item = _add_seasons(list_item, show_info)
-    list_item = _add_show_artwork(list_item, show_info)
+    list_item.setArt(_get_show_artwork(show_info))
+    list_item.setCast(_get_cast(show_info))
     return list_item

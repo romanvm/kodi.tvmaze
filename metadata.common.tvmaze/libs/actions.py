@@ -78,5 +78,5 @@ def router(paramstring):
     elif params['action'] == 'getepisodedetails':
         get_episode_details(params['url'])
     else:
-        raise ValueError('Invalid addon call: {}'.format(sys.argv))
+        raise RuntimeError('Invalid addon call: {}'.format(sys.argv))
     xbmcplugin.endOfDirectory(_HANDLE)
