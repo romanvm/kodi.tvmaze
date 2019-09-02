@@ -31,17 +31,17 @@ _HANDLE = int(sys.argv[1])
 
 def find_show(title, year=None):
     """Find a show by title"""
-    shows = tvmaze.search_show(title)
+    search_results = tvmaze.search_show(title)
     if year is not None:
-        show = tvmaze.filter_by_year(shows, year)
-        shows = [show] if show else ()
-    for show in shows:
-        show_name = u'{} ({})'.format(show['show']['name'], show['show']['premiered'][:4])
+        search_result = tvmaze.filter_by_year(search_results, year)
+        search_results = [search_result] if search_result else ()
+    for search_result in search_results:
+        show_name = u'{} ({})'.format(search_result['show']['name'], search_result['show']['premiered'][:4])
         list_item = xbmcgui.ListItem(show_name, offscreen=True)
-        list_item.setArt({'thumb': show['show']['image']['medium']})
+        list_item.setArt({'thumb': search_result['show']['image']['medium']})
         xbmcplugin.addDirectoryItem(
             _HANDLE,
-            url=str(show['show']['id']),
+            url=str(search_result['show']['id']),
             listitem=list_item,
             isFolder=True
         )
@@ -62,10 +62,10 @@ def get_episode_list(show_id):
     for episode in itervalues(show_info['episodes']):
         list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
         list_item = data_utils.add_episode_info(list_item, episode, full_info=False)
-        episode_id = urllib_parse.urlencode({'show_id': str(show_id), 'episode_id': str(episode['id'])})
+        episode_ids = urllib_parse.urlencode({'show_id': str(show_id), 'episode_id': str(episode['id'])})
         if PY3:
-            episode_id = episode_id.encode('ascii')
-        url = base64.b64encode(episode_id).decode('ascii')
+            episode_ids = episode_ids.encode('ascii')
+        url = base64.b64encode(episode_ids).decode('ascii')
         xbmcplugin.addDirectoryItem(
             _HANDLE,
             url=url,
