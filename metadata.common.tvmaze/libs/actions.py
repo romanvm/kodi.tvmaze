@@ -18,8 +18,9 @@
 """Plugin route actions"""
 
 from __future__ import absolute_import
+import base64
 import sys
-from six import itervalues
+from six import PY3, itervalues
 from six.moves import urllib_parse
 import xbmcgui
 import xbmcplugin
@@ -61,9 +62,13 @@ def get_episode_list(show_id):
     for episode in itervalues(show_info['episodes']):
         list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
         list_item = data_utils.add_episode_info(list_item, episode, full_info=False)
+        episode_id = urllib_parse.urlencode({'show_id': str(show_id), 'episode_id': str(episode['id'])})
+        if PY3:
+            episode_id = episode_id.encode('ascii')
+        url = base64.b64encode(episode_id).decode('ascii')
         xbmcplugin.addDirectoryItem(
             _HANDLE,
-            url=str(episode['id']),
+            url=url,
             listitem=list_item,
             isFolder=False
         )
@@ -79,7 +84,7 @@ def router(paramstring):
 
     :param paramstring: url-encoded query string
     :type paramstring: str
-    :raises ValueError: on unknown call action
+    :raises RuntimeError: on unknown call action
     """
     params = dict(urllib_parse.parse_qsl(paramstring))
     if params['action'] == 'find':

@@ -26,6 +26,7 @@ from .data_utils import process_episode_list
 
 SEARCH_URL = 'http://api.tvmaze.com/search/shows'
 SHOW_INFO_URL = 'http://api.tvmaze.com/shows/{}'
+EPISODE_INFO_URL = 'http://api.tvmaze.com/episodes/{}'
 
 SESSION = get_requests_session()
 CACHE_DIR = get_cache_directory()
@@ -107,3 +108,23 @@ def load_show_info_from_cache(show_id):
     except (IOError, pickle.PickleError) as exc:
         raise_from(TvMazeCacheError(), exc)
     return show_info
+
+
+def load_episode_info(show_id, episode_id):
+    """
+    Load episode info
+
+    :param show_id:
+    :param episode_id:
+    :return: episode info dict
+    """
+    try:
+        show_info = load_show_info_from_cache(show_id)
+    except TvMazeCacheError:
+        show_info = load_show_info(show_id)
+    try:
+        episode_info = show_info['episodes'][int(episode_id)]
+    except KeyError:
+        url = EPISODE_INFO_URL.format(episode_id)
+        episode_info = _load_info(url)
+    return episode_info
