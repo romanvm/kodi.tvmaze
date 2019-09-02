@@ -59,8 +59,14 @@ def get_episode_list(show_id):
     except tvmaze.TvMazeCacheError:
         show_info = tvmaze.load_show_info(show_id)
     for episode in itervalues(show_info['episodes']):
-        list_item = xbmcgui.ListItem()
-
+        list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
+        list_item = data_utils.add_episode_info(list_item, episode, full_info=False)
+        xbmcplugin.addDirectoryItem(
+            _HANDLE,
+            url=str(episode['id']),
+            listitem=list_item,
+            isFolder=False
+        )
 
 
 def get_episode_details(path):

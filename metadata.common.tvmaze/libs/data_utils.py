@@ -99,3 +99,17 @@ def add_main_show_info(list_item, show_info):
     list_item.setArt(_get_show_artwork(show_info))
     list_item.setCast(_get_cast(show_info))
     return list_item
+
+
+def add_episode_info(list_item, episode_info, full_info=True):
+    """Add minimal episode info to a list item"""
+    video = {
+        'title': episode_info['name'],
+        'season': episode_info['season'],
+        'episode': episode_info['number'],
+        'aired': episode_info['airdate'],
+        'mediatype': 'episode',
+    }
+    list_item.setInfo('video', video)
+    list_item.setArt({'thumb': episode_info['image']['original']})
+    return list_item
