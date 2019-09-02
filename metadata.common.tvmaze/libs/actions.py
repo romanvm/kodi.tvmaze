@@ -19,6 +19,7 @@
 
 from __future__ import absolute_import
 import sys
+from six import itervalues
 from six.moves import urllib_parse
 import xbmcgui
 import xbmcplugin
@@ -52,8 +53,14 @@ def get_details(show_id):
     xbmcplugin.setResolvedUrl(_HANDLE, succeeded=True, listitem=list_item)
 
 
-def get_episode_list(path):
-    raise NotImplementedError
+def get_episode_list(show_id):
+    try:
+        show_info = tvmaze.load_show_info_from_cache(show_id)
+    except tvmaze.TvMazeCacheError:
+        show_info = tvmaze.load_show_info(show_id)
+    for episode in itervalues(show_info['episodes']):
+        list_item = xbmcgui.ListItem()
+
 
 
 def get_episode_details(path):

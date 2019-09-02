@@ -19,6 +19,7 @@
 
 from __future__ import absolute_import
 import os
+from six import raise_from
 from six.moves import cPickle as pickle
 from .utils import get_requests_session, get_cache_directory
 from .data_utils import process_episode_list
@@ -28,6 +29,10 @@ SHOW_INFO_URL = 'http://api.tvmaze.com/shows/{}'
 
 SESSION = get_requests_session()
 CACHE_DIR = get_cache_directory()
+
+
+class TvMazeCacheError(Exception):
+    pass
 
 
 def _load_info(url, params=None):
@@ -84,4 +89,21 @@ def load_show_info(show_id):
     file_name = str(show_id['id']) + '.pickle'
     with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
         pickle.dump(show_info, fo, protocol=2)
+    return show_info
+
+
+def load_show_info_from_cache(show_id):
+    """
+    Load show info from a local cache
+
+    :param show_id: show ID on TV Maze
+    :return: show_info dict
+    :raises TvMazeCacheError: if show_info cannot be loaded from cache
+    """
+    file_name = str(show_id['id']) + '.pickle'
+    try:
+        with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
+            show_info = pickle.load(fo)
+    except (IOError, pickle.PickleError) as exc:
+        raise_from(TvMazeCacheError(), exc)
     return show_info

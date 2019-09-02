@@ -18,6 +18,7 @@
 """Functions to process data"""
 
 import re
+from collections import OrderedDict
 
 TAG_RE = re.compile(r'<[^>]+>')
 SUPPORTED_UNIQUE_IDS = {'imdb', 'tvdb', 'tmdb', 'anidb'}
@@ -25,7 +26,9 @@ SUPPORTED_UNIQUE_IDS = {'imdb', 'tvdb', 'tmdb', 'anidb'}
 
 def process_episode_list(show_info):
     """Convert embedded episode list to a dict"""
-    episodes = {ep['id']: ep for ep in show_info['_embedded']['episodes']}
+    episodes = OrderedDict()
+    for episode in show_info['_embedded']['episodes']:
+        episodes[episode['id']] = episode
     show_info['episodes'] = episodes
     del show_info['_embedded']['episodes']
 
