@@ -74,8 +74,15 @@ def get_episode_list(show_id):
         )
 
 
-def get_episode_details(path):
-    raise NotImplementedError
+def get_episode_details(encoded_ids):
+    encoded_ids = base64.b64decode(encoded_ids).decode('ascii')
+    decoded_ids = dict(urllib_parse.parse_qsl(encoded_ids))
+    episode_info = tvmaze.load_episode_info(
+        int(decoded_ids['show_id']), int(decoded_ids['episode_id'])
+    )
+    list_item = xbmcgui.ListItem(episode_info['name'], offscreen=True)
+    list_item = data_utils.add_episode_info(list_item, episode_info, full_info=True)
+    xbmcplugin.setResolvedUrl(_HANDLE, True, list_item)
 
 
 def router(paramstring):
