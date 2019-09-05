@@ -102,7 +102,7 @@ def add_main_show_info(list_item, show_info):
 
 
 def add_episode_info(list_item, episode_info, full_info=True):
-    """Add minimal episode info to a list item"""
+    """Add episode info to a list item"""
     video = {
         'title': episode_info['name'],
         'season': episode_info['season'],
@@ -110,6 +110,10 @@ def add_episode_info(list_item, episode_info, full_info=True):
         'aired': episode_info['airdate'],
         'mediatype': 'episode',
     }
+    if full_info:
+        video['plot'] = video['plotoutline'] = _clean_plot(episode_info['summary'])
+        video['duration'] = episode_info['runtime'] * 60
+        video['premiered'] = episode_info['airdate']
     list_item.setInfo('video', video)
     list_item.setArt({'thumb': episode_info['image']['original']})
     return list_item
