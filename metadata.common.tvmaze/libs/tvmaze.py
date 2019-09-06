@@ -19,12 +19,14 @@
 
 from __future__ import absolute_import
 import os
+from requests.exceptions import HTTPError
 from six import raise_from
 from six.moves import cPickle as pickle
 from .utils import get_requests_session, get_cache_directory
 from .data_utils import process_episode_list
 
 SEARCH_URL = 'http://api.tvmaze.com/search/shows'
+SEARCH_BU_EXTERNAL_ID_URL = 'http://api.tvmaze.com/lookup/shows'
 SHOW_INFO_URL = 'http://api.tvmaze.com/shows/{}'
 EPISODE_INFO_URL = 'http://api.tvmaze.com/episodes/{}'
 
@@ -108,6 +110,20 @@ def load_show_info_from_cache(show_id):
     except (IOError, pickle.PickleError) as exc:
         raise_from(TvMazeCacheError(), exc)
     return show_info
+
+
+def load_show_info_by_external_id(parse_result):
+    """
+    Load show info by external ID (TheTVDB or IMDB)
+
+    :param parse_result: data_utils.UrlParseResult instance
+    :return: show info or None
+    """
+    query = {parse_result.provider: str(parse_result.show_id)}
+    try:
+        return _load_info(SEARCH_BU_EXTERNAL_ID_URL, query)
+    except HTTPError:
+        return None
 
 
 def load_episode_info(show_id, episode_id):

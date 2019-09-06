@@ -22,12 +22,12 @@ from collections import OrderedDict, namedtuple
 
 TAG_RE = re.compile(r'<[^>]+>')
 SHOW_ID_REGEXPS = (
-    re.compile(r'(?P<provider>tvmaze)\.com/shows/(?P<id>\d+)/[\w\-]', re.I),
-    re.compile(r'(?P<provider>thetvdb).com/series/(?P<id>\d+)', re.I),
-    re.compile(r'(?P<provider>imdb)\.com/[\w/]+/(?P<id>tt\d+)', re.I),
+    re.compile(r'(tvmaze)\.com/shows/(\d+)/[\w\-]', re.I),
+    re.compile(r'(thetvdb).com/series/(\d+)', re.I),
+    re.compile(r'(imdb)\.com/[\w/]+/(tt\d+)', re.I),
 )
 
-UrlParseResult = namedtuple('UrlParseResult', ['provider', 'id'])
+UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
 
 SUPPORTED_UNIQUE_IDS = {'imdb', 'tvdb', 'tmdb', 'anidb'}
 
@@ -85,13 +85,14 @@ def _get_show_artwork(show_info):
 
 def add_main_show_info(list_item, show_info):
     """Add main show info to a list item"""
+    plot = _clean_plot(show_info['summary'])
     video = {
         'genre': show_info['genres'],
         'country': show_info['network']['country'],
         'year': int(show_info['premiered'][:4]),
         'rating': show_info['rating']['average'],
-        'plot': _clean_plot(show_info['summary']),
-        'plotoutline': _clean_plot(show_info['summary']),
+        'plot': plot,
+        'plotoutline': plot,
         'duration': show_info['runtime'] * 60,
         'title': show_info['name'],
         'tvshowtitle': show_info['name'],
@@ -127,13 +128,10 @@ def add_episode_info(list_item, episode_info, full_info=True):
     return list_item
 
 
-def parse_nfo_url(url):
+def parse_nfo_url(nfo_url):
     """Extract show ID from NFO URL"""
     for regexp in SHOW_ID_REGEXPS:
-        show_id_match = regexp.search(url)
+        show_id_match = regexp.search(nfo_url)
         if show_id_match:
-            return UrlParseResult(
-                show_id_match.group('provider'),
-                show_id_match.group('id')
-            )
+            return UrlParseResult(show_id_match.group(1), show_id_match.group(2))
     return None

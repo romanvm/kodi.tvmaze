@@ -85,17 +85,21 @@ def get_episode_details(encoded_ids):
     xbmcplugin.setResolvedUrl(_HANDLE, True, list_item)
 
 
-def get_show_from_nfo_url(url):
-    show_id = data_utils.parse_nfo_url(url)
-    if show_id:
-        show_info = tvmaze.load_show_info(show_id)
-        list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
-        xbmcplugin.addDirectoryItem(
-            _HANDLE,
-            url=show_id,
-            listitem=list_item,
-            isFolder=True
-        )
+def get_show_from_nfo_url(nfo_url):
+    parse_result = data_utils.parse_nfo_url(nfo_url)
+    if parse_result:
+        if parse_result.provider == 'tvmaze':
+            show_info = tvmaze.load_show_info(parse_result.show_id)
+        else:
+            show_info = tvmaze.load_show_info_by_external_id(parse_result)
+        if show_info:
+            list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
+            xbmcplugin.addDirectoryItem(
+                _HANDLE,
+                url=str(show_info['id']),
+                listitem=list_item,
+                isFolder=True
+            )
 
 
 def router(paramstring):
