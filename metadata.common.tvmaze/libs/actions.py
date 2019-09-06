@@ -85,6 +85,19 @@ def get_episode_details(encoded_ids):
     xbmcplugin.setResolvedUrl(_HANDLE, True, list_item)
 
 
+def get_show_from_nfo_url(url):
+    show_id = data_utils.parse_nfo_url(url)
+    if show_id:
+        show_info = tvmaze.load_show_info(show_id)
+        list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
+        xbmcplugin.addDirectoryItem(
+            _HANDLE,
+            url=show_id,
+            listitem=list_item,
+            isFolder=True
+        )
+
+
 def router(paramstring):
     """
     Route addon calls
@@ -102,6 +115,8 @@ def router(paramstring):
         get_episode_list(params['url'])
     elif params['action'] == 'getepisodedetails':
         get_episode_details(params['url'])
+    elif params['action'].lower() == 'nfourl':
+        get_show_from_nfo_url(params['url'])
     else:
         raise RuntimeError('Invalid addon call: {}'.format(sys.argv))
     xbmcplugin.endOfDirectory(_HANDLE)

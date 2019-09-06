@@ -18,9 +18,17 @@
 """Functions to process data"""
 
 import re
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 
 TAG_RE = re.compile(r'<[^>]+>')
+SHOW_ID_REGEXPS = (
+    re.compile(r'(?P<provider>tvmaze)\.com/shows/(?P<id>\d+)/[\w\-]', re.I),
+    re.compile(r'(?P<provider>thetvdb).com/series/(?P<id>\d+)', re.I),
+    re.compile(r'(?P<provider>imdb)\.com/[\w/]+/(?P<id>tt\d+)', re.I),
+)
+
+UrlParseResult = namedtuple('UrlParseResult', ['provider', 'id'])
+
 SUPPORTED_UNIQUE_IDS = {'imdb', 'tvdb', 'tmdb', 'anidb'}
 
 
@@ -117,3 +125,15 @@ def add_episode_info(list_item, episode_info, full_info=True):
     list_item.setInfo('video', video)
     list_item.setArt({'thumb': episode_info['image']['original']})
     return list_item
+
+
+def parse_nfo_url(url):
+    """Extract show ID from NFO URL"""
+    for regexp in SHOW_ID_REGEXPS:
+        show_id_match = regexp.search(url)
+        if show_id_match:
+            return UrlParseResult(
+                show_id_match.group('provider'),
+                show_id_match.group('id')
+            )
+    return None
