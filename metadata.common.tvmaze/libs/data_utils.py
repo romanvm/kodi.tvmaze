@@ -82,7 +82,7 @@ def _get_unique_ids(show_info):
     return UniqueIds(unique_ids, default_id)
 
 
-def _get_show_artwork(show_info):
+def get_show_artwork(show_info):
     # Extract available images for a show
     artwork = {
         'thumb': show_info['image']['medium'],
@@ -114,7 +114,7 @@ def add_main_show_info(list_item, show_info):
         list_item.addSeason(season['number'], season['name'])
     unique_ids = _get_unique_ids(show_info)
     list_item.setUniqueIDs(unique_ids.ids, unique_ids.default_id)
-    list_item.setArt(_get_show_artwork(show_info))
+    list_item.setArt(get_show_artwork(show_info))
     list_item.setCast(_get_cast(show_info))
     return list_item
 

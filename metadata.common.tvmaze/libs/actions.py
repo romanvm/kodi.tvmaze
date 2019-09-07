@@ -96,7 +96,10 @@ def get_show_from_nfo_url(nfo_url):
         if parse_result.provider == 'tvmaze':
             show_info = tvmaze.load_show_info(parse_result.show_id)
         else:
-            show_info = tvmaze.load_show_info_by_external_id(parse_result)
+            show_info = tvmaze.load_show_info_by_external_id(
+                parse_result.provider,
+                parse_result.show_id
+            )
         if show_info:
             list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
             xbmcplugin.addDirectoryItem(
@@ -105,6 +108,17 @@ def get_show_from_nfo_url(nfo_url):
                 listitem=list_item,
                 isFolder=True
             )
+
+
+def get_artwork(show_id):
+    if show_id.startswith('tt'):
+        provider = 'imdb'
+    else:
+        provider = 'thetvdb'
+    show_info = tvmaze.load_show_info_by_external_id(provider, show_id)
+    list_item = xbmcgui.ListItem(show_info['name'])
+    list_item.setArt(data_utils.get_show_artwork(show_info))
+    xbmcplugin.setResolvedUrl(_HANDLE, True, list_item)
 
 
 def router(paramstring):
@@ -126,6 +140,8 @@ def router(paramstring):
         get_episode_details(params['url'])
     elif params['action'].lower() == 'nfourl':
         get_show_from_nfo_url(params['nfo'])
+    elif params['action'] == 'getartwork':
+        get_artwork(params['id'])
     else:
         raise RuntimeError('Invalid addon call: {}'.format(sys.argv))
     xbmcplugin.endOfDirectory(_HANDLE)

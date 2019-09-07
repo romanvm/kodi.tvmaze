@@ -112,14 +112,15 @@ def load_show_info_from_cache(show_id):
     return show_info
 
 
-def load_show_info_by_external_id(parse_result):
+def load_show_info_by_external_id(provider, show_id):
     """
     Load show info by external ID (TheTVDB or IMDB)
 
-    :param parse_result: data_utils.UrlParseResult instance
+    :param provider: 'imdb' or 'thetvdb'
+    :param show_id: show ID in the respective provider
     :return: show info or None
     """
-    query = {parse_result.provider: str(parse_result.show_id)}
+    query = {provider: show_id}
     try:
         return _load_info(SEARCH_BU_EXTERNAL_ID_URL, query)
     except HTTPError:
