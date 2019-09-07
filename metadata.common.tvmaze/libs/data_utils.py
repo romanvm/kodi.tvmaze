@@ -24,11 +24,13 @@ from collections import OrderedDict, namedtuple
 TAG_RE = re.compile(r'<[^>]+>')
 SHOW_ID_REGEXPS = (
     re.compile(r'(tvmaze)\.com/shows/(\d+)/[\w\-]', re.I),
-    re.compile(r'(thetvdb).com/series/(\d+)', re.I),
+    re.compile(r'(thetvdb)\.com/series/(\d+)', re.I),
+    re.compile(r'(thetvdb)\.com[\w=&\?/]+id=(\d+)', re.I),
     re.compile(r'(imdb)\.com/[\w/]+/(tt\d+)', re.I),
 )
 
 UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
+UniqueIds = namedtuple('UniqueIds', ['ids', 'default_id'])
 
 SUPPORTED_UNIQUE_IDS = {'imdb', 'tvdb', 'tmdb', 'anidb'}
 
@@ -72,7 +74,12 @@ def _get_unique_ids(show_info):
     for key, value in six.iteritems(show_info['externals']):
         if key in SUPPORTED_UNIQUE_IDS:
             unique_ids[key] = str(value)
-    return unique_ids
+    default_id = ''
+    if 'thetvdb' in unique_ids:
+        default_id = 'thetvdb'
+    elif 'imdb' in unique_ids:
+        default_id = 'imdb'
+    return UniqueIds(unique_ids, default_id)
 
 
 def _get_show_artwork(show_info):
@@ -105,7 +112,8 @@ def add_main_show_info(list_item, show_info):
     list_item.setInfo('video', video)
     for season in show_info['_embedded']['seasons']:
         list_item.addSeason(season['number'], season['name'])
-    list_item.setUniqueIDs(_get_unique_ids(show_info))
+    unique_ids = _get_unique_ids(show_info)
+    list_item.setUniqueIDs(unique_ids.ids, unique_ids.default_id)
     list_item.setArt(_get_show_artwork(show_info))
     list_item.setCast(_get_cast(show_info))
     return list_item
