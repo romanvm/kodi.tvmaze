@@ -18,6 +18,7 @@
 """Functions to process data"""
 
 import re
+import six
 from collections import OrderedDict, namedtuple
 
 TAG_RE = re.compile(r'<[^>]+>')
@@ -68,7 +69,7 @@ def _get_cast(show_info):
 def _get_unique_ids(show_info):
     """Extract unique ID in various online databases"""
     unique_ids = {}
-    for key, value in show_info['externals']:
+    for key, value in six.iteritems(show_info['externals']):
         if key in SUPPORTED_UNIQUE_IDS:
             unique_ids[key] = str(value)
     return unique_ids
@@ -88,7 +89,7 @@ def add_main_show_info(list_item, show_info):
     plot = _clean_plot(show_info['summary'])
     video = {
         'genre': show_info['genres'],
-        'country': show_info['network']['country'],
+        'country': show_info['network']['country']['name'],
         'year': int(show_info['premiered'][:4]),
         'rating': show_info['rating']['average'],
         'plot': plot,

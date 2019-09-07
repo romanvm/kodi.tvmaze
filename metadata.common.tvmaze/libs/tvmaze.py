@@ -89,7 +89,7 @@ def load_show_info(show_id):
     url = SHOW_INFO_URL.format(show_id)
     show_info = _load_info(url, {'embed[]': ['cast', 'seasons', 'episodes']})
     process_episode_list(show_info)
-    file_name = str(show_id['id']) + '.pickle'
+    file_name = str(show_id) + '.pickle'
     with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
         pickle.dump(show_info, fo, protocol=2)
     return show_info
@@ -103,7 +103,7 @@ def load_show_info_from_cache(show_id):
     :return: show_info dict
     :raises TvMazeCacheError: if show_info cannot be loaded from cache
     """
-    file_name = str(show_id['id']) + '.pickle'
+    file_name = str(show_id) + '.pickle'
     try:
         with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
             show_info = pickle.load(fo)

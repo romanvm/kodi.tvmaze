@@ -36,9 +36,14 @@ def find_show(title, year=None):
         search_result = tvmaze.filter_by_year(search_results, year)
         search_results = [search_result] if search_result else ()
     for search_result in search_results:
-        show_name = u'{} ({})'.format(search_result['show']['name'], search_result['show']['premiered'][:4])
+        show_name = search_result['show']['name']
+        if search_result['show']['premiered']:
+            show_name += u' ({})'.format(search_result['show']['premiered'][:4])
         list_item = xbmcgui.ListItem(show_name, offscreen=True)
-        list_item.setArt({'thumb': search_result['show']['image']['medium']})
+        image = search_result['show']['image']
+        if image:
+            thumb = image['medium']
+            list_item.setArt({'thumb': thumb})
         xbmcplugin.addDirectoryItem(
             _HANDLE,
             url=str(search_result['show']['id']),
@@ -120,7 +125,7 @@ def router(paramstring):
     elif params['action'] == 'getepisodedetails':
         get_episode_details(params['url'])
     elif params['action'].lower() == 'nfourl':
-        get_show_from_nfo_url(params['url'])
+        get_show_from_nfo_url(params['nfo'])
     else:
         raise RuntimeError('Invalid addon call: {}'.format(sys.argv))
     xbmcplugin.endOfDirectory(_HANDLE)
