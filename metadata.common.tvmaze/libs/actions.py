@@ -45,7 +45,7 @@ def find_show(title, year=None):
         image = search_result['show']['image']
         if image:
             thumb = image['medium']
-            list_item.setArt({'thumb': thumb})
+            list_item.addAvailableArtwork(thumb, 'thumb')
         xbmcplugin.addDirectoryItem(
             _HANDLE,
             url=str(search_result['show']['id']),
@@ -59,7 +59,7 @@ def get_details(show_id):
     show_info = tvmaze.load_show_info(show_id)
     list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
     list_item = data_utils.add_main_show_info(list_item, show_info)
-    xbmcplugin.setResolvedUrl(_HANDLE, succeeded=True, listitem=list_item)
+    xbmcplugin.setResolvedUrl(_HANDLE, True, list_item)
 
 
 def get_episode_list(show_id):
@@ -81,7 +81,7 @@ def get_episode_list(show_id):
             _HANDLE,
             url=url,
             listitem=list_item,
-            isFolder=False
+            isFolder=True
         )
 
 
