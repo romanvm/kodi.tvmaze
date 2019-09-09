@@ -47,8 +47,7 @@ def debug_exception(logger_func=logger.error):
             # Some risky code
             raise RuntimeError('Fatal error!')
     :param logger_func: logger function which must accept a single argument
-        which is a log message. By default it is :func:`xbmc.log`
-        with ``ERROR`` level.
+        which is a log message.
     """
     try:
         yield
