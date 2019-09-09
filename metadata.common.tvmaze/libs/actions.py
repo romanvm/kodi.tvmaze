@@ -71,7 +71,9 @@ def get_episode_list(show_id):
     for episode in itervalues(show_info['episodes']):
         list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
         list_item = data_utils.add_episode_info(list_item, episode, full_info=False)
-        encoded_ids = urllib_parse.urlencode({'show_id': str(show_id), 'episode_id': str(episode['id'])})
+        encoded_ids = urllib_parse.urlencode(
+            {'show_id': str(show_id), 'episode_id': str(episode['id'])}
+        )
         if PY3:
             encoded_ids = encoded_ids.encode('ascii')
         url = base64.b64encode(encoded_ids).decode('ascii')
