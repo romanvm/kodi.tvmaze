@@ -20,7 +20,7 @@
 from __future__ import absolute_import
 import os
 from requests.sessions import Session
-from six import PY2
+from six import PY2, text_type
 import xbmc
 from xbmcaddon import Addon
 import xbmcvfs
@@ -30,7 +30,31 @@ HEADERS = (
     ('Accept', 'application/json'),
 )
 
+ADDON_ID = 'metadata.common.tvmaze'
 ADDON = Addon()
+
+
+class logger:
+    log_message_prefix = '[{} ({})]: '.format(ADDON_ID, ADDON.getAddonInfo('version'))
+
+    @staticmethod
+    def log(message, level=xbmc.LOGDEBUG):
+        if PY2 and isinstance(message, text_type):
+            message = message.encode('utf-8')
+        message = logger.log_message_prefix + message
+        xbmc.log(message, level)
+
+    @staticmethod
+    def notice(message):
+        logger.log(message, xbmc.LOGNOTICE)
+
+    @staticmethod
+    def error(message):
+        logger.log(message, xbmc.LOGERROR)
+
+    @staticmethod
+    def debug(message):
+        logger.log(message, xbmc.LOGDEBUG)
 
 
 def get_requests_session():

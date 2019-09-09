@@ -2,18 +2,14 @@
 # Author: Roman Miroshnychenko aka Roman V.M.
 # E-mail: roman1972@gmail.com
 
+from __future__ import absolute_import
 import inspect
 import six
 from contextlib import contextmanager
 from platform import uname
 from pprint import pformat
 import xbmc
-
-
-def _logger(message, level=xbmc.LOGERROR):
-    if isinstance(message, six.text_type):
-        message.encode('utf-8')
-    xbmc.log(message, level)
+from .utils import logger
 
 
 def _format_vars(variables):
@@ -33,7 +29,7 @@ def _format_vars(variables):
 
 
 @contextmanager
-def debug_exception(logger=None):
+def debug_exception(logger_func=logger.error):
     """
     Diagnostic helper context manager
     It controls execution within its context and writes extended
@@ -50,24 +46,22 @@ def debug_exception(logger=None):
         with debug_exception():
             # Some risky code
             raise RuntimeError('Fatal error!')
-    :param logger: logger function which must accept a single argument
+    :param logger_func: logger function which must accept a single argument
         which is a log message. By default it is :func:`xbmc.log`
         with ``ERROR`` level.
     """
     try:
         yield
     except Exception as exc:
-        if logger is None:
-            logger = _logger
         frame_info = inspect.trace(5)[-1]
-        logger('Unhandled exception detected: {}'.format(exc))
-        logger('*** Start diagnostic info ***')
-        logger('System info: {0}'.format(uname()))
-        logger('OS info: {0}'.format(xbmc.getInfoLabel('System.OSVersionInfo')))
-        logger('Kodi version: {0}'.format(
+        logger_func('Unhandled exception detected: {} {}'.format(type(exc), exc))
+        logger_func('*** Start diagnostic info ***')
+        logger_func('System info: {0}'.format(uname()))
+        logger_func('OS info: {0}'.format(xbmc.getInfoLabel('System.OSVersionInfo')))
+        logger_func('Kodi version: {0}'.format(
             xbmc.getInfoLabel('System.BuildVersion'))
         )
-        logger('File: {0}'.format(frame_info[1]))
+        logger_func('File: {0}'.format(frame_info[1]))
         context = ''
         if frame_info[4] is not None:
             for i, line in enumerate(frame_info[4], frame_info[2] - frame_info[5]):
@@ -75,8 +69,8 @@ def debug_exception(logger=None):
                     context += '{0}:>{1}'.format(str(i).rjust(5), line)
                 else:
                     context += '{0}: {1}'.format(str(i).rjust(5), line)
-        logger('Code context:\n' + context)
-        logger('Global variables:\n' + _format_vars(frame_info[0].f_globals))
-        logger('Local variables:\n' + _format_vars(frame_info[0].f_locals))
-        logger('**** End diagnostic info ****')
+        logger_func('Code context:\n' + context)
+        logger_func('Global variables:\n' + _format_vars(frame_info[0].f_globals))
+        logger_func('Local variables:\n' + _format_vars(frame_info[0].f_locals))
+        logger_func('**** End diagnostic info ****')
         raise exc

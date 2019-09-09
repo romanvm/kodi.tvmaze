@@ -19,10 +19,11 @@
 
 from __future__ import absolute_import
 import os
+from pprint import pformat
 from requests.exceptions import HTTPError
 from six import raise_from
 from six.moves import cPickle as pickle
-from .utils import get_requests_session, get_cache_directory
+from .utils import get_requests_session, get_cache_directory, logger
 from .data_utils import process_episode_list
 
 SEARCH_URL = 'http://api.tvmaze.com/search/shows'
@@ -50,7 +51,9 @@ def _load_info(url, params=None):
     response = SESSION.get(url, params=params)
     if not response.ok:
         response.raise_for_status()
-    return response.json()
+    json_response = response.json()
+    logger.debug('TV Maze response:\n{}'.format(pformat(json_response)))
+    return json_response
 
 
 def search_show(title):

@@ -25,12 +25,14 @@ from six.moves import urllib_parse
 import xbmcgui
 import xbmcplugin
 from . import tvmaze, data_utils
+from .utils import logger
 
 _HANDLE = int(sys.argv[1])
 
 
 def find_show(title, year=None):
     """Find a show by title"""
+    logger.debug('Searching for TV show {} - {}'.format(title, year))
     search_results = tvmaze.search_show(title)
     if year is not None:
         search_result = tvmaze.filter_by_year(search_results, year)
@@ -53,6 +55,7 @@ def find_show(title, year=None):
 
 
 def get_details(show_id):
+    logger.debug('Getting details for show id {}'.format(show_id))
     show_info = tvmaze.load_show_info(show_id)
     list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
     list_item = data_utils.add_main_show_info(list_item, show_info)
@@ -60,6 +63,7 @@ def get_details(show_id):
 
 
 def get_episode_list(show_id):
+    logger.debug('Getting episode list for show id {}'.format(show_id))
     try:
         show_info = tvmaze.load_show_info_from_cache(show_id)
     except tvmaze.TvMazeCacheError:
@@ -82,6 +86,7 @@ def get_episode_list(show_id):
 def get_episode_details(encoded_ids):
     encoded_ids = base64.b64decode(encoded_ids).decode('ascii')
     decoded_ids = dict(urllib_parse.parse_qsl(encoded_ids))
+    logger.debug('Getting episode details for {}'.format(decoded_ids))
     episode_info = tvmaze.load_episode_info(
         int(decoded_ids['show_id']), int(decoded_ids['episode_id'])
     )
@@ -91,6 +96,7 @@ def get_episode_details(encoded_ids):
 
 
 def get_show_from_nfo_url(nfo_url):
+    logger.debug('Parsing NFO URL {}'.format(nfo_url))
     parse_result = data_utils.parse_nfo_url(nfo_url)
     if parse_result:
         if parse_result.provider == 'tvmaze':
@@ -111,6 +117,7 @@ def get_show_from_nfo_url(nfo_url):
 
 
 def get_artwork(show_id):
+    logger.debug('Getting artwork for show ID {}'.format(show_id))
     if show_id.startswith('tt'):
         provider = 'imdb'
     else:
@@ -130,6 +137,7 @@ def router(paramstring):
     :raises RuntimeError: on unknown call action
     """
     params = dict(urllib_parse.parse_qsl(paramstring))
+    logger.debug('Called addon with params: {}'.format(sys.argv))
     if params['action'] == 'find':
         find_show(params['title'], params.get('year'))
     elif params['action'] == 'getdetails':
