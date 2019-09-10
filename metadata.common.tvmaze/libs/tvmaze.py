@@ -81,6 +81,15 @@ def filter_by_year(shows, year):
     return None
 
 
+def _cache_show_info(show_info):
+    """
+    Save show_info dict to cache
+    """
+    file_name = str(show_info['id']) + '.pickle'
+    with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
+        pickle.dump(show_info, fo, protocol=2)
+
+
 def load_show_info(show_id):
     """
     Get full info for a single show
@@ -92,9 +101,7 @@ def load_show_info(show_id):
     url = SHOW_INFO_URL.format(show_id)
     show_info = _load_info(url, {'embed[]': ['cast', 'seasons', 'episodes']})
     process_episode_list(show_info)
-    file_name = str(show_id) + '.pickle'
-    with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
-        pickle.dump(show_info, fo, protocol=2)
+    _cache_show_info(show_info)
     return show_info
 
 
@@ -111,6 +118,7 @@ def load_show_info_from_cache(show_id):
         with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
             show_info = pickle.load(fo)
     except (IOError, pickle.PickleError) as exc:
+        logger.debug('Cache error: {} {}'.format(type(exc), exc))
         raise_from(TvMazeCacheError(), exc)
     return show_info
 

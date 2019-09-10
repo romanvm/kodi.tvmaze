@@ -82,13 +82,12 @@ def _get_unique_ids(show_info):
     return UniqueIds(unique_ids, default_id)
 
 
-def get_show_artwork(show_info):
-    # Extract available images for a show
-    artwork = {
-        'thumb': show_info['image']['medium'],
-        'poster': show_info['image']['original'],
-    }
-    return artwork
+def set_show_artwork(show_info, list_item):
+    # Set available images for a show
+    if show_info['image']:
+        list_item.addAvailableArtwork(show_info['image']['medium'], 'thumb')
+        list_item.addAvailableArtwork(show_info['image']['original'], 'poster')
+    return list_item
 
 
 def add_main_show_info(list_item, show_info):
@@ -108,16 +107,14 @@ def add_main_show_info(list_item, show_info):
         'studio': show_info['network']['name'],
         'status': show_info['status'],
         'mediatype': 'tvshow',
-        'episodeguide': str(show_info['id'])
+        'episodeguide': str(show_info['id'])  # This is passed as "url" parameter to getepisodelist call
     }
     list_item.setInfo('video', video)
     for season in show_info['_embedded']['seasons']:
         list_item.addSeason(season['number'], season['name'])
     unique_ids = _get_unique_ids(show_info)
     list_item.setUniqueIDs(unique_ids.ids, unique_ids.default_id)
-    artwork = get_show_artwork(show_info)
-    list_item.addAvailableArtwork(artwork['thumb'], 'thumb')
-    list_item.addAvailableArtwork(artwork['poster'], 'poster')
+    list_item = set_show_artwork(show_info, list_item)
     list_item.setCast(_get_cast(show_info))
     return list_item
 
