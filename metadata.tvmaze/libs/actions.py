@@ -24,7 +24,7 @@ from six import PY3, itervalues
 from six.moves import urllib_parse
 import xbmcgui
 import xbmcplugin
-from . import tvmaze, data_utils
+from . import tvmaze, data_utils, cache
 from .utils import logger
 
 _HANDLE = int(sys.argv[1])
@@ -32,7 +32,7 @@ _HANDLE = int(sys.argv[1])
 
 def find_show(title, year=None):
     """Find a show by title"""
-    logger.debug('Searching for TV show {} - {}'.format(title, year))
+    logger.debug('Searching for TV show {} ({})'.format(title, year))
     search_results = tvmaze.search_show(title)
     if year is not None:
         search_result = tvmaze.filter_by_year(search_results, year)
@@ -56,7 +56,7 @@ def find_show(title, year=None):
 
 def get_details(show_id):
     logger.debug('Getting details for show id {}'.format(show_id))
-    show_info = tvmaze.load_show_info(show_id)
+    show_info = tvmaze.load_show_info(show_id, use_cache=False)
     list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
     list_item = data_utils.add_main_show_info(list_item, show_info)
     xbmcplugin.setResolvedUrl(_HANDLE, True, list_item)
@@ -64,10 +64,7 @@ def get_details(show_id):
 
 def get_episode_list(show_id):
     logger.debug('Getting episode list for show id {}'.format(show_id))
-    try:
-        show_info = tvmaze.load_show_info_from_cache(show_id)
-    except tvmaze.TvMazeCacheError:
-        show_info = tvmaze.load_show_info(show_id)
+    show_info = tvmaze.load_show_info(show_id, use_cache=True)
     for episode in itervalues(show_info['episodes']):
         list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
         list_item = data_utils.add_episode_info(list_item, episode, full_info=False)
@@ -98,11 +95,15 @@ def get_episode_details(encoded_ids):
 
 
 def get_show_from_nfo_url(nfo_url):
-    logger.debug('Parsing NFO URL {}'.format(nfo_url))
+    logger.debug('Parsing NFO URL: {}'.format(nfo_url))
     parse_result = data_utils.parse_nfo_url(nfo_url)
     if parse_result:
         if parse_result.provider == 'tvmaze':
-            show_info = tvmaze.load_show_info(parse_result.show_id)
+            show_info = tvmaze.load_show_info(
+                parse_result.show_id,
+                full_info=False,
+                use_cache=False,
+            )
         else:
             show_info = tvmaze.load_show_info_by_external_id(
                 parse_result.provider,
@@ -118,15 +119,19 @@ def get_show_from_nfo_url(nfo_url):
             )
 
 
-def get_artwork(show_id):
-    logger.debug('Getting artwork for show ID {}'.format(show_id))
-    if show_id.startswith('tt'):
-        provider = 'imdb'
+def get_artwork(external_id):
+    logger.debug('Getting artwork for show ID {}'.format(external_id))
+    # Currently only IMDB ID is passed here
+    if external_id.startswith('tt'):
+        tvmaze_id = cache.get_imdb_mapping(external_id)
+        if tvmaze_id is not None:
+            show_info = tvmaze.load_show_info(tvmaze_id, use_cache=True)
+        else:
+            show_info = tvmaze.load_show_info_by_external_id('imdb', external_id)
     else:
-        provider = 'thetvdb'
-    show_info = tvmaze.load_show_info_by_external_id(provider, show_id)
+        show_info = tvmaze.load_show_info_by_external_id('thetvdb', external_id)
     list_item = xbmcgui.ListItem(show_info['name'])
-    list_item.setArt(data_utils.get_show_artwork(show_info))
+    list_item = data_utils.set_show_artwork(show_info, list_item)
     xbmcplugin.setResolvedUrl(_HANDLE, True, list_item)
 
 

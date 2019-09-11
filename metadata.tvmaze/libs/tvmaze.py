@@ -18,11 +18,9 @@
 """Functions to interact with TV Maze API"""
 
 from __future__ import absolute_import
-import os
 from pprint import pformat
 from requests.exceptions import HTTPError
-from six import raise_from
-from six.moves import cPickle as pickle
+from . import cache
 from .utils import get_requests_session, get_cache_directory, logger
 from .data_utils import process_episode_list
 
@@ -33,10 +31,6 @@ EPISODE_INFO_URL = 'http://api.tvmaze.com/episodes/{}'
 
 SESSION = get_requests_session()
 CACHE_DIR = get_cache_directory()
-
-
-class TvMazeCacheError(Exception):
-    pass
 
 
 def _load_info(url, params=None):
@@ -81,45 +75,33 @@ def filter_by_year(shows, year):
     return None
 
 
-def _cache_show_info(show_info):
-    """
-    Save show_info dict to cache
-    """
-    file_name = str(show_info['id']) + '.pickle'
-    with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
-        pickle.dump(show_info, fo, protocol=2)
-
-
-def load_show_info(show_id):
+def load_show_info(show_id, full_info=True, use_cache=True):
     """
     Get full info for a single show
 
     :param show_id: TV Maze show ID
-    :return: full show info
+    :param full_info: load full info with cast, seasons and episodes
+    :param use_cache: try to load cached info
+    :return: show info
     :raises requests.exceptions.HTTPError:
     """
-    url = SHOW_INFO_URL.format(show_id)
-    show_info = _load_info(url, {'embed[]': ['cast', 'seasons', 'episodes']})
-    process_episode_list(show_info)
-    _cache_show_info(show_info)
-    return show_info
-
-
-def load_show_info_from_cache(show_id):
-    """
-    Load show info from a local cache
-
-    :param show_id: show ID on TV Maze
-    :return: show_info dict
-    :raises TvMazeCacheError: if show_info cannot be loaded from cache
-    """
-    file_name = str(show_id) + '.pickle'
-    try:
-        with open(os.path.join(CACHE_DIR, file_name), 'rb') as fo:
-            show_info = pickle.load(fo)
-    except (IOError, pickle.PickleError) as exc:
-        logger.debug('Cache error: {} {}'.format(type(exc), exc))
-        raise_from(TvMazeCacheError(), exc)
+    show_info = None
+    if use_cache:
+        try:
+            show_info = cache.load_show_info_from_cache(show_id)
+        except cache.TvMazeCacheError:
+            pass
+    params = None
+    if full_info:
+        params = {'embed[]': ['cast', 'seasons', 'episodes']}
+    if show_info is None:
+        url = SHOW_INFO_URL.format(show_id)
+        show_info = _load_info(url, params)
+        if full_info:
+            process_episode_list(show_info)
+            cache.cache_show_info(show_info)
+        if show_info['externals'] and 'imdb' in show_info['externals']:
+            cache.set_imdb_mapping(show_info['externals']['imdb'], show_info['id'])
     return show_info
 
 
@@ -146,10 +128,7 @@ def load_episode_info(show_id, episode_id):
     :param episode_id:
     :return: episode info dict
     """
-    try:
-        show_info = load_show_info_from_cache(show_id)
-    except TvMazeCacheError:
-        show_info = load_show_info(show_id)
+    show_info = load_show_info(show_id, use_cache=True)
     try:
         episode_info = show_info['episodes'][int(episode_id)]
     except KeyError:
