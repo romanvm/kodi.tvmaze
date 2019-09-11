@@ -115,7 +115,7 @@ def load_show_info_from_cache(show_id):
     """
     file_name = str(show_id) + '.pickle'
     try:
-        with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
+        with open(os.path.join(CACHE_DIR, file_name), 'rb') as fo:
             show_info = pickle.load(fo)
     except (IOError, pickle.PickleError) as exc:
         logger.debug('Cache error: {} {}'.format(type(exc), exc))
