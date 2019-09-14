@@ -27,7 +27,7 @@ import xbmcplugin
 from . import tvmaze, data_utils, cache
 from .utils import logger
 
-_HANDLE = int(sys.argv[1])
+HANDLE = int(sys.argv[1])
 
 
 def find_show(title, year=None):
@@ -47,7 +47,7 @@ def find_show(title, year=None):
             thumb = image['medium']
             list_item.addAvailableArtwork(thumb, 'thumb')
         xbmcplugin.addDirectoryItem(
-            _HANDLE,
+            HANDLE,
             url=str(search_result['show']['id']),
             listitem=list_item,
             isFolder=True
@@ -59,7 +59,7 @@ def get_details(show_id):
     show_info = tvmaze.load_show_info(show_id, use_cache=False)
     list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
     list_item = data_utils.add_main_show_info(list_item, show_info)
-    xbmcplugin.setResolvedUrl(_HANDLE, True, list_item)
+    xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
 
 
 def get_episode_list(show_id):
@@ -75,7 +75,7 @@ def get_episode_list(show_id):
             encoded_ids = encoded_ids.encode('ascii')
         url = base64.b64encode(encoded_ids).decode('ascii')
         xbmcplugin.addDirectoryItem(
-            _HANDLE,
+            HANDLE,
             url=url,
             listitem=list_item,
             isFolder=True
@@ -91,12 +91,13 @@ def get_episode_details(encoded_ids):
     )
     list_item = xbmcgui.ListItem(episode_info['name'], offscreen=True)
     list_item = data_utils.add_episode_info(list_item, episode_info, full_info=True)
-    xbmcplugin.setResolvedUrl(_HANDLE, True, list_item)
+    xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
 
 
-def get_show_from_nfo_url(nfo_url):
-    logger.debug('Parsing NFO URL: {}'.format(nfo_url))
-    parse_result = data_utils.parse_nfo_url(nfo_url)
+def get_show_from_nfo(nfo):
+    """Get show info by NFO file contents"""
+    logger.debug('Parsing NFO file:\n{}'.format(nfo))
+    parse_result = data_utils.parse_nfo_url(nfo)
     if parse_result:
         if parse_result.provider == 'tvmaze':
             show_info = tvmaze.load_show_info(
@@ -112,7 +113,7 @@ def get_show_from_nfo_url(nfo_url):
         if show_info:
             list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
             xbmcplugin.addDirectoryItem(
-                _HANDLE,
+                HANDLE,
                 url=str(show_info['id']),
                 listitem=list_item,
                 isFolder=True
@@ -132,7 +133,7 @@ def get_artwork(external_id):
         show_info = tvmaze.load_show_info_by_external_id('thetvdb', external_id)
     list_item = xbmcgui.ListItem(show_info['name'])
     list_item = data_utils.set_show_artwork(show_info, list_item)
-    xbmcplugin.setResolvedUrl(_HANDLE, True, list_item)
+    xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
 
 
 def router(paramstring):
@@ -154,9 +155,9 @@ def router(paramstring):
     elif params['action'] == 'getepisodedetails':
         get_episode_details(params['url'])
     elif params['action'].lower() == 'nfourl':
-        get_show_from_nfo_url(params['nfo'])
+        get_show_from_nfo(params['nfo'])
     elif params['action'] == 'getartwork':
         get_artwork(params['id'])
     else:
         raise RuntimeError('Invalid addon call: {}'.format(sys.argv))
-    xbmcplugin.endOfDirectory(_HANDLE)
+    xbmcplugin.endOfDirectory(HANDLE)
