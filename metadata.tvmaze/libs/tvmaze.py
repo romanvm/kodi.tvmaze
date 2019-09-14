@@ -42,6 +42,7 @@ def _load_info(url, params=None):
     :return: API response
     :raises requests.exceptions.HTTPError: if any error happens
     """
+    logger.debug('Calling URL "{}" with params {}'.format(url, params))
     response = SESSION.get(url, params=params)
     if not response.ok:
         response.raise_for_status()
@@ -87,21 +88,25 @@ def load_show_info(show_id, full_info=True, use_cache=True):
     """
     show_info = None
     if use_cache:
-        try:
-            show_info = cache.load_show_info_from_cache(show_id)
-        except cache.TvMazeCacheError:
-            pass
-    params = None
-    if full_info:
-        params = {'embed[]': ['cast', 'seasons', 'episodes', 'crew']}
+        show_info = cache.load_show_info_from_cache(show_id)
     if show_info is None:
         url = SHOW_INFO_URL.format(show_id)
+        params = None
+        if full_info:
+            params = {'embed[]': ['cast', 'seasons', 'episodes', 'crew']}
         show_info = _load_info(url, params)
         if full_info:
             process_episode_list(show_info)
             cache.cache_show_info(show_info)
-        if show_info['externals'] and 'imdb' in show_info['externals']:
-            cache.set_imdb_mapping(show_info['externals']['imdb'], show_info['id'])
+        if show_info['externals'] is not None:
+            if 'imdb' in show_info['externals']:
+                cache.set_external_id_mapping(
+                    show_info['externals']['imdb'], show_info['id']
+                )
+            if 'thetvdb' in show_info['externals']:
+                cache.set_external_id_mapping(
+                    show_info['externals']['thetvdb'], show_info['id']
+                )
     return show_info
 
 

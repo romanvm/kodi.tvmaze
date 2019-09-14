@@ -18,16 +18,11 @@
 """Cache-related functionality"""
 
 import os
-from six import raise_from
 from six.moves import cPickle as pickle
 from .utils import get_cache_directory, logger
 
 CACHE_DIR = get_cache_directory()
-IMDB_MAP_FILE = os.path.join(CACHE_DIR, 'imdb-map.pickle')
-
-
-class TvMazeCacheError(Exception):
-    pass
+EXTERNAL_ID_MAP_FILE = os.path.join(CACHE_DIR, 'external-id-map.pickle')
 
 
 def cache_show_info(show_info):
@@ -44,8 +39,7 @@ def load_show_info_from_cache(show_id):
     Load show info from a local cache
 
     :param show_id: show ID on TV Maze
-    :return: show_info dict
-    :raises TvMazeCacheError: if show_info cannot be loaded from cache
+    :return: show_info dict or None
     """
     file_name = str(show_id) + '.pickle'
     try:
@@ -53,27 +47,31 @@ def load_show_info_from_cache(show_id):
             return pickle.load(fo)
     except (IOError, pickle.PickleError) as exc:
         logger.debug('Cache error: {} {}'.format(type(exc), exc))
-        raise_from(TvMazeCacheError(), exc)
+        return None
 
 
-def set_imdb_mapping(imdb_id, tvmaze_id):
-    """Save mapping of IMDB ID to TV Maze ID"""
+def set_external_id_mapping(external_id, tvmaze_id):
+    """Save mapping of an external show ID to TV Maze ID"""
     try:
-        with open(IMDB_MAP_FILE, 'rb') as fo:
+        with open(EXTERNAL_ID_MAP_FILE, 'rb') as fo:
             imdb_map = pickle.load(fo)
     except (IOError, pickle.PickleError):
         imdb_map = {}
-    if imdb_id not in imdb_map:
-        imdb_map[imdb_id] = tvmaze_id
-        with open(IMDB_MAP_FILE, 'wb') as fo:
+    if external_id not in imdb_map:
+        imdb_map[external_id] = tvmaze_id
+        with open(EXTERNAL_ID_MAP_FILE, 'wb') as fo:
             pickle.dump(imdb_map, fo, protocol=2)
 
 
-def get_imdb_mapping(imdb_id):
-    """Get TV Maze show ID by IMDB ID"""
+def get_external_id_mapping(external_id):
+    """Get TV Maze show ID by an external ID"""
     try:
-        with open(IMDB_MAP_FILE, 'rb') as fo:
-            imdb_map = pickle.load(fo)
-            return imdb_map[imdb_id]
-    except (IOError, KeyError, pickle.PickleError):
+        external_id = int(external_id)
+    except ValueError:
+        pass
+    try:
+        with open(EXTERNAL_ID_MAP_FILE, 'rb') as fo:
+            external_id_map = pickle.load(fo)
+        return external_id_map[external_id]
+    except (KeyError, IOError, pickle.PickleError):
         return None

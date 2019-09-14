@@ -36,14 +36,14 @@ def find_show(title, year=None):
     search_results = tvmaze.search_show(title)
     if year is not None:
         search_result = tvmaze.filter_by_year(search_results, year)
-        search_results = [search_result] if search_result else ()
+        search_results = (search_result,) if search_result else ()
     for search_result in search_results:
         show_name = search_result['show']['name']
         if search_result['show']['premiered']:
             show_name += u' ({})'.format(search_result['show']['premiered'][:4])
         list_item = xbmcgui.ListItem(show_name, offscreen=True)
         image = search_result['show']['image']
-        if image:
+        if image is not None:
             thumb = image['medium']
             list_item.addAvailableArtwork(thumb, 'thumb')
         xbmcplugin.addDirectoryItem(
@@ -122,15 +122,15 @@ def get_show_from_nfo(nfo):
 
 def get_artwork(external_id):
     logger.debug('Getting artwork for show ID {}'.format(external_id))
-    # Currently only IMDB ID is passed here
-    if external_id.startswith('tt'):
-        tvmaze_id = cache.get_imdb_mapping(external_id)
-        if tvmaze_id is not None:
-            show_info = tvmaze.load_show_info(tvmaze_id, use_cache=True)
-        else:
-            show_info = tvmaze.load_show_info_by_external_id('imdb', external_id)
+    tvmaze_id = cache.get_external_id_mapping(external_id)
+    if tvmaze_id is not None:
+        show_info = tvmaze.load_show_info(tvmaze_id, use_cache=True)
     else:
-        show_info = tvmaze.load_show_info_by_external_id('thetvdb', external_id)
+        if external_id.startswith('tt'):
+            provider = 'imdb'
+        else:
+            provider = 'thetvdb'
+        show_info = tvmaze.load_show_info_by_external_id(provider, external_id)
     list_item = xbmcgui.ListItem(show_info['name'])
     list_item = data_utils.set_show_artwork(show_info, list_item)
     xbmcplugin.setResolvedUrl(HANDLE, True, list_item)

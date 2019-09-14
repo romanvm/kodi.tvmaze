@@ -29,7 +29,7 @@ SHOW_ID_REGEXPS = (
     re.compile(r'(thetvdb)\.com[\w=&\?/]+id=(\d+)', re.I),
     re.compile(r'(imdb)\.com/[\w/]+/(tt\d+)', re.I),
 )
-SUPPORTED_UNIQUE_IDS = {'imdb', 'tvdb', 'tmdb', 'anidb'}
+SUPPORTED_UNIQUE_IDS = {'imdb', 'thetvdb'}
 
 UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
 UniqueIds = namedtuple('UniqueIds', ['ids', 'default_id'])
@@ -87,10 +87,12 @@ def _get_unique_ids(show_info):
     unique_ids = {}
     for key, value in six.iteritems(safe_get(show_info, 'externals', {})):
         if key in SUPPORTED_UNIQUE_IDS:
+            if key == 'thetvdb':
+                key = key[3:]
             unique_ids[key] = str(value)
     default_id = ''
-    if 'thetvdb' in unique_ids:
-        default_id = 'thetvdb'
+    if 'tvdb' in unique_ids:
+        default_id = 'tvdb'
     elif 'imdb' in unique_ids:
         default_id = 'imdb'
     return UniqueIds(unique_ids, default_id)
