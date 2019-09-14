@@ -4,10 +4,10 @@
 
 from __future__ import absolute_import
 import inspect
-import six
 from contextlib import contextmanager
 from platform import uname
 from pprint import pformat
+import six
 import xbmc
 from .utils import logger
 
