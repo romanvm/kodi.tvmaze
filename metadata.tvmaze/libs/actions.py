@@ -45,7 +45,10 @@ def find_show(title, year=None):
         image = search_result['show']['image']
         if image is not None:
             thumb = image['medium']
+            # In scrapers this method must be used to set list item images.
             list_item.addAvailableArtwork(thumb, 'thumb')
+        # Below "url" is some unique ID string (may be an actual URL to a show page)
+        # that is used to get information about a specific TV show.
         xbmcplugin.addDirectoryItem(
             HANDLE,
             url=str(search_result['show']['id']),
@@ -54,48 +57,15 @@ def find_show(title, year=None):
         )
 
 
-def get_details(show_id):
-    logger.debug('Getting details for show id {}'.format(show_id))
-    show_info = tvmaze.load_show_info(show_id, use_cache=False)
-    list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
-    list_item = data_utils.add_main_show_info(list_item, show_info)
-    xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
-
-
-def get_episode_list(show_id):
-    logger.debug('Getting episode list for show id {}'.format(show_id))
-    show_info = tvmaze.load_show_info(show_id, use_cache=True)
-    for episode in itervalues(show_info['episodes']):
-        list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
-        list_item = data_utils.add_episode_info(list_item, episode, full_info=False)
-        encoded_ids = urllib_parse.urlencode(
-            {'show_id': str(show_id), 'episode_id': str(episode['id'])}
-        )
-        if PY3:
-            encoded_ids = encoded_ids.encode('ascii')
-        url = base64.b64encode(encoded_ids).decode('ascii')
-        xbmcplugin.addDirectoryItem(
-            HANDLE,
-            url=url,
-            listitem=list_item,
-            isFolder=True
-        )
-
-
-def get_episode_details(encoded_ids):
-    encoded_ids = base64.b64decode(encoded_ids).decode('ascii')
-    decoded_ids = dict(urllib_parse.parse_qsl(encoded_ids))
-    logger.debug('Getting episode details for {}'.format(decoded_ids))
-    episode_info = tvmaze.load_episode_info(
-        int(decoded_ids['show_id']), int(decoded_ids['episode_id'])
-    )
-    list_item = xbmcgui.ListItem(episode_info['name'], offscreen=True)
-    list_item = data_utils.add_episode_info(list_item, episode_info, full_info=True)
-    xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
-
-
 def get_show_from_nfo(nfo):
-    """Get show info by NFO file contents"""
+    """
+    Get show info by NFO file contents
+
+    This function is called first instead of find_show
+    if a NFO file is found in a TV show folder
+
+    :param nfo: the contents of a NFO file
+    """
     logger.debug('Parsing NFO file:\n{}'.format(nfo))
     parse_result = data_utils.parse_nfo_url(nfo)
     if parse_result:
@@ -120,11 +90,54 @@ def get_show_from_nfo(nfo):
             )
 
 
+def get_details(show_id):
+    """Get details about a specific show"""
+    logger.debug('Getting details for show id {}'.format(show_id))
+    show_info = tvmaze.load_show_info(show_id, use_cache=False)
+    list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
+    list_item = data_utils.add_main_show_info(list_item, show_info)
+    xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
+
+
+def get_episode_list(show_id):
+    logger.debug('Getting episode list for show id {}'.format(show_id))
+    show_info = tvmaze.load_show_info(show_id, use_cache=True)
+    for episode in itervalues(show_info['episodes']):
+        list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
+        list_item = data_utils.add_episode_info(list_item, episode, full_info=False)
+        encoded_ids = urllib_parse.urlencode(
+            {'show_id': str(show_id), 'episode_id': str(episode['id'])}
+        )
+        if PY3:
+            encoded_ids = encoded_ids.encode('ascii')
+        # Below "url" is some unique ID string (may be an actual URL to an episode page)
+        # that allows to retrieve information about a specific episode.
+        url = base64.b64encode(encoded_ids).decode('ascii')
+        xbmcplugin.addDirectoryItem(
+            HANDLE,
+            url=url,
+            listitem=list_item,
+            isFolder=True
+        )
+
+
+def get_episode_details(encoded_ids):
+    encoded_ids = base64.b64decode(encoded_ids).decode('ascii')
+    decoded_ids = dict(urllib_parse.parse_qsl(encoded_ids))
+    logger.debug('Getting episode details for {}'.format(decoded_ids))
+    episode_info = tvmaze.load_episode_info(
+        int(decoded_ids['show_id']), int(decoded_ids['episode_id'])
+    )
+    list_item = xbmcgui.ListItem(episode_info['name'], offscreen=True)
+    list_item = data_utils.add_episode_info(list_item, episode_info, full_info=True)
+    xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
+
+
 def get_artwork(external_id):
     """
     Get available artwork for a show
 
-    :param external_id: default unique ID set by .setUniqueIDs() method
+    :param external_id: default unique ID set by setUniqueIDs() method
     """
     logger.debug('Getting artwork for show ID {}'.format(external_id))
     tvmaze_id = cache.get_external_id_mapping(external_id)
@@ -153,14 +166,14 @@ def router(paramstring):
     logger.debug('Called addon with params: {}'.format(sys.argv))
     if params['action'] == 'find':
         find_show(params['title'], params.get('year'))
+    elif params['action'].lower() == 'nfourl':
+        get_show_from_nfo(params['nfo'])
     elif params['action'] == 'getdetails':
         get_details(params['url'])
     elif params['action'] == 'getepisodelist':
         get_episode_list(params['url'])
     elif params['action'] == 'getepisodedetails':
         get_episode_details(params['url'])
-    elif params['action'].lower() == 'nfourl':
-        get_show_from_nfo(params['nfo'])
     elif params['action'] == 'getartwork':
         get_artwork(params['id'])
     else:
