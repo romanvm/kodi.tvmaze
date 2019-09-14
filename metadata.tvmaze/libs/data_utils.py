@@ -159,7 +159,7 @@ def add_episode_info(list_item, episode_info, full_info=True):
 
 
 def parse_nfo_url(nfo):
-    """Extract show ID from NFO URL"""
+    """Extract show ID from NFO file contents"""
     for regexp in SHOW_ID_REGEXPS:
         show_id_match = regexp.search(nfo)
         if show_id_match:
