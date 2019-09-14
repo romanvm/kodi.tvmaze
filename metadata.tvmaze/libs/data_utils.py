@@ -57,17 +57,19 @@ def _get_cast(show_info):
     """Extract cast from show info dict"""
     cast = []
     for index, item in enumerate(show_info['_embedded']['cast'], 1):
-        thumb = safe_get(item['character'], 'image', {}).get('medium')
-        if thumb is None:
-            thumb = safe_get(item['person'], 'image', {}).get('medium', '')
-        cast.append(
-            {
-                'name': item['person']['name'],
-                'role': item['character']['name'],
-                'thumbnail': thumb,
-                'order': index,
-            }
-        )
+        data = {
+            'name': item['person']['name'],
+            'role': item['character']['name'],
+            'order': index,
+        }
+        thumb = None
+        if item['character']['image'] is not None:
+            thumb = item['character']['image']['medium']
+        elif item['person']['image'] is not None:
+            thumb = item['person']['image']['medium']
+        if thumb is not None:
+            data['thumbnail'] = thumb
+        cast.append(data)
     return cast
 
 
