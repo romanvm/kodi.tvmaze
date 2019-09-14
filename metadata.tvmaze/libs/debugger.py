@@ -15,6 +15,7 @@ from .utils import logger
 def _format_vars(variables):
     """
     Format variables dictionary
+
     :param variables: variables dict
     :type variables: dict
     :return: formatted string with sorted ``var = val`` pairs
@@ -32,20 +33,26 @@ def _format_vars(variables):
 def debug_exception(logger_func=logger.error):
     """
     Diagnostic helper context manager
+
     It controls execution within its context and writes extended
     diagnostic info to the Kodi log if an unhandled exception
     happens within the context. The info includes the following items:
+
     - System info
     - Kodi version
     - Module path.
     - Code fragment where the exception has happened.
     - Global variables.
     - Local variables.
+
     After logging the diagnostic info the exception is re-raised.
+
     Example::
+
         with debug_exception():
             # Some risky code
             raise RuntimeError('Fatal error!')
+
     :param logger_func: logger function which must accept a single argument
         which is a log message.
     """
@@ -53,7 +60,7 @@ def debug_exception(logger_func=logger.error):
         yield
     except Exception as exc:
         frame_info = inspect.trace(5)[-1]
-        logger_func('Unhandled exception detected: {} {}'.format(type(exc), exc))
+        logger_func('*** Unhandled exception detected: {} {} ***'.format(type(exc), exc))
         logger_func('*** Start diagnostic info ***')
         logger_func('System info: {0}'.format(uname()))
         logger_func('OS info: {0}'.format(xbmc.getInfoLabel('System.OSVersionInfo')))
