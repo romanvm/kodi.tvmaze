@@ -27,7 +27,7 @@ SHOW_ID_REGEXPS = (
     re.compile(r'(tvmaze)\.com/shows/(\d+)/[\w\-]', re.I),
     re.compile(r'(thetvdb)\.com/series/(\d+)', re.I),
     re.compile(r'(thetvdb)\.com[\w=&\?/]+id=(\d+)', re.I),
-    re.compile(r'(imdb)\.com/[\w/]+/(tt\d+)', re.I),
+    re.compile(r'(imdb)\.com/[\w/\-]+/(tt\d+)', re.I),
 )
 SUPPORTED_UNIQUE_IDS = {'imdb', 'thetvdb'}
 
@@ -118,7 +118,8 @@ def add_main_show_info(list_item, show_info):
         'status': safe_get(show_info, 'status', ''),
         'credits': _get_credits(show_info),
         'mediatype': 'tvshow',
-        'episodeguide': str(show_info['id'])  # This is passed as "url" parameter to getepisodelist call
+        # This property is passed as "url" parameter to getepisodelist call
+        'episodeguide': str(show_info['id']),
     }
     if show_info['network'] is not None:
         video['studio'] = show_info['network']['name']
@@ -132,6 +133,7 @@ def add_main_show_info(list_item, show_info):
     for season in show_info['_embedded']['seasons']:
         list_item.addSeason(season['number'], safe_get(season, 'name', ''))
     unique_ids = _get_unique_ids(show_info)
+    # This is needed for getting artwork
     list_item.setUniqueIDs(unique_ids.ids, unique_ids.default_id)
     list_item = set_show_artwork(show_info, list_item)
     list_item.setCast(_get_cast(show_info))

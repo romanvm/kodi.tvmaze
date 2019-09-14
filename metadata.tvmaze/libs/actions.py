@@ -121,6 +121,11 @@ def get_show_from_nfo(nfo):
 
 
 def get_artwork(external_id):
+    """
+    Get available artwork for a show
+
+    :param external_id: default unique ID set by .setUniqueIDs() method
+    """
     logger.debug('Getting artwork for show ID {}'.format(external_id))
     tvmaze_id = cache.get_external_id_mapping(external_id)
     if tvmaze_id is not None:
