@@ -71,6 +71,15 @@ def _get_cast(show_info):
     return cast
 
 
+def _get_credits(show_info):
+    """Extract show creator(s) from show info"""
+    credits = []
+    for item in show_info['_embedded']['crew']:
+        if item['type'].lower() == 'creator':
+            credits.append(item['person']['name'])
+    return credits
+
+
 def _get_unique_ids(show_info):
     """Extract unique ID in various online databases"""
     unique_ids = {}
@@ -103,6 +112,7 @@ def add_main_show_info(list_item, show_info):
         'title': show_info['name'],
         'tvshowtitle': show_info['name'],
         'status': safe_get(show_info, 'status', ''),
+        'credits': _get_credits(show_info),
         'mediatype': 'tvshow',
         'episodeguide': str(show_info['id'])  # This is passed as "url" parameter to getepisodelist call
     }

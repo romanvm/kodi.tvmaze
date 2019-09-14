@@ -93,7 +93,7 @@ def load_show_info(show_id, full_info=True, use_cache=True):
             pass
     params = None
     if full_info:
-        params = {'embed[]': ['cast', 'seasons', 'episodes']}
+        params = {'embed[]': ['cast', 'seasons', 'episodes', 'crew']}
     if show_info is None:
         url = SHOW_INFO_URL.format(show_id)
         show_info = _load_info(url, params)
