@@ -16,5 +16,9 @@
     <description lang="en_GB">TV show scraper for tvmaze.com.</description>
     <platform>all</platform>
     <license>GPL v3.0</license>
+    <assets>
+      <icon>resources/icon.png</icon>
+      <fanart>resources/background.jpg</fanart>
+    </assets>
   </extension>
 </addon>
