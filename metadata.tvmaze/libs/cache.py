@@ -18,11 +18,13 @@
 """Cache-related functionality"""
 
 import os
+from datetime import datetime, timedelta
 from six.moves import cPickle as pickle
 from .utils import get_cache_directory, logger
 
 CACHE_DIR = get_cache_directory()
 EXTERNAL_ID_MAP_FILE = os.path.join(CACHE_DIR, 'external-id-map.pickle')
+CACHING_DURATION = timedelta(hours=3)
 
 
 def cache_show_info(show_info):
@@ -30,8 +32,12 @@ def cache_show_info(show_info):
     Save show_info dict to cache
     """
     file_name = str(show_info['id']) + '.pickle'
+    cache = {
+        'show_info': show_info,
+        'timestamp': datetime.now(),
+    }
     with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
-        pickle.dump(show_info, fo, protocol=2)
+        pickle.dump(cache, fo, protocol=2)
 
 
 def load_show_info_from_cache(show_id):
@@ -44,7 +50,10 @@ def load_show_info_from_cache(show_id):
     file_name = str(show_id) + '.pickle'
     try:
         with open(os.path.join(CACHE_DIR, file_name), 'rb') as fo:
-            return pickle.load(fo)
+            cache = pickle.load(fo)
+        if datetime.now() - cache['timestamp'] > CACHING_DURATION:
+            return None
+        return cache['show_info']
     except (IOError, pickle.PickleError) as exc:
         logger.debug('Cache error: {} {}'.format(type(exc), exc))
         return None

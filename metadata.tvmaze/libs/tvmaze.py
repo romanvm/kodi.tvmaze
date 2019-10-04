@@ -21,7 +21,7 @@ from __future__ import absolute_import
 from pprint import pformat
 from requests.exceptions import HTTPError
 from . import cache
-from .utils import get_requests_session, get_cache_directory, logger
+from .utils import get_requests_session, get_cache_directory, logger, safe_get
 from .data_utils import process_episode_list
 
 SEARCH_URL = 'http://api.tvmaze.com/search/shows'
@@ -56,10 +56,13 @@ def search_show(title):
     Search a single TV show
 
     :param title: TV show title to search
-    :return: a dict with show data
-    :raises requests.exceptions.HTTPError:
+    :return: a list with found TV shows
     """
-    return _load_info(SEARCH_URL, {'q': title})
+    try:
+        return _load_info(SEARCH_URL, {'q': title})
+    except HTTPError as exc:
+        logger.error('TV Maze returned an error: {}'.format(exc))
+        return ()
 
 
 def filter_by_year(shows, year):
@@ -71,33 +74,30 @@ def filter_by_year(shows, year):
     :return: a found show or None
     """
     for show in shows:
-        if show['show'].get('premiered', '').startswith(str(year)):
+        premiered = safe_get(show['show'], 'premiered', '')
+        if premiered and premiered.startswith(str(year)):
             return show
     return None
 
 
-def load_show_info(show_id, full_info=True, use_cache=True):
+def load_show_info(show_id):
     """
     Get full info for a single show
 
     :param show_id: TV Maze show ID
-    :param full_info: load full info with cast, seasons and episodes
-    :param use_cache: try to load cached info
-    :return: show info
-    :raises requests.exceptions.HTTPError:
+    :return: show info or None
     """
-    show_info = None
-    if use_cache:
-        show_info = cache.load_show_info_from_cache(show_id)
+    show_info = cache.load_show_info_from_cache(show_id)
     if show_info is None:
         url = SHOW_INFO_URL.format(show_id)
-        params = None
-        if full_info:
-            params = {'embed[]': ['cast', 'seasons', 'episodes', 'crew']}
-        show_info = _load_info(url, params)
-        if full_info:
-            process_episode_list(show_info)
-            cache.cache_show_info(show_info)
+        params = {'embed[]': ['cast', 'seasons', 'episodes', 'crew']}
+        try:
+            show_info = _load_info(url, params)
+        except HTTPError as exc:
+            logger.error('TV Maze returned an error: {}'.format(exc))
+            return None
+        process_episode_list(show_info)
+        cache.cache_show_info(show_info)
         if show_info['externals'] is not None:
             if 'imdb' in show_info['externals']:
                 cache.set_external_id_mapping(
@@ -121,7 +121,8 @@ def load_show_info_by_external_id(provider, show_id):
     query = {provider: show_id}
     try:
         return _load_info(SEARCH_BU_EXTERNAL_ID_URL, query)
-    except HTTPError:
+    except HTTPError as exc:
+        logger.error('TV Maze returned an error: {}'.format(exc))
         return None
 
 
@@ -131,12 +132,18 @@ def load_episode_info(show_id, episode_id):
 
     :param show_id:
     :param episode_id:
-    :return: episode info dict
+    :return: episode info or None
     """
-    show_info = load_show_info(show_id, use_cache=True)
-    try:
-        episode_info = show_info['episodes'][int(episode_id)]
-    except KeyError:
-        url = EPISODE_INFO_URL.format(episode_id)
-        episode_info = _load_info(url)
-    return episode_info
+    show_info = load_show_info(show_id)
+    if show_info is not None:
+        try:
+            episode_info = show_info['episodes'][int(episode_id)]
+        except KeyError:
+            url = EPISODE_INFO_URL.format(episode_id)
+            try:
+                episode_info = _load_info(url)
+            except HTTPError as exc:
+                logger.error('TV Maze returned an error: {}'.format(exc))
+                return None
+        return episode_info
+    return None
