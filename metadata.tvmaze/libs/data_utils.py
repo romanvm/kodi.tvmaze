@@ -30,6 +30,7 @@ SHOW_ID_REGEXPS = (
     re.compile(r'(imdb)\.com/[\w/\-]+/(tt\d+)', re.I),
 )
 SUPPORTED_UNIQUE_IDS = {'imdb', 'thetvdb'}
+SUPPORTED_ARTWORK_TYPES = {'poster', 'banner'}
 
 UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
 UniqueIds = namedtuple('UniqueIds', ['ids', 'default_id'])
@@ -106,11 +107,28 @@ def _get_unique_ids(show_info):
     return UniqueIds(unique_ids, default_id)
 
 
+def _extract_artwork_url(resolutions):
+    """Extract image URL from the list of available resolutions"""
+    url = safe_get(resolutions, 'large', {}).get('url')
+    if url is None:
+        url = safe_get(resolutions, 'medium', {}).get('url')
+        if url is None:
+            url = safe_get(resolutions, 'original', {}).get('url')
+    return url
+
+
 def set_show_artwork(show_info, list_item):
     # Set available images for a show
-    if show_info['image'] is not None:
-        list_item.addAvailableArtwork(show_info['image']['medium'], 'thumb')
-        list_item.addAvailableArtwork(show_info['image']['original'], 'poster')
+    fanart_list = []
+    for item in show_info['_embedded']['images']:
+        resolutions = safe_get(show_info, 'resolutions', {})
+        url = _extract_artwork_url(resolutions)
+        if item['type'] in SUPPORTED_ARTWORK_TYPES and url:
+            list_item.addAvailableArtwork(url, item['type'])
+        elif item['type'] == 'background' and url:
+            fanart_list.append({'image': url})
+    if fanart_list:
+        list_item.setAvailableFanart(fanart_list)
     return list_item
 
 
