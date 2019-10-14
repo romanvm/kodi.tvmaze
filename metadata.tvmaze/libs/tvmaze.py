@@ -27,6 +27,7 @@ from .data_utils import process_episode_list
 SEARCH_URL = 'http://api.tvmaze.com/search/shows'
 SEARCH_BU_EXTERNAL_ID_URL = 'http://api.tvmaze.com/lookup/shows'
 SHOW_INFO_URL = 'http://api.tvmaze.com/shows/{}'
+EPISODE_LIST_URL = 'http://api.tvmaze.com/shows/{}/episodes'
 EPISODE_INFO_URL = 'http://api.tvmaze.com/episodes/{}'
 
 SESSION = get_requests_session()
@@ -89,14 +90,16 @@ def load_show_info(show_id):
     """
     show_info = cache.load_show_info_from_cache(show_id)
     if show_info is None:
-        url = SHOW_INFO_URL.format(show_id)
-        params = {'embed[]': ['cast', 'seasons', 'episodes', 'crew']}
+        show_info_url = SHOW_INFO_URL.format(show_id)
+        params = {'embed[]': ['cast', 'seasons', 'images', 'crew']}
         try:
-            show_info = _load_info(url, params)
+            show_info = _load_info(show_info_url, params)
+            episode_list_url = EPISODE_LIST_URL.format(show_id)
+            episode_list = _load_info(episode_list_url, {'specials', '1'})
         except HTTPError as exc:
             logger.error('TV Maze returned an error: {}'.format(exc))
             return None
-        process_episode_list(show_info)
+        process_episode_list(show_info, episode_list)
         cache.cache_show_info(show_info)
         if show_info['externals'] is not None:
             if 'imdb' in show_info['externals']:

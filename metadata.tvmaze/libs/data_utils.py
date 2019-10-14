@@ -35,13 +35,21 @@ UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
 UniqueIds = namedtuple('UniqueIds', ['ids', 'default_id'])
 
 
-def process_episode_list(show_info):
+def process_episode_list(show_info, episode_list):
     """Convert embedded episode list to a dict"""
     episodes = OrderedDict()
-    for episode in show_info['_embedded']['episodes']:
-        episodes[episode['id']] = episode
+    specials_list = []
+    for episode in episode_list:
+        if episode['number']:
+            episodes[episode['id']] = episode
+        else:
+            specials_list.append(episode)
+    specials_list.sort(key=lambda ep: ep['airdate'])
+    for ep_number, special in enumerate(specials_list, 1):
+        special['season'] = 0
+        special['number'] = ep_number
+        episodes[special['id']] = special
     show_info['episodes'] = episodes
-    del show_info['_embedded']['episodes']
 
 
 def _clean_plot(plot):
