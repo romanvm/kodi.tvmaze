@@ -95,7 +95,7 @@ def load_show_info(show_id):
         try:
             show_info = _load_info(show_info_url, params)
             episode_list_url = EPISODE_LIST_URL.format(show_id)
-            episode_list = _load_info(episode_list_url, {'specials', '1'})
+            episode_list = _load_info(episode_list_url, {'specials': '1'})
         except HTTPError as exc:
             logger.error('TV Maze returned an error: {}'.format(exc))
             return None
