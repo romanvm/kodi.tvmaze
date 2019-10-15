@@ -20,5 +20,7 @@
       <icon>resources/icon.png</icon>
       <fanart>resources/background.jpg</fanart>
     </assets>
+    <website>https://www.tvmaze.com</website>
+    <source>https://github.com/romanvm/kodi.tvmaze</source>
   </extension>
 </addon>
