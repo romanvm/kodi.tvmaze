@@ -34,11 +34,12 @@ def _format_vars(variables):
     :return: formatted string with sorted ``var = val`` pairs
     :rtype: str
     """
-    var_list = [(var, val) for var, val in six.iteritems(variables)]
+    var_list = [(var, val) for var, val in six.iteritems(variables)
+                if not (var.startswith('__') or var.endswith('__'))]
+    var_list.sort(key=lambda i: i[0])
     lines = []
-    for var, val in sorted(var_list, key=lambda i: i[0]):
-        if not (var.startswith('__') or var.endswith('__')):
-            lines.append('{0} = {1}'.format(var, pformat(val)))
+    for var, val in var_list:
+        lines.append('{0} = {1}'.format(var, pformat(val)))
     return '\n'.join(lines)
 
 
