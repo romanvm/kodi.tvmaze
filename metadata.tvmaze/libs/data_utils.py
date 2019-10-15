@@ -121,7 +121,7 @@ def set_show_artwork(show_info, list_item):
     # Set available images for a show
     fanart_list = []
     for item in show_info['_embedded']['images']:
-        resolutions = safe_get(show_info, 'resolutions', {})
+        resolutions = safe_get(item, 'resolutions', {})
         url = _extract_artwork_url(resolutions)
         if item['type'] in SUPPORTED_ARTWORK_TYPES and url:
             list_item.addAvailableArtwork(url, item['type'])
