@@ -117,8 +117,19 @@ def _extract_artwork_url(resolutions):
     return url
 
 
+def _add_season_info(show_info, list_item):
+    """Add info for show seasons"""
+    for season in show_info['_embedded']['seasons']:
+        list_item.addSeason(season['number'], safe_get(season, 'name', ''))
+        image = safe_get(season, 'image')
+        if image is not None:
+            url = _extract_artwork_url(image)
+            list_item.addAvailableArtwork(url, 'poster', season=season['number'])
+    return list_item
+
+
 def set_show_artwork(show_info, list_item):
-    # Set available images for a show
+    """Set available images for a show"""
     fanart_list = []
     for item in show_info['_embedded']['images']:
         resolutions = safe_get(item, 'resolutions', {})
@@ -156,8 +167,7 @@ def add_main_show_info(list_item, show_info):
     if show_info['rating'] is not None:
         video['rating'] = show_info['rating']['average']
     list_item.setInfo('video', video)
-    for season in show_info['_embedded']['seasons']:
-        list_item.addSeason(season['number'], safe_get(season, 'name', ''))
+    list_item = _add_season_info(show_info, list_item)
     unique_ids = _get_unique_ids(show_info)
     # This is needed for getting artwork
     list_item.setUniqueIDs(unique_ids.ids, unique_ids.default_id)
