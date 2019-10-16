@@ -18,9 +18,8 @@
 """Plugin route actions"""
 
 from __future__ import absolute_import
-import base64
 import sys
-from six import PY3, itervalues
+from six import itervalues
 from six.moves import urllib_parse
 import xbmcgui
 import xbmcplugin
@@ -108,11 +107,9 @@ def get_episode_list(show_id):
             encoded_ids = urllib_parse.urlencode(
                 {'show_id': str(show_id), 'episode_id': str(episode['id'])}
             )
-            if PY3:
-                encoded_ids = encoded_ids.encode('ascii')
             # Below "url" is some unique ID string (may be an actual URL to an episode page)
             # that allows to retrieve information about a specific episode.
-            url = base64.b64encode(encoded_ids).decode('ascii')
+            url = urllib_parse.quote(encoded_ids)
             xbmcplugin.addDirectoryItem(
                 HANDLE,
                 url=url,
@@ -122,7 +119,7 @@ def get_episode_list(show_id):
 
 
 def get_episode_details(encoded_ids):
-    encoded_ids = base64.b64decode(encoded_ids).decode('ascii')
+    encoded_ids = urllib_parse.unquote(encoded_ids)
     decoded_ids = dict(urllib_parse.parse_qsl(encoded_ids))
     logger.debug('Getting episode details for {}'.format(decoded_ids))
     episode_info = tvmaze.load_episode_info(
