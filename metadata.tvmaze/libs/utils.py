@@ -78,8 +78,7 @@ def safe_get(dct, key, default=None):
     """
     Get a key from dict
 
-    Returns the respective value or default if key is missing or the value is
-    None.
+    Returns the respective value or default if key is missing or the value is None.
     """
     if key in dct and dct[key] is not None:
         return dct[key]
