@@ -66,9 +66,9 @@ def get_requests_session():
 
 def get_cache_directory():
     profile_dir = xbmc.translatePath(ADDON.getAddonInfo('profile'))
-    cache_dir = os.path.join(profile_dir, 'cache')
     if PY2:
-        cache_dir = cache_dir.decode('utf-8')
+        profile_dir = profile_dir.decode('utf-8')
+    cache_dir = os.path.join(profile_dir, 'cache')
     if not xbmcvfs.exists(cache_dir):
         xbmcvfs.mkdir(cache_dir)
     return cache_dir
