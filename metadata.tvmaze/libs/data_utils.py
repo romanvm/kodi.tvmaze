@@ -18,8 +18,8 @@
 """Functions to process data"""
 
 import re
-import six
 from collections import OrderedDict, namedtuple
+import six
 from .utils import safe_get
 
 TAG_RE = re.compile(r'<[^>]+>')
