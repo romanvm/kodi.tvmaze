@@ -72,11 +72,11 @@ def _get_cast(show_info):
             'order': index,
         }
         thumb = None
-        if item['character']['image'] is not None:
-            thumb = item['character']['image']['medium']
-        elif item['person']['image'] is not None:
-            thumb = item['person']['image']['medium']
-        if thumb is not None:
+        if safe_get(item['character'], 'image') is not None:
+            thumb = _extract_artwork_url(item['character']['image'])
+        if not thumb and safe_get(item['person'], 'image') is not None:
+            thumb = _extract_artwork_url(item['person']['image'])
+        if thumb:
             data['thumbnail'] = thumb
         cast.append(data)
     return cast
