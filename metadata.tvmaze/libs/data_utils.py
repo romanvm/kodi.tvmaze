@@ -109,11 +109,12 @@ def _get_unique_ids(show_info):
 
 def _extract_artwork_url(resolutions):
     """Extract image URL from the list of available resolutions"""
-    url = safe_get(resolutions, 'large', {}).get('url')
-    if url is None:
-        url = safe_get(resolutions, 'medium', {}).get('url')
-        if url is None:
-            url = safe_get(resolutions, 'original', {}).get('url')
+    for image_size in ('large', 'original', 'medium'):
+        url = safe_get(resolutions, image_size, u'')
+        if not isinstance(url, six.text_type):
+            url = safe_get(url, 'url', u'')
+            if url:
+                break
     return url
 
 
@@ -124,7 +125,8 @@ def _add_season_info(show_info, list_item):
         image = safe_get(season, 'image')
         if image is not None:
             url = _extract_artwork_url(image)
-            list_item.addAvailableArtwork(url, 'poster', season=season['number'])
+            if url:
+                list_item.addAvailableArtwork(url, 'poster', season=season['number'])
     return list_item
 
 
