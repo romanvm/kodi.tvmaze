@@ -189,7 +189,9 @@ def add_episode_info(list_item, episode_info, full_info=True):
     if episode_info['airdate'] is not None:
         video['aired'] = episode_info['airdate']
     if full_info:
-        video['plot'] = video['plotoutline'] = _clean_plot(episode_info['summary'])
+        summary = safe_get(episode_info, 'summary')
+        if summary is not None:
+            video['plot'] = video['plotoutline'] = _clean_plot(summary)
         if episode_info['runtime'] is not None:
             video['duration'] = episode_info['runtime'] * 60
         if episode_info['airdate'] is not None:
