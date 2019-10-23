@@ -133,25 +133,14 @@ def get_episode_details(encoded_ids):
         xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem())
 
 
-def get_artwork(external_id):
+def get_artwork(show_id):
     """
     Get available artwork for a show
 
-    :param external_id: default unique ID set by setUniqueIDs() method
+    :param show_id: default unique ID set by setUniqueIDs() method
     """
-    logger.debug('Getting artwork for show ID {}'.format(external_id))
-    show_info = None
-    tvmaze_id = cache.get_external_id_mapping(external_id)
-    if tvmaze_id is not None:
-        show_info = tvmaze.load_show_info(tvmaze_id)
-    else:
-        if external_id.startswith('tt'):
-            provider = 'imdb'
-        else:
-            provider = 'thetvdb'
-        minimal_show_info = tvmaze.load_show_info_by_external_id(provider, external_id)
-        if minimal_show_info is not None:
-            show_info = tvmaze.load_show_info(minimal_show_info['id'])
+    logger.debug('Getting artwork for show ID {}'.format(show_id))
+    show_info = tvmaze.load_show_info(show_id)
     if show_info is not None:
         list_item = xbmcgui.ListItem(show_info['name'])
         list_item = data_utils.set_show_artwork(show_info, list_item)

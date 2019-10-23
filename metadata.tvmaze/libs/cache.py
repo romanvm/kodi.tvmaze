@@ -57,30 +57,3 @@ def load_show_info_from_cache(show_id):
     except (IOError, pickle.PickleError) as exc:
         logger.debug('Cache error: {} {}'.format(type(exc), exc))
         return None
-
-
-def set_external_id_mapping(external_id, tvmaze_id):
-    """Save mapping of an external show ID to TV Maze ID"""
-    try:
-        with open(EXTERNAL_ID_MAP_FILE, 'rb') as fo:
-            imdb_map = pickle.load(fo)
-    except (IOError, pickle.PickleError):
-        imdb_map = {}
-    if external_id not in imdb_map:
-        imdb_map[external_id] = tvmaze_id
-        with open(EXTERNAL_ID_MAP_FILE, 'wb') as fo:
-            pickle.dump(imdb_map, fo, protocol=2)
-
-
-def get_external_id_mapping(external_id):
-    """Get TV Maze show ID by an external ID"""
-    try:
-        external_id = int(external_id)
-    except ValueError:
-        pass
-    try:
-        with open(EXTERNAL_ID_MAP_FILE, 'rb') as fo:
-            external_id_map = pickle.load(fo)
-        return external_id_map[external_id]
-    except (KeyError, IOError, pickle.PickleError):
-        return None

@@ -101,15 +101,6 @@ def load_show_info(show_id):
             return None
         process_episode_list(show_info, episode_list)
         cache.cache_show_info(show_info)
-        if show_info['externals'] is not None:
-            if 'imdb' in show_info['externals']:
-                cache.set_external_id_mapping(
-                    show_info['externals']['imdb'], show_info['id']
-                )
-            if 'thetvdb' in show_info['externals']:
-                cache.set_external_id_mapping(
-                    show_info['externals']['thetvdb'], show_info['id']
-                )
     return show_info
 
 

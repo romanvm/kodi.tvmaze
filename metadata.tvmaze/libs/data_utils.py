@@ -29,11 +29,9 @@ SHOW_ID_REGEXPS = (
     re.compile(r'(thetvdb)\.com[\w=&\?/]+id=(\d+)', re.I),
     re.compile(r'(imdb)\.com/[\w/\-]+/(tt\d+)', re.I),
 )
-SUPPORTED_UNIQUE_IDS = {'imdb', 'thetvdb'}
 SUPPORTED_ARTWORK_TYPES = {'poster', 'banner'}
 
 UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
-UniqueIds = namedtuple('UniqueIds', ['ids', 'default_id'])
 
 
 def process_episode_list(show_info, episode_list):
@@ -62,7 +60,7 @@ def _clean_plot(plot):
     return plot
 
 
-def _get_cast(show_info):
+def _set_cast(show_info, list_item):
     """Extract cast from show info dict"""
     cast = []
     for index, item in enumerate(show_info['_embedded']['cast'], 1):
@@ -79,7 +77,8 @@ def _get_cast(show_info):
         if thumb:
             data['thumbnail'] = thumb
         cast.append(data)
-    return cast
+    list_item.setCast(cast)
+    return list_item
 
 
 def _get_credits(show_info):
@@ -91,20 +90,23 @@ def _get_credits(show_info):
     return credits
 
 
-def _get_unique_ids(show_info):
+def _set_unique_ids(show_info, list_item):
     """Extract unique ID in various online databases"""
-    unique_ids = {}
+    unique_ids = {'tvmaze': str(show_info['id'])}
     for key, value in six.iteritems(safe_get(show_info, 'externals', {})):
-        if key in SUPPORTED_UNIQUE_IDS:
-            if key == 'thetvdb':
-                key = key[3:]
-            unique_ids[key] = str(value)
-    default_id = ''
-    if 'tvdb' in unique_ids:
-        default_id = 'tvdb'
-    elif 'imdb' in unique_ids:
-        default_id = 'imdb'
-    return UniqueIds(unique_ids, default_id)
+        if key == 'thetvdb':
+            key = key[3:]
+        unique_ids[key] = str(value)
+    list_item.setUniqueIDs(unique_ids, 'tvmaze')
+    return list_item
+
+
+def _set_rating(show_info, list_item):
+    """Set show rating"""
+    if show_info['rating'] is not None:
+        rating = float(show_info['rating']['average'])
+        list_item.setRating('tvmaze', rating, defaultt=True)
+    return list_item
 
 
 def _extract_artwork_url(resolutions):
@@ -166,15 +168,13 @@ def add_main_show_info(list_item, show_info):
     if show_info['premiered'] is not None:
         video['year'] = int(show_info['premiered'][:4])
         video['premiered'] = show_info['premiered']
-    if show_info['rating'] is not None:
-        video['rating'] = show_info['rating']['average']
     list_item.setInfo('video', video)
-    list_item = _add_season_info(show_info, list_item)
-    unique_ids = _get_unique_ids(show_info)
-    # This is needed for getting artwork
-    list_item.setUniqueIDs(unique_ids.ids, unique_ids.default_id)
     list_item = set_show_artwork(show_info, list_item)
-    list_item.setCast(_get_cast(show_info))
+    list_item = _add_season_info(show_info, list_item)
+    # This is needed for getting artwork
+    list_item = _set_unique_ids(show_info, list_item)
+    list_item = _set_cast(show_info, list_item)
+    list_item = _set_rating(show_info, list_item)
     return list_item
 
 
