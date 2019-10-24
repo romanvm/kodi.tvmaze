@@ -30,6 +30,7 @@ SHOW_ID_REGEXPS = (
     re.compile(r'(imdb)\.com/[\w/\-]+/(tt\d+)', re.I),
 )
 SUPPORTED_ARTWORK_TYPES = {'poster', 'banner'}
+IMAGE_SIZES = ('large', 'original', 'medium')
 
 UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
 
@@ -111,7 +112,8 @@ def _set_rating(show_info, list_item):
 
 def _extract_artwork_url(resolutions):
     """Extract image URL from the list of available resolutions"""
-    for image_size in ('large', 'original', 'medium'):
+    url = u''
+    for image_size in IMAGE_SIZES:
         url = safe_get(resolutions, image_size, u'')
         if not isinstance(url, six.text_type):
             url = safe_get(url, 'url', u'')
