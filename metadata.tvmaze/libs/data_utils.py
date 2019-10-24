@@ -24,10 +24,10 @@ from .utils import safe_get
 
 TAG_RE = re.compile(r'<[^>]+>')
 SHOW_ID_REGEXPS = (
-    re.compile(r'(tvmaze)\.com/shows/(\d+)/[\w\-]', re.I),
-    re.compile(r'(thetvdb)\.com/series/(\d+)', re.I),
-    re.compile(r'(thetvdb)\.com[\w=&\?/]+id=(\d+)', re.I),
-    re.compile(r'(imdb)\.com/[\w/\-]+/(tt\d+)', re.I),
+    r'(tvmaze)\.com/shows/(\d+)/[\w\-]',
+    r'(thetvdb)\.com/series/(\d+)',
+    r'(thetvdb)\.com[\w=&\?/]+id=(\d+)',
+    r'(imdb)\.com/[\w/\-]+/(tt\d+)',
 )
 SUPPORTED_ARTWORK_TYPES = {'poster', 'banner'}
 IMAGE_SIZES = ('large', 'original', 'medium')
@@ -207,7 +207,7 @@ def add_episode_info(list_item, episode_info, full_info=True):
 def parse_nfo_url(nfo):
     """Extract show ID from NFO file contents"""
     for regexp in SHOW_ID_REGEXPS:
-        show_id_match = regexp.search(nfo)
+        show_id_match = re.search(regexp, nfo, re.I)
         if show_id_match:
             return UrlParseResult(show_id_match.group(1), show_id_match.group(2))
     return None
