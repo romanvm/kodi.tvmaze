@@ -23,7 +23,6 @@ from six.moves import cPickle as pickle
 from .utils import get_cache_directory, logger
 
 CACHE_DIR = get_cache_directory()
-EXTERNAL_ID_MAP_FILE = os.path.join(CACHE_DIR, 'external-id-map.pickle')
 CACHING_DURATION = timedelta(hours=3)
 
 
