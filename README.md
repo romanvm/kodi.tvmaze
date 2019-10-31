@@ -1,3 +1,3 @@
-# TV Maze Scraper for Kodi Mediacenter
+# TVmaze Scraper for Kodi Mediacenter
 
-This project is in WIP state and not ready yet.
+The scraper is available in the official Kodi addons repository.
