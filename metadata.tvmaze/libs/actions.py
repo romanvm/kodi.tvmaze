@@ -23,7 +23,7 @@ from six import itervalues
 from six.moves import urllib_parse
 import xbmcgui
 import xbmcplugin
-from . import tvmaze, data_utils, cache
+from . import tvmaze, data_utils
 from .utils import logger
 
 HANDLE = int(sys.argv[1])
