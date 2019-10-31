@@ -43,7 +43,7 @@ def load_show_info_from_cache(show_id):
     """
     Load show info from a local cache
 
-    :param show_id: show ID on TV Maze
+    :param show_id: show ID on TVmaze
     :return: show_info dict or None
     """
     file_name = str(show_id) + '.pickle'
