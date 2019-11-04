@@ -104,7 +104,7 @@ def _set_unique_ids(show_info, list_item):
 
 def _set_rating(show_info, list_item):
     """Set show rating"""
-    if show_info['rating'] is not None:
+    if show_info['rating'] is not None and show_info['rating']['average'] is not None:
         rating = float(show_info['rating']['average'])
         list_item.setRating('tvmaze', rating, defaultt=True)
     return list_item
