@@ -25,7 +25,7 @@ from .utils import safe_get
 TAG_RE = re.compile(r'<[^>]+>')
 SHOW_ID_REGEXPS = (
     r'(tvmaze)\.com/shows/(\d+)/[\w\-]',
-    r'(thetvdb)\.com/series/(\d+)',
+    r'(thetvdb)\.com/.?*series/(\d+)',
     r'(thetvdb)\.com[\w=&\?/]+id=(\d+)',
     r'(imdb)\.com/[\w/\-]+/(tt\d+)',
 )
@@ -149,7 +149,7 @@ def set_show_artwork(show_info, list_item):
     return list_item
 
 
-def add_main_show_info(list_item, show_info):
+def add_main_show_info(list_item, show_info, full_info=True):
     """Add main show info to a list item"""
     plot = _clean_plot(safe_get(show_info, 'summary', ''))
     video = {
@@ -159,7 +159,6 @@ def add_main_show_info(list_item, show_info):
         'title': show_info['name'],
         'tvshowtitle': show_info['name'],
         'status': safe_get(show_info, 'status', ''),
-        'credits': _get_credits(show_info),
         'mediatype': 'tvshow',
         # This property is passed as "url" parameter to getepisodelist call
         'episodeguide': str(show_info['id']),
@@ -170,13 +169,20 @@ def add_main_show_info(list_item, show_info):
     if show_info['premiered'] is not None:
         video['year'] = int(show_info['premiered'][:4])
         video['premiered'] = show_info['premiered']
+    if full_info:
+        video['credits'] = _get_credits(show_info)
+        list_item = set_show_artwork(show_info, list_item)
+        list_item = _add_season_info(show_info, list_item)
+        list_item = _set_cast(show_info, list_item)
+    else:
+        image = safe_get(show_info, 'image', {})
+        image_url = _extract_artwork_url(image)
+        if image_url:
+            list_item.addAvailableArtwork(image_url, 'poster')
     list_item.setInfo('video', video)
-    list_item = set_show_artwork(show_info, list_item)
-    list_item = _add_season_info(show_info, list_item)
+    list_item = _set_rating(show_info, list_item)
     # This is needed for getting artwork
     list_item = _set_unique_ids(show_info, list_item)
-    list_item = _set_cast(show_info, list_item)
-    list_item = _set_rating(show_info, list_item)
     return list_item
 
 
@@ -199,8 +205,10 @@ def add_episode_info(list_item, episode_info, full_info=True):
         if episode_info['airdate'] is not None:
             video['premiered'] = episode_info['airdate']
     list_item.setInfo('video', video)
-    if episode_info['image']:
-        list_item.addAvailableArtwork(episode_info['image']['original'], 'thumb')
+    image = safe_get(episode_info, 'image', {})
+    image_url = _extract_artwork_url(image)
+    if image_url:
+        list_item.addAvailableArtwork(image_url, 'thumb')
     return list_item
 
 

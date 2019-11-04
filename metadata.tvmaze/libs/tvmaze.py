@@ -81,6 +81,16 @@ def filter_by_year(shows, year):
     return None
 
 
+def load_episode_list(show_id):
+    """Load episode list from TVmaze API"""
+    episode_list_url = EPISODE_LIST_URL.format(show_id)
+    try:
+        return _load_info(episode_list_url, {'specials': '1'})
+    except HTTPError as exc:
+        logger.error('TVmaze returned an error: {}'.format(exc))
+        return ()
+
+
 def load_show_info(show_id):
     """
     Get full info for a single show
@@ -94,11 +104,10 @@ def load_show_info(show_id):
         params = {'embed[]': ['cast', 'seasons', 'images', 'crew']}
         try:
             show_info = _load_info(show_info_url, params)
-            episode_list_url = EPISODE_LIST_URL.format(show_id)
-            episode_list = _load_info(episode_list_url, {'specials': '1'})
         except HTTPError as exc:
             logger.error('TVmaze returned an error: {}'.format(exc))
             return None
+        episode_list = load_episode_list(show_id)
         process_episode_list(show_info, episode_list)
         cache.cache_show_info(show_info)
     return show_info
