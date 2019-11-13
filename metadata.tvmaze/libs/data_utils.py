@@ -106,7 +106,7 @@ def _set_rating(show_info, list_item):
     """Set show rating"""
     if show_info['rating'] is not None and show_info['rating']['average'] is not None:
         rating = float(show_info['rating']['average'])
-        list_item.setRating('tvmaze', rating, defaultt=True)
+        list_item.setRating('tvmaze', rating, default=True)
     return list_item
 
 
