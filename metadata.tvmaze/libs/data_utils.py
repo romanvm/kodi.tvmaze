@@ -166,15 +166,15 @@ def add_main_show_info(list_item, show_info):
     }
     if show_info['network'] is not None:
         country = show_info['network']['country']
-        video['studio'] = show_info['network']['name'] + ' (' + country['code'] + ')'
+        video['studio'] = u'{0} ({1})'.format(show_info['network']['name'], country['code'])
         video['country'] = country['name']
     elif show_info['webChannel'] is not None:
         video['studio'] = show_info['webChannel']['name']
         # Global Web Channels do not have a country specified
         if show_info['webChannel']['country'] is not None:
-            country = show_info['network']['country']
+            country = show_info['webChannel']['country']
             video['country'] = country['name']
-            video['studio'] += ' (' + country['code'] + ')'
+            video['studio'] += u' ({})'.format(country['code'])
     if show_info['premiered'] is not None:
         video['year'] = int(show_info['premiered'][:4])
         video['premiered'] = show_info['premiered']
