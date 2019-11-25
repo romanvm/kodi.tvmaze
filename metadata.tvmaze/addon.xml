@@ -23,6 +23,8 @@ We provide an API that can be used by anyone or service like Kodi to retrieve TV
     <website>https://www.tvmaze.com</website>
     <source>https://github.com/romanvm/kodi.tvmaze</source>
     <news>1.0.0:
-- Initial release.</news>
+- Fixed a bug with empty ratings.
+- Added a workaround for a Kodi bug when episoude guide URL from NFO is passed to a scraper.
+- Artwork is now sorted by main property.</news>
   </extension>
 </addon>
