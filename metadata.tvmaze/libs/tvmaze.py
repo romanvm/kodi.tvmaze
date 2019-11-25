@@ -108,6 +108,9 @@ def load_show_info(show_id):
             logger.error('TVmaze returned an error: {}'.format(exc))
             return None
         episode_list = load_episode_list(show_id)
+        if isinstance(show_info['_embedded']['images'], list):
+            show_info['_embedded']['images'].sort(key=lambda img: img['main'],
+                                                  reverse=True)
         process_episode_list(show_info, episode_list)
         cache.cache_show_info(show_info)
     return show_info
