@@ -17,6 +17,7 @@
 
 """Functions to process data"""
 
+from __future__ import absolute_import
 import re
 from collections import OrderedDict, namedtuple
 import six

@@ -17,6 +17,7 @@
 
 """Cache-related functionality"""
 
+from __future__ import absolute_import
 import os
 from datetime import datetime, timedelta
 from six.moves import cPickle as pickle
