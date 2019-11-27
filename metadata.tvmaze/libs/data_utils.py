@@ -218,7 +218,7 @@ def add_episode_info(list_item, episode_info, full_info=True):
     image_url = _extract_artwork_url(image)
     if image_url:
         list_item.addAvailableArtwork(image_url, 'thumb')
-    list_item.list_item.setUniqueIDs({'tvmaze': str(episode_info['id'])}, 'tvmaze')
+    list_item.setUniqueIDs({'tvmaze': str(episode_info['id'])}, 'tvmaze')
     return list_item
 
 
