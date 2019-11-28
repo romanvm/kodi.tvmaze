@@ -26,7 +26,7 @@ from .utils import safe_get
 TAG_RE = re.compile(r'<[^>]+>')
 SHOW_ID_REGEXPS = (
     r'(tvmaze)\.com/shows/(\d+)/[\w\-]',
-    r'(thetvdb)\.com/.?*series/(\d+)',
+    r'(thetvdb)\.com/.*?series/(\d+)',
     r'(thetvdb)\.com[\w=&\?/]+id=(\d+)',
     r'(imdb)\.com/[\w/\-]+/(tt\d+)',
 )
