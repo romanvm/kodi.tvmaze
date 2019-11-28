@@ -29,4 +29,3 @@ def mock_response():
     patcher = mock.patch('libs.tvmaze.SESSION')
     session = patcher.start()
     session.get = get_url
-
