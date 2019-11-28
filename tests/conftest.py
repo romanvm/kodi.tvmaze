@@ -27,9 +27,6 @@ def get_url(url, params=None):
 @pytest.fixture
 def mock_response():
     patcher = mock.patch('libs.tvmaze.SESSION')
-    response = mock.Mock()
-    response.ok = True
     session = patcher.start()
     session.get = get_url
-    yield session
-    patcher.stop()
+
