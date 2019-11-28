@@ -61,7 +61,7 @@ def get_show_from_nfo(nfo):
 
     :param nfo: the contents of a NFO file
     """
-    logger.debug('Parsing NFO file:\n{}'.format(nfo))
+    logger.debug(u'Parsing NFO file:\n{}'.format(nfo))
     parse_result = data_utils.parse_nfo_url(nfo)
     if parse_result:
         if parse_result.provider == 'tvmaze':
