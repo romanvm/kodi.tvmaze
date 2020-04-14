@@ -1,18 +1,38 @@
 language: python
 env:
-  - ADDON_ID=metadata.tvmaze
-    BRANCH=leia
+  global:
+    - ADDON_ID=metadata.tvmaze
 matrix:
   include:
-    - python: "2.7"
+    - if: branch != matrix OR tag IS present
+      python: "2.7"
       install:
         - pip install -q -r requirements.txt
       script:
         - pytest
 
-    - python: "3.6"
+    - if: branch != matrix OR tag IS present
+      python: "3.6"
+      env:
+        BRANCH=leia
       install:
-        - pip install kodi-addon-checker
+        - pip install -q kodi-addon-checker
+      script:
+        - kodi-addon-checker --branch $BRANCH $ADDON_ID
+      before_deploy:
+        - pip install -q git+https://github.com/romanvm/kodi-addon-submitter.git
+      deploy:
+        - provider: script
+          script: submit-addon -r repo-scrapers -b $BRANCH -s -m --pull-request $ADDON_ID
+          on:
+            tags: true
+
+    - if: branch = matrix
+      python: "3.6"
+      env:
+        BRANCH=matrix
+      install:
+        - pip install -q kodi-addon-checker
       script:
         - kodi-addon-checker --branch $BRANCH $ADDON_ID
       before_deploy:
@@ -20,7 +40,6 @@ matrix:
       deploy:
         - provider: script
           script: submit-addon -r repo-scrapers -b $BRANCH -s --pull-request $ADDON_ID
-          on:
-            tags: true
+
 notifications:
   email: false
