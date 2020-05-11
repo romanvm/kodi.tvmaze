@@ -75,6 +75,8 @@ def get_show_id_from_nfo(nfo):
             )
         if show_info is not None:
             list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
+            # "url" is some string that unique identifies a show.
+            # It may be an actual URL of a TV show page.
             xbmcplugin.addDirectoryItem(
                 HANDLE,
                 url=str(show_info['id']),
@@ -119,7 +121,7 @@ def get_episode_list(show_id):
             list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
             list_item = data_utils.add_episode_info(list_item, episode, full_info=False)
             encoded_ids = urllib_parse.urlencode(
-                {'show_id': str(show_id), 'episode_id': str(episode['id'])}
+                {'show_id': str(show_info['id']), 'episode_id': str(episode['id'])}
             )
             # Below "url" is some unique ID string (may be an actual URL to an episode page)
             # that allows to retrieve information about a specific episode.
