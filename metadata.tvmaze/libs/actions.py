@@ -76,7 +76,6 @@ def get_show_from_nfo(nfo):
             show_info = tvmaze.load_show_info(brief_show_info['id'])
         if show_info is not None:
             list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
-            list_item = data_utils.add_main_show_info(list_item, show_info, False)
             xbmcplugin.addDirectoryItem(
                 HANDLE,
                 url=str(show_info['id']),
