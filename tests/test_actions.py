@@ -33,7 +33,7 @@ def test_show_search():
 def test_get_show_from_nfo():
     with io.open(os.path.join(THIS_DIR, 'tvshow.nfo'), 'r', encoding='utf-8') as fo:
         nfo = fo.read()
-    actions.get_show_from_nfo(nfo)
+    actions.get_show_id_from_nfo(nfo)
 
 
 @pytest.mark.usefixtures('mock_response')

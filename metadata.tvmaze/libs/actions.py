@@ -52,12 +52,12 @@ def find_show(title, year=None):
         )
 
 
-def get_show_from_nfo(nfo):
+def get_show_id_from_nfo(nfo):
     """
-    Get show info by NFO file contents
+    Get show ID by NFO file contents
 
     This function is called first instead of find_show
-    if a NFO file is found in a TV show folder
+    if a NFO file is found in a TV show folder.
 
     :param nfo: the contents of a NFO file
     """
@@ -69,11 +69,10 @@ def get_show_from_nfo(nfo):
         if parse_result.provider == 'tvmaze':
             show_info = tvmaze.load_show_info(parse_result.show_id)
         else:
-            brief_show_info = tvmaze.load_show_info_by_external_id(
+            show_info = tvmaze.load_show_info_by_external_id(
                 parse_result.provider,
                 parse_result.show_id
             )
-            show_info = tvmaze.load_show_info(brief_show_info['id'])
         if show_info is not None:
             list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
             xbmcplugin.addDirectoryItem(
@@ -177,7 +176,7 @@ def router(paramstring):
     if params['action'] == 'find':
         find_show(params['title'], params.get('year'))
     elif params['action'].lower() == 'nfourl':
-        get_show_from_nfo(params['nfo'])
+        get_show_id_from_nfo(params['nfo'])
     elif params['action'] == 'getdetails':
         get_details(params['url'])
     elif params['action'] == 'getepisodelist':
