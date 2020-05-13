@@ -32,6 +32,13 @@ SHOW_ID_REGEXPS = (
 )
 SUPPORTED_ARTWORK_TYPES = {'poster', 'banner'}
 IMAGE_SIZES = ('large', 'original', 'medium')
+CLEAN_PLOT_REPLACEMENTS = (
+    ('<b>', '[B]'),
+    ('</b>', '[/B]'),
+    ('<i>', '[I]'),
+    ('</i>', '[/I]'),
+    ('</p><p>', '[CR]'),
+)
 
 UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
 
@@ -55,9 +62,8 @@ def process_episode_list(show_info, episode_list):
 
 def _clean_plot(plot):
     """Replace HTML tags with Kodi skin tags"""
-    plot = plot.replace('<b>', '[B]').replace('</b>', '[/B]')
-    plot = plot.replace('<i>', '[I]').replace('</i>', '[/I]')
-    plot = plot.replace('</p><p>', '[CR]')
+    for repl in CLEAN_PLOT_REPLACEMENTS:
+        plot = plot.replace(repl[0], repl[1])
     plot = TAG_RE.sub('', plot)
     return plot
 
