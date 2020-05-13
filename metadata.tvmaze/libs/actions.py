@@ -26,10 +26,16 @@ import xbmcplugin
 from . import tvmaze, data_utils
 from .utils import logger
 
-HANDLE = int(sys.argv[1])
+try:
+    from typing import Optional
+except ImportError:
+    pass
+
+HANDLE = int(sys.argv[1])  # type: int
 
 
 def find_show(title, year=None):
+    # type: (str, Optional[str]) -> None
     """Find a show by title"""
     logger.debug('Searching for TV show {} ({})'.format(title, year))
     search_results = tvmaze.search_show(title)
@@ -53,6 +59,7 @@ def find_show(title, year=None):
 
 
 def get_show_id_from_nfo(nfo):
+    # type: (str) -> None
     """
     Get show ID by NFO file contents
 
@@ -86,6 +93,7 @@ def get_show_id_from_nfo(nfo):
 
 
 def get_details(show_id):
+    # type: (str) -> None
     """Get details about a specific show"""
     logger.debug('Getting details for show id {}'.format(show_id))
     show_info = tvmaze.load_show_info(show_id)
@@ -98,6 +106,7 @@ def get_details(show_id):
 
 
 def get_episode_list(show_id):
+    # type: (str) -> None
     logger.debug('Getting episode list for show id {}'.format(show_id))
     if not show_id.isdigit():
         # Kodi has a bug: when a show directory contains an XML NFO file with
@@ -135,6 +144,7 @@ def get_episode_list(show_id):
 
 
 def get_episode_details(encoded_ids):
+    # type: (str) -> None
     encoded_ids = urllib_parse.unquote(encoded_ids)
     decoded_ids = dict(urllib_parse.parse_qsl(encoded_ids))
     logger.debug('Getting episode details for {}'.format(decoded_ids))
@@ -150,6 +160,7 @@ def get_episode_details(encoded_ids):
 
 
 def get_artwork(show_id):
+    # type: (str) -> None
     """
     Get available artwork for a show
 
@@ -166,6 +177,7 @@ def get_artwork(show_id):
 
 
 def router(paramstring):
+    # type: (str) -> None
     """
     Route addon calls
 

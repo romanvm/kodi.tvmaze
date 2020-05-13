@@ -23,11 +23,17 @@ from datetime import datetime, timedelta
 from six.moves import cPickle as pickle
 from .utils import get_cache_directory, logger
 
-CACHE_DIR = get_cache_directory()
-CACHING_DURATION = timedelta(hours=3)
+try:
+    from typing import Optional
+except ImportError:
+    pass
+
+CACHE_DIR = get_cache_directory()  # type: str
+CACHING_DURATION = timedelta(hours=3)  # type: timedelta
 
 
 def cache_show_info(show_info):
+    # type: (dict) -> None
     """
     Save show_info dict to cache
     """
@@ -41,6 +47,7 @@ def cache_show_info(show_info):
 
 
 def load_show_info_from_cache(show_id):
+    # type: (str) -> Optional[dict]
     """
     Load show info from a local cache
 

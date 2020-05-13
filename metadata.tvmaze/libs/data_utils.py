@@ -23,6 +23,12 @@ from collections import OrderedDict, namedtuple
 import six
 from .utils import safe_get
 
+try:
+    from typing import Optional
+    from xbmcgui import ListItem
+except ImportError:
+    pass
+
 TAG_RE = re.compile(r'<[^>]+>')
 SHOW_ID_REGEXPS = (
     r'(tvmaze)\.com/shows/(\d+)/[\w\-]',
@@ -44,6 +50,7 @@ UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
 
 
 def process_episode_list(show_info, episode_list):
+    # type: (dict, list) -> None
     """Convert embedded episode list to a dict"""
     episodes = OrderedDict()
     specials_list = []
@@ -61,6 +68,7 @@ def process_episode_list(show_info, episode_list):
 
 
 def _clean_plot(plot):
+    # type: (str) -> str
     """Replace HTML tags with Kodi skin tags"""
     for repl in CLEAN_PLOT_REPLACEMENTS:
         plot = plot.replace(repl[0], repl[1])
@@ -69,6 +77,7 @@ def _clean_plot(plot):
 
 
 def _set_cast(show_info, list_item):
+    # type: (dict, ListItem) -> ListItem
     """Extract cast from show info dict"""
     cast = []
     for index, item in enumerate(show_info['_embedded']['cast'], 1):
@@ -90,6 +99,7 @@ def _set_cast(show_info, list_item):
 
 
 def _get_credits(show_info):
+    # type: (dict) -> list
     """Extract show creator(s) from show info"""
     credits = []
     for item in show_info['_embedded']['crew']:
