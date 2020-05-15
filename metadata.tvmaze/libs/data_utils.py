@@ -24,7 +24,7 @@ import six
 from .utils import safe_get
 
 try:
-    from typing import Optional
+    from typing import Optional, Text
     from xbmcgui import ListItem
 except ImportError:
     pass
@@ -68,7 +68,7 @@ def process_episode_list(show_info, episode_list):
 
 
 def _clean_plot(plot):
-    # type: (str) -> str
+    # type: (Text) -> Text
     """Replace HTML tags with Kodi skin tags"""
     for repl in CLEAN_PLOT_REPLACEMENTS:
         plot = plot.replace(repl[0], repl[1])
@@ -109,6 +109,7 @@ def _get_credits(show_info):
 
 
 def _set_unique_ids(show_info, list_item):
+    # type: (dict, ListItem) -> ListItem
     """Extract unique ID in various online databases"""
     unique_ids = {'tvmaze': str(show_info['id'])}
     for key, value in six.iteritems(safe_get(show_info, 'externals', {})):
@@ -120,6 +121,7 @@ def _set_unique_ids(show_info, list_item):
 
 
 def _set_rating(show_info, list_item):
+    # type: (dict, ListItem) -> ListItem
     """Set show rating"""
     if show_info['rating'] is not None and show_info['rating']['average'] is not None:
         rating = float(show_info['rating']['average'])
@@ -128,18 +130,20 @@ def _set_rating(show_info, list_item):
 
 
 def _extract_artwork_url(resolutions):
+    # type: (dict) -> Text
     """Extract image URL from the list of available resolutions"""
-    url = u''
+    url = ''
     for image_size in IMAGE_SIZES:
-        url = safe_get(resolutions, image_size, u'')
+        url = safe_get(resolutions, image_size, '')
         if not isinstance(url, six.text_type):
-            url = safe_get(url, 'url', u'')
+            url = safe_get(url, 'url', '')
             if url:
                 break
     return url
 
 
 def _add_season_info(show_info, list_item):
+    # type: (dict, ListItem) -> ListItem
     """Add info for show seasons"""
     for season in show_info['_embedded']['seasons']:
         list_item.addSeason(season['number'], safe_get(season, 'name', ''))
@@ -152,6 +156,7 @@ def _add_season_info(show_info, list_item):
 
 
 def set_show_artwork(show_info, list_item):
+    # type: (dict, ListItem) -> ListItem
     """Set available images for a show"""
     fanart_list = []
     for item in show_info['_embedded']['images']:
@@ -167,6 +172,7 @@ def set_show_artwork(show_info, list_item):
 
 
 def add_main_show_info(list_item, show_info, full_info=True):
+    # type: (dict, ListItem, bool) -> ListItem
     """Add main show info to a list item"""
     plot = _clean_plot(safe_get(show_info, 'summary', ''))
     video = {
@@ -182,7 +188,7 @@ def add_main_show_info(list_item, show_info, full_info=True):
     }
     if show_info['network'] is not None:
         country = show_info['network']['country']
-        video['studio'] = u'{0} ({1})'.format(show_info['network']['name'], country['code'])
+        video['studio'] = '{0} ({1})'.format(show_info['network']['name'], country['code'])
         video['country'] = country['name']
     elif show_info['webChannel'] is not None:
         video['studio'] = show_info['webChannel']['name']
@@ -190,7 +196,7 @@ def add_main_show_info(list_item, show_info, full_info=True):
         if show_info['webChannel']['country'] is not None:
             country = show_info['webChannel']['country']
             video['country'] = country['name']
-            video['studio'] += u' ({})'.format(country['code'])
+            video['studio'] += ' ({})'.format(country['code'])
     if show_info['premiered'] is not None:
         video['year'] = int(show_info['premiered'][:4])
         video['premiered'] = show_info['premiered']
@@ -212,6 +218,7 @@ def add_main_show_info(list_item, show_info, full_info=True):
 
 
 def add_episode_info(list_item, episode_info, full_info=True):
+    # type: (ListItem, dict, bool) -> ListItem
     """Add episode info to a list item"""
     video = {
         'title': episode_info['name'],
@@ -239,6 +246,7 @@ def add_episode_info(list_item, episode_info, full_info=True):
 
 
 def parse_nfo_url(nfo):
+    # type: (Text) -> Optional[UrlParseResult]
     """Extract show ID from NFO file contents"""
     for regexp in SHOW_ID_REGEXPS:
         show_id_match = re.search(regexp, nfo, re.I)

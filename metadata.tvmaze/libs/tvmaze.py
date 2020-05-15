@@ -17,12 +17,18 @@
 
 """Functions to interact with TVmaze API"""
 
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 from pprint import pformat
 from requests.exceptions import HTTPError
 from . import cache
 from .utils import get_requests_session, get_cache_directory, logger, safe_get
 from .data_utils import process_episode_list
+
+try:
+    from typing import Text, Optional, Union, List
+    import requests
+except ImportError:
+    pass
 
 SEARCH_URL = 'http://api.tvmaze.com/search/shows'
 SEARCH_BU_EXTERNAL_ID_URL = 'http://api.tvmaze.com/lookup/shows'
@@ -30,11 +36,12 @@ SHOW_INFO_URL = 'http://api.tvmaze.com/shows/{}'
 EPISODE_LIST_URL = 'http://api.tvmaze.com/shows/{}/episodes'
 EPISODE_INFO_URL = 'http://api.tvmaze.com/episodes/{}'
 
-SESSION = get_requests_session()
-CACHE_DIR = get_cache_directory()
+SESSION = get_requests_session()  # type: requests.Session
+CACHE_DIR = get_cache_directory()  # type: Text
 
 
 def _load_info(url, params=None):
+    # type: (Text, Optional[dict]) -> Union[dict, list]
     """
     Load info from TVmaze
 
@@ -53,6 +60,7 @@ def _load_info(url, params=None):
 
 
 def search_show(title):
+    # type: (Text) -> list
     """
     Search a single TV show
 
@@ -63,10 +71,11 @@ def search_show(title):
         return _load_info(SEARCH_URL, {'q': title})
     except HTTPError as exc:
         logger.error('TVmaze returned an error: {}'.format(exc))
-        return ()
+        return []
 
 
 def filter_by_year(shows, year):
+    # type: (List[dict], Text) -> Optional[dict]
     """
     Filter a show by year
 
@@ -82,16 +91,18 @@ def filter_by_year(shows, year):
 
 
 def load_episode_list(show_id):
+    # type: (Text) -> list
     """Load episode list from TVmaze API"""
     episode_list_url = EPISODE_LIST_URL.format(show_id)
     try:
         return _load_info(episode_list_url, {'specials': '1'})
     except HTTPError as exc:
         logger.error('TVmaze returned an error: {}'.format(exc))
-        return ()
+        return []
 
 
 def load_show_info(show_id):
+    # type: (Text) -> Optional[dict]
     """
     Get full info for a single show
 
@@ -117,6 +128,7 @@ def load_show_info(show_id):
 
 
 def load_show_info_by_external_id(provider, show_id):
+    # type: (Text, Text) -> Optional[dict]
     """
     Load show info by external ID (TheTVDB or IMDB)
 
@@ -133,6 +145,7 @@ def load_show_info_by_external_id(provider, show_id):
 
 
 def load_episode_info(show_id, episode_id):
+    # type: (Text, Text) -> Optional[dict]
     """
     Load episode info
 

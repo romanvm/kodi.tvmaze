@@ -17,18 +17,18 @@
 
 """Cache-related functionality"""
 
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 import os
 from datetime import datetime, timedelta
 from six.moves import cPickle as pickle
 from .utils import get_cache_directory, logger
 
 try:
-    from typing import Optional
+    from typing import Optional, Text
 except ImportError:
     pass
 
-CACHE_DIR = get_cache_directory()  # type: str
+CACHE_DIR = get_cache_directory()  # type: Text
 CACHING_DURATION = timedelta(hours=3)  # type: timedelta
 
 
@@ -47,7 +47,7 @@ def cache_show_info(show_info):
 
 
 def load_show_info_from_cache(show_id):
-    # type: (str) -> Optional[dict]
+    # type: (Text) -> Optional[dict]
     """
     Load show info from a local cache
 

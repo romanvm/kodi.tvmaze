@@ -17,13 +17,18 @@
 
 """Misc utils"""
 
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 import os
 from requests.sessions import Session
-from six import PY2, text_type
+from six import PY2, text_type, binary_type
 import xbmc
 from xbmcaddon import Addon
 import xbmcvfs
+
+try:
+    from typing import Text, Optional, Any
+except ImportError:
+    pass
 
 HEADERS = (
     ('User-Agent', 'Kodi scraper for tvmaze.com by Roman V.M.; roman1972@gmail.com'),
@@ -39,25 +44,32 @@ class logger:
 
     @staticmethod
     def log(message, level=xbmc.LOGDEBUG):
+        # type: (Text, int) -> None
+        if isinstance(message, binary_type):
+            message = message.decode('utf-8')
+        message = logger.log_message_prefix + message
         if PY2 and isinstance(message, text_type):
             message = message.encode('utf-8')
-        message = logger.log_message_prefix + message
         xbmc.log(message, level)
 
     @staticmethod
     def notice(message):
+        # type: (Text) -> None
         logger.log(message, xbmc.LOGNOTICE)
 
     @staticmethod
     def error(message):
+        # type: (Text) -> None
         logger.log(message, xbmc.LOGERROR)
 
     @staticmethod
     def debug(message):
+        # type: (Text) -> None
         logger.log(message, xbmc.LOGDEBUG)
 
 
 def get_requests_session():
+    # type: () -> Session
     """Create requests Session"""
     session = Session()
     session.headers.update(dict(HEADERS))
@@ -65,6 +77,7 @@ def get_requests_session():
 
 
 def get_cache_directory():
+    # type: () -> Text
     profile_dir = xbmc.translatePath(ADDON.getAddonInfo('profile'))
     if PY2:
         profile_dir = profile_dir.decode('utf-8')
@@ -75,6 +88,7 @@ def get_cache_directory():
 
 
 def safe_get(dct, key, default=None):
+    # type: (dict, Text, Optional[Any]) -> Optional[Any]
     """
     Get a key from dict
 

@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 import inspect
 from contextlib import contextmanager
 from platform import uname
@@ -24,8 +24,14 @@ import six
 import xbmc
 from .utils import logger
 
+try:
+    from typing import Text, Generator, Callable
+except ImportError:
+    pass
+
 
 def _format_vars(variables):
+    # type: (dict) -> Text
     """
     Format variables dictionary
 
@@ -45,6 +51,7 @@ def _format_vars(variables):
 
 @contextmanager
 def debug_exception(logger_func=logger.error):
+    # type: (Callable[[Text], None]) -> Generator[None]
     """
     Diagnostic helper context manager
 
