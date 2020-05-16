@@ -25,6 +25,8 @@ from libs import actions, cache  # pylint: disable=wrong-import-position
 
 cache.cache_show_info = lambda _: None
 cache.load_show_info_from_cache = lambda _: None
+cache.save_id_mapping = lambda _: None
+cache.get_tvmaze_id_by_tvdb_id = lambda _: None
 
 
 @pytest.mark.usefixtures('mock_response')

@@ -26,7 +26,7 @@ import xbmcplugin
 from six import itervalues
 from six.moves import urllib_parse
 
-from . import tvmaze, data_utils
+from . import tvmaze, data_utils, cache
 from .utils import logger
 
 try:
@@ -171,12 +171,18 @@ def get_artwork(show_id):
     """
     logger.debug('Getting artwork for show ID {}'.format(show_id))
     show_info = tvmaze.load_show_info(show_id)
-    if show_info is not None:
-        list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
-        list_item = data_utils.set_show_artwork(show_info, list_item)
-        xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
-    else:
-        xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
+    if show_info is None:
+        # A workaround for a bug when a TheTVDB ID from an NFO file is passed here
+        tvmaze_id = cache.get_tvmaze_id_by_tvdb_id(show_id)
+        if tvmaze_id is not None:
+            show_info = tvmaze.load_show_info(tvmaze_id)
+        if show_info is None:
+            logger.error('Unable to load artwork by show ID {}'.format(show_id))
+            xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
+            return
+    list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
+    list_item = data_utils.set_show_artwork(show_info, list_item)
+    xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
 
 
 def router(paramstring):

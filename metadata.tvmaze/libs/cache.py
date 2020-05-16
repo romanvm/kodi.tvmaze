@@ -27,15 +27,16 @@ from six.moves import cPickle as pickle
 import xbmc
 import xbmcvfs
 
-from .utils import ADDON, logger
+from .utils import ADDON, logger, safe_get
 
 try:
-    from typing import Optional, Text, Dict, Any  # pylint: disable=unused-import
+    from typing import Optional, Text, Dict, Any, Union  # pylint: disable=unused-import
+    InfoType = Dict[Text, Any]  # pylint: disable=invalid-name
 except ImportError:
     pass
 
 
-CACHING_DURATION = timedelta(hours=3)  # type: timedelta
+CACHING_DURATION = timedelta(hours=3)
 
 
 def _get_cache_directory():  # pylint: disable=missing-docstring
@@ -49,11 +50,12 @@ def _get_cache_directory():  # pylint: disable=missing-docstring
     return cache_dir
 
 
-CACHE_DIR = _get_cache_directory()  # type: Text
+CACHE_DIR = _get_cache_directory()
+ID_MAP_FILE = os.path.join(CACHE_DIR, 'id-map.pickle')
 
 
 def cache_show_info(show_info):
-    # type: (Dict[Text, Any]) -> None
+    # type: (InfoType) -> None
     """
     Save show_info dict to cache
     """
@@ -67,7 +69,7 @@ def cache_show_info(show_info):
 
 
 def load_show_info_from_cache(show_id):
-    # type: (Text) -> Optional[Dict[Text, Any]]
+    # type: (Union[Text, int]) -> Optional[InfoType]
     """
     Load show info from a local cache
 
@@ -84,3 +86,46 @@ def load_show_info_from_cache(show_id):
     except (IOError, pickle.PickleError) as exc:
         logger.debug('Cache error: {} {}'.format(type(exc), exc))
         return None
+
+
+def save_id_mapping(show_info):
+    # type: (InfoType) -> None
+    """
+    Save a mapping TheTVDB ID -> TVmaze ID
+
+    :param show_info: show info dict
+    """
+    externals = safe_get(show_info, 'externals', {})
+    tvdb_id = externals.get('thetvdb')
+    if tvdb_id is not None:
+        tvdb_id = int(tvdb_id)
+        try:
+            with open(ID_MAP_FILE, 'rb') as fo:
+                id_map = pickle.load(fo)  # type: Dict[int, int]
+        except (IOError, pickle.PickleError) as exc:
+            logger.error('Error loading ID map: {} {}'.format(type(exc), exc))
+            id_map = {}
+        if tvdb_id not in id_map:
+            id_map[tvdb_id] = int(show_info['id'])
+            try:
+                with open(ID_MAP_FILE, 'wb') as fo:
+                    pickle.dump(id_map, fo, protocol=2)
+            except (IOError, pickle.PickleError) as exc:
+                logger.error('Error saving ID map: {} {}'.format(type(exc), exc))
+
+
+def get_tvmaze_id_by_tvdb_id(tvdb_id):
+    # type: (Union[Text, int]) -> Optional[int]
+    """
+    Get a TVmaze show ID by the corresponding TheTVDB ID
+
+    :param tvdb_id:
+    :return: TVmaze ID
+    """
+    try:
+        with open(ID_MAP_FILE, 'rb') as fo:
+            id_map = pickle.load(fo)  # type: Dict[int, int]
+    except (IOError, pickle.PickleError) as exc:
+        logger.error('Error saving ID map: {} {}'.format(type(exc), exc))
+        return None
+    return id_map.get(int(tvdb_id))

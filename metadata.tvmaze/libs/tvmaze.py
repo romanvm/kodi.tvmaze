@@ -99,7 +99,7 @@ def filter_by_year(shows, year):
 
 
 def load_episode_list(show_id):
-    # type: (Text) -> List[InfoType]
+    # type: (Union[Text, int]) -> List[InfoType]
     """Load episode list from TVmaze API"""
     episode_list_url = EPISODE_LIST_URL.format(show_id)
     try:
@@ -110,7 +110,7 @@ def load_episode_list(show_id):
 
 
 def load_show_info(show_id):
-    # type: (Text) -> Optional[InfoType]
+    # type: (Union[Text, int]) -> Optional[InfoType]
     """
     Get full info for a single show
 
@@ -132,11 +132,12 @@ def load_show_info(show_id):
                                                   reverse=True)
         process_episode_list(show_info, episode_list)
         cache.cache_show_info(show_info)
+    cache.save_id_mapping(show_info)
     return show_info
 
 
 def load_show_info_by_external_id(provider, show_id):
-    # type: (Text, Text) -> Optional[InfoType]
+    # type: (Text, Union[Text, int]) -> Optional[InfoType]
     """
     Load show info by external ID (TheTVDB or IMDB)
 
@@ -146,14 +147,16 @@ def load_show_info_by_external_id(provider, show_id):
     """
     query = {provider: show_id}
     try:
-        return _load_info(SEARCH_BU_EXTERNAL_ID_URL, query)
+        show_info = _load_info(SEARCH_BU_EXTERNAL_ID_URL, query)
+        cache.save_id_mapping(show_info)
+        return show_info
     except HTTPError as exc:
         logger.error('TVmaze returned an error: {}'.format(exc))
         return None
 
 
 def load_episode_info(show_id, episode_id):
-    # type: (Text, Text) -> Optional[InfoType]
+    # type: (Union[Text, int], Union[Text, int]) -> Optional[InfoType]
     """
     Load episode info
 
