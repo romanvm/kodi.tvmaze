@@ -28,9 +28,9 @@ from .data_utils import process_episode_list
 from .utils import get_requests_session, get_cache_directory, logger, safe_get
 
 try:
-    from typing import Text, Optional, Union, List, Dict, Any
-    import requests
-    InfoType = Dict[Text, Any]
+    from typing import Text, Optional, Union, List, Dict, Any  # pylint: disable=unused-import
+    import requests  # pylint: disable=unused-import
+    InfoType = Dict[Text, Any]  # pylint: disable=invalid-name
 except ImportError:
     pass
 
@@ -45,7 +45,7 @@ CACHE_DIR = get_cache_directory()  # type: Text
 
 
 def _load_info(url, params=None):
-    # type: (Text, Optional[Dict[Text, Text]]) -> Union[dict, list]
+    # type: (Text, Optional[Dict[Text, Union[Text, List[Text]]]]) -> Union[dict, list]
     """
     Load info from TVmaze
 

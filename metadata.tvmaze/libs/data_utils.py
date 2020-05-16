@@ -27,9 +27,9 @@ import six
 from .utils import safe_get
 
 try:
-    from typing import Optional, Text, Dict, List, Any
-    from xbmcgui import ListItem
-    InfoType = Dict[Text, Any]
+    from typing import Optional, Text, Dict, List, Any  # pylint: disable=unused-import
+    from xbmcgui import ListItem  # pylint: disable=unused-import
+    InfoType = Dict[Text, Any]  # pylint: disable=invalid-name
 except ImportError:
     pass
 
@@ -105,11 +105,11 @@ def _set_cast(show_info, list_item):
 def _get_credits(show_info):
     # type: (InfoType) -> List[Text]
     """Extract show creator(s) from show info"""
-    credits = []
+    credits_ = []
     for item in show_info['_embedded']['crew']:
         if item['type'].lower() == 'creator':
-            credits.append(item['person']['name'])
-    return credits
+            credits_.append(item['person']['name'])
+    return credits_
 
 
 def _set_unique_ids(show_info, list_item):

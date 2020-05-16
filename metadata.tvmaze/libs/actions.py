@@ -30,7 +30,7 @@ from . import tvmaze, data_utils
 from .utils import logger
 
 try:
-    from typing import Optional, Text
+    from typing import Optional, Text  # pylint: disable=unused-import
 except ImportError:
     pass
 
@@ -108,7 +108,7 @@ def get_details(show_id):
         xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
 
 
-def get_episode_list(show_id):
+def get_episode_list(show_id):  # pylint: disable=missing-docstring
     # type: (Text) -> None
     logger.debug('Getting episode list for show id {}'.format(show_id))
     if not show_id.isdigit():
@@ -146,7 +146,7 @@ def get_episode_list(show_id):
             )
 
 
-def get_episode_details(encoded_ids):
+def get_episode_details(encoded_ids):  # pylint: disable=missing-docstring
     # type: (Text) -> None
     encoded_ids = urllib_parse.unquote(encoded_ids)
     decoded_ids = dict(urllib_parse.parse_qsl(encoded_ids))

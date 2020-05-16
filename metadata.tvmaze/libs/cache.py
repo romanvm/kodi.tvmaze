@@ -27,7 +27,7 @@ from six.moves import cPickle as pickle
 from .utils import get_cache_directory, logger
 
 try:
-    from typing import Optional, Text, Dict, Any
+    from typing import Optional, Text, Dict, Any  # pylint: disable=unused-import
 except ImportError:
     pass
 

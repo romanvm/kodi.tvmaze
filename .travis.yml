@@ -8,6 +8,7 @@ matrix:
       install:
         - pip install -q -r requirements.txt
       script:
+        - pylint metadata.tvmaze/libs metadata.tvmaze/main.py
         - pytest
 
     - python: "3.6"

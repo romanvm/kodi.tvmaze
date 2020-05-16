@@ -28,7 +28,7 @@ from six import PY2, text_type, binary_type
 from xbmcaddon import Addon
 
 try:
-    from typing import Text, Optional, Any
+    from typing import Text, Optional, Any, Dict  # pylint: disable=unused-import
 except ImportError:
     pass
 
@@ -41,7 +41,7 @@ ADDON_ID = 'metadata.tvmaze'
 ADDON = Addon()
 
 
-class logger:
+class logger:  # pylint: disable=invalid-name,old-style-class,no-init,missing-docstring
     log_message_prefix = '[{} ({})]: '.format(ADDON_ID, ADDON.getAddonInfo('version'))
 
     @staticmethod
@@ -78,7 +78,7 @@ def get_requests_session():
     return session
 
 
-def get_cache_directory():
+def get_cache_directory():  # pylint: disable=missing-docstring
     # type: () -> Text
     profile_dir = xbmc.translatePath(ADDON.getAddonInfo('profile'))
     if PY2:
@@ -90,7 +90,7 @@ def get_cache_directory():
 
 
 def safe_get(dct, key, default=None):
-    # type: (dict, Text, Optional[Any]) -> Optional[Any]
+    # type: (Dict[Text, Any], Text, Any) -> Any
     """
     Get a key from dict
 
