@@ -24,7 +24,7 @@ from six.moves import cPickle as pickle
 from .utils import get_cache_directory, logger
 
 try:
-    from typing import Optional, Text
+    from typing import Optional, Text, Dict, Any
 except ImportError:
     pass
 
@@ -33,7 +33,7 @@ CACHING_DURATION = timedelta(hours=3)  # type: timedelta
 
 
 def cache_show_info(show_info):
-    # type: (dict) -> None
+    # type: (Dict[Text, Any]) -> None
     """
     Save show_info dict to cache
     """
@@ -47,7 +47,7 @@ def cache_show_info(show_info):
 
 
 def load_show_info_from_cache(show_id):
-    # type: (Text) -> Optional[dict]
+    # type: (Text) -> Optional[Dict[Text, Any]]
     """
     Load show info from a local cache
 

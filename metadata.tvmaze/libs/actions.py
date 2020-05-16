@@ -35,7 +35,7 @@ HANDLE = int(sys.argv[1])  # type: int
 
 
 def find_show(title, year=None):
-    # type: (str, Optional[Text]) -> None
+    # type: (Text, Optional[Text]) -> None
     """Find a show by title"""
     logger.debug('Searching for TV show {} ({})'.format(title, year))
     search_results = tvmaze.search_show(title)

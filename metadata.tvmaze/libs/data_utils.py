@@ -24,8 +24,9 @@ import six
 from .utils import safe_get
 
 try:
-    from typing import Optional, Text
+    from typing import Optional, Text, Dict, List, Any
     from xbmcgui import ListItem
+    InfoType = Dict[Text, Any]
 except ImportError:
     pass
 
@@ -50,7 +51,7 @@ UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
 
 
 def process_episode_list(show_info, episode_list):
-    # type: (dict, list) -> None
+    # type: (InfoType, List[InfoType]) -> None
     """Convert embedded episode list to a dict"""
     episodes = OrderedDict()
     specials_list = []
@@ -77,7 +78,7 @@ def _clean_plot(plot):
 
 
 def _set_cast(show_info, list_item):
-    # type: (dict, ListItem) -> ListItem
+    # type: (InfoType, ListItem) -> ListItem
     """Extract cast from show info dict"""
     cast = []
     for index, item in enumerate(show_info['_embedded']['cast'], 1):
@@ -99,7 +100,7 @@ def _set_cast(show_info, list_item):
 
 
 def _get_credits(show_info):
-    # type: (dict) -> list
+    # type: (InfoType) -> List[Text]
     """Extract show creator(s) from show info"""
     credits = []
     for item in show_info['_embedded']['crew']:
@@ -109,7 +110,7 @@ def _get_credits(show_info):
 
 
 def _set_unique_ids(show_info, list_item):
-    # type: (dict, ListItem) -> ListItem
+    # type: (InfoType, ListItem) -> ListItem
     """Extract unique ID in various online databases"""
     unique_ids = {'tvmaze': str(show_info['id'])}
     for key, value in six.iteritems(safe_get(show_info, 'externals', {})):
@@ -121,7 +122,7 @@ def _set_unique_ids(show_info, list_item):
 
 
 def _set_rating(show_info, list_item):
-    # type: (dict, ListItem) -> ListItem
+    # type: (InfoType, ListItem) -> ListItem
     """Set show rating"""
     if show_info['rating'] is not None and show_info['rating']['average'] is not None:
         rating = float(show_info['rating']['average'])
@@ -130,7 +131,7 @@ def _set_rating(show_info, list_item):
 
 
 def _extract_artwork_url(resolutions):
-    # type: (dict) -> Text
+    # type: (Dict[Text, Text]) -> Text
     """Extract image URL from the list of available resolutions"""
     url = ''
     for image_size in IMAGE_SIZES:
@@ -143,7 +144,7 @@ def _extract_artwork_url(resolutions):
 
 
 def _add_season_info(show_info, list_item):
-    # type: (dict, ListItem) -> ListItem
+    # type: (InfoType, ListItem) -> ListItem
     """Add info for show seasons"""
     for season in show_info['_embedded']['seasons']:
         list_item.addSeason(season['number'], safe_get(season, 'name', ''))
@@ -156,7 +157,7 @@ def _add_season_info(show_info, list_item):
 
 
 def set_show_artwork(show_info, list_item):
-    # type: (dict, ListItem) -> ListItem
+    # type: (InfoType, ListItem) -> ListItem
     """Set available images for a show"""
     fanart_list = []
     for item in show_info['_embedded']['images']:
@@ -172,7 +173,7 @@ def set_show_artwork(show_info, list_item):
 
 
 def add_main_show_info(list_item, show_info, full_info=True):
-    # type: (dict, ListItem, bool) -> ListItem
+    # type: (ListItem, InfoType, bool) -> ListItem
     """Add main show info to a list item"""
     plot = _clean_plot(safe_get(show_info, 'summary', ''))
     video = {
@@ -218,7 +219,7 @@ def add_main_show_info(list_item, show_info, full_info=True):
 
 
 def add_episode_info(list_item, episode_info, full_info=True):
-    # type: (ListItem, dict, bool) -> ListItem
+    # type: (ListItem, InfoType, bool) -> ListItem
     """Add episode info to a list item"""
     video = {
         'title': episode_info['name'],

@@ -25,8 +25,9 @@ from .utils import get_requests_session, get_cache_directory, logger, safe_get
 from .data_utils import process_episode_list
 
 try:
-    from typing import Text, Optional, Union, List
+    from typing import Text, Optional, Union, List, Dict, Any
     import requests
+    InfoType = Dict[Text, Any]
 except ImportError:
     pass
 
@@ -41,7 +42,7 @@ CACHE_DIR = get_cache_directory()  # type: Text
 
 
 def _load_info(url, params=None):
-    # type: (Text, Optional[dict]) -> Union[dict, list]
+    # type: (Text, Optional[Dict[Text, Text]]) -> Union[dict, list]
     """
     Load info from TVmaze
 
@@ -60,7 +61,7 @@ def _load_info(url, params=None):
 
 
 def search_show(title):
-    # type: (Text) -> list
+    # type: (Text) -> List[InfoType]
     """
     Search a single TV show
 
@@ -75,7 +76,7 @@ def search_show(title):
 
 
 def filter_by_year(shows, year):
-    # type: (List[dict], Text) -> Optional[dict]
+    # type: (List[InfoType], Text) -> Optional[InfoType]
     """
     Filter a show by year
 
@@ -91,7 +92,7 @@ def filter_by_year(shows, year):
 
 
 def load_episode_list(show_id):
-    # type: (Text) -> list
+    # type: (Text) -> List[InfoType]
     """Load episode list from TVmaze API"""
     episode_list_url = EPISODE_LIST_URL.format(show_id)
     try:
@@ -102,7 +103,7 @@ def load_episode_list(show_id):
 
 
 def load_show_info(show_id):
-    # type: (Text) -> Optional[dict]
+    # type: (Text) -> Optional[InfoType]
     """
     Get full info for a single show
 
@@ -128,7 +129,7 @@ def load_show_info(show_id):
 
 
 def load_show_info_by_external_id(provider, show_id):
-    # type: (Text, Text) -> Optional[dict]
+    # type: (Text, Text) -> Optional[InfoType]
     """
     Load show info by external ID (TheTVDB or IMDB)
 
@@ -145,7 +146,7 @@ def load_show_info_by_external_id(provider, show_id):
 
 
 def load_episode_info(show_id, episode_id):
-    # type: (Text, Text) -> Optional[dict]
+    # type: (Text, Text) -> Optional[InfoType]
     """
     Load episode info
 

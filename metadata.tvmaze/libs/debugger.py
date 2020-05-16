@@ -25,13 +25,13 @@ import xbmc
 from .utils import logger
 
 try:
-    from typing import Text, Generator, Callable
+    from typing import Text, Generator, Callable, Dict, Any
 except ImportError:
     pass
 
 
 def _format_vars(variables):
-    # type: (dict) -> Text
+    # type: (Dict[Text, Any]) -> Text
     """
     Format variables dictionary
 
