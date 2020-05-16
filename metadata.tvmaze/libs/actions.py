@@ -18,11 +18,14 @@
 """Plugin route actions"""
 
 from __future__ import absolute_import, unicode_literals
+
 import sys
-from six import itervalues
-from six.moves import urllib_parse
+
 import xbmcgui
 import xbmcplugin
+from six import itervalues
+from six.moves import urllib_parse
+
 from . import tvmaze, data_utils
 from .utils import logger
 

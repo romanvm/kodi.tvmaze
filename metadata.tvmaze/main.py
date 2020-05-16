@@ -16,7 +16,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from __future__ import absolute_import
+
 import sys
+
 from libs.actions import router
 from libs.debugger import debug_exception
 

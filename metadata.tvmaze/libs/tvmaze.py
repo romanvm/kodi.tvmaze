@@ -18,11 +18,14 @@
 """Functions to interact with TVmaze API"""
 
 from __future__ import absolute_import, unicode_literals
+
 from pprint import pformat
+
 from requests.exceptions import HTTPError
+
 from . import cache
-from .utils import get_requests_session, get_cache_directory, logger, safe_get
 from .data_utils import process_episode_list
+from .utils import get_requests_session, get_cache_directory, logger, safe_get
 
 try:
     from typing import Text, Optional, Union, List, Dict, Any

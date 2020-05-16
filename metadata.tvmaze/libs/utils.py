@@ -18,12 +18,14 @@
 """Misc utils"""
 
 from __future__ import absolute_import, unicode_literals
+
 import os
+
+import xbmc
+import xbmcvfs
 from requests.sessions import Session
 from six import PY2, text_type, binary_type
-import xbmc
 from xbmcaddon import Addon
-import xbmcvfs
 
 try:
     from typing import Text, Optional, Any

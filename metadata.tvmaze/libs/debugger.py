@@ -16,12 +16,15 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from __future__ import absolute_import, unicode_literals
+
 import inspect
 from contextlib import contextmanager
 from platform import uname
 from pprint import pformat
+
 import six
 import xbmc
+
 from .utils import logger
 
 try:

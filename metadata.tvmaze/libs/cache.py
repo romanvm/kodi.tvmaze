@@ -18,9 +18,12 @@
 """Cache-related functionality"""
 
 from __future__ import absolute_import, unicode_literals
+
 import os
 from datetime import datetime, timedelta
+
 from six.moves import cPickle as pickle
+
 from .utils import get_cache_directory, logger
 
 try:
