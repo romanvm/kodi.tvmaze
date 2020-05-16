@@ -19,11 +19,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
-import os
-
 import xbmc
-import xbmcvfs
-from requests.sessions import Session
 from six import PY2, text_type, binary_type
 from xbmcaddon import Addon
 
@@ -31,11 +27,6 @@ try:
     from typing import Text, Optional, Any, Dict  # pylint: disable=unused-import
 except ImportError:
     pass
-
-HEADERS = (
-    ('User-Agent', 'Kodi scraper for tvmaze.com by Roman V.M.; roman1972@gmail.com'),
-    ('Accept', 'application/json'),
-)
 
 ADDON_ID = 'metadata.tvmaze'
 ADDON = Addon()
@@ -68,25 +59,6 @@ class logger:  # pylint: disable=invalid-name,old-style-class,no-init,missing-do
     def debug(message):
         # type: (Text) -> None
         logger.log(message, xbmc.LOGDEBUG)
-
-
-def get_requests_session():
-    # type: () -> Session
-    """Create requests Session"""
-    session = Session()
-    session.headers.update(dict(HEADERS))
-    return session
-
-
-def get_cache_directory():  # pylint: disable=missing-docstring
-    # type: () -> Text
-    profile_dir = xbmc.translatePath(ADDON.getAddonInfo('profile'))
-    if PY2:
-        profile_dir = profile_dir.decode('utf-8')
-    cache_dir = os.path.join(profile_dir, 'cache')
-    if not xbmcvfs.exists(cache_dir):
-        xbmcvfs.mkdir(cache_dir)
-    return cache_dir
 
 
 def safe_get(dct, key, default=None):

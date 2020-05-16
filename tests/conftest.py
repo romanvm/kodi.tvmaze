@@ -1,15 +1,17 @@
 # coding: utf-8
+# pylint: disable=missing-docstring
 from __future__ import absolute_import
 
-import os
 import json
+import os
+
 import mock
 import pytest
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-def get_url(url, params=None):
+def get_url(url, params=None):  # pylint: disable=unused-argument
     response = mock.Mock()
     response.ok = True
     if 'search/shows' in url:
@@ -29,3 +31,5 @@ def mock_response():
     patcher = mock.patch('libs.tvmaze.SESSION')
     session = patcher.start()
     session.get = get_url
+    yield
+    patcher.stop()

@@ -21,15 +21,15 @@ from __future__ import absolute_import, unicode_literals
 
 from pprint import pformat
 
+import requests
 from requests.exceptions import HTTPError
 
 from . import cache
 from .data_utils import process_episode_list
-from .utils import get_requests_session, get_cache_directory, logger, safe_get
+from .utils import logger, safe_get
 
 try:
     from typing import Text, Optional, Union, List, Dict, Any  # pylint: disable=unused-import
-    import requests  # pylint: disable=unused-import
     InfoType = Dict[Text, Any]  # pylint: disable=invalid-name
 except ImportError:
     pass
@@ -40,8 +40,12 @@ SHOW_INFO_URL = 'http://api.tvmaze.com/shows/{}'
 EPISODE_LIST_URL = 'http://api.tvmaze.com/shows/{}/episodes'
 EPISODE_INFO_URL = 'http://api.tvmaze.com/episodes/{}'
 
-SESSION = get_requests_session()  # type: requests.Session
-CACHE_DIR = get_cache_directory()  # type: Text
+HEADERS = (
+    ('User-Agent', 'Kodi scraper for tvmaze.com by Roman V.M.; roman1972@gmail.com'),
+    ('Accept', 'application/json'),
+)
+SESSION = requests.Session()
+SESSION.headers.update(dict(HEADERS))
 
 
 def _load_info(url, params=None):

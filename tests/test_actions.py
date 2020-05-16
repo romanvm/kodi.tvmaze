@@ -4,10 +4,13 @@ This module includes sanity tests for scraper actions
 
 The goal is to check for basic errors like typos and such.
 """
+# pylint: disable=missing-docstring
 from __future__ import absolute_import
+
 import io
 import os
 import sys
+
 import pytest
 from six.moves import urllib_parse
 
@@ -18,7 +21,7 @@ sys.path.append(PROJECT_DIR)
 
 sys.argv = ['plugin://metadata.tvmaze', '1', '']
 
-from libs import actions, cache
+from libs import actions, cache  # pylint: disable=wrong-import-position
 
 cache.cache_show_info = lambda _: None
 cache.load_show_info_from_cache = lambda _: None
