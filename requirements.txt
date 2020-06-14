@@ -1,6 +1,6 @@
-Kodistubs
+git+https://github.com/romanvm/Kodistubs.git@matrix
 six
 requests
 pytest
 mock
-pylint
+Pylint

@@ -109,3 +109,4 @@ venv.bak/
 *.exe
 *.bat
 *.cmd
+.venv3/
