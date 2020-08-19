@@ -19,6 +19,7 @@
 
 from __future__ import absolute_import, unicode_literals
 
+import io
 import json
 import os
 import time
@@ -62,7 +63,7 @@ def cache_show_info(show_info):
         'show_info': show_info,
         'timestamp': time.time(),
     }
-    with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
+    with io.open(os.path.join(CACHE_DIR, file_name), 'w', encoding='utf-8') as fo:
         json.dump(cache, fo)
 
 
@@ -76,7 +77,7 @@ def load_show_info_from_cache(show_id):
     """
     file_name = str(show_id) + '.json'
     try:
-        with open(os.path.join(CACHE_DIR, file_name), 'rb') as fo:
+        with io.open(os.path.join(CACHE_DIR, file_name), 'r', encoding='utf-8') as fo:
             cache = json.load(fo)
         if time.time() - cache['timestamp'] > CACHING_DURATION:
             return None
