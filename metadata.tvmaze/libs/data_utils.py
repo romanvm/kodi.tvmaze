@@ -62,14 +62,14 @@ def process_episode_list(show_info, episode_list):
         # xbmc/video/VideoInfoScanner.cpp ~ line 1010
         # "episode 0 with non-zero season is valid! (e.g. prequel episode)"
         if episode['number'] is not None:
-            episodes[episode['id']] = episode
+            episodes[str(episode['id'])] = episode  # JSON cache requires object keys as strings
         else:
             specials_list.append(episode)
     specials_list.sort(key=lambda ep: ep['airdate'])
     for ep_number, special in enumerate(specials_list, 1):
         special['season'] = 0
         special['number'] = ep_number
-        episodes[special['id']] = special
+        episodes[str(special['id'])] = special
     show_info['episodes'] = episodes
 
 
