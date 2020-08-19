@@ -15,7 +15,7 @@
     <description lang="en_GB">TVmaze is a free user driven TV database curated by TV lovers all over the world. You can track your favorite shows from anywhere.
 We provide an API that can be used by anyone or service like Kodi to retrieve TV Metadata, show/episode/cast images, and much more.</description>
     <platform>all</platform>
-    <license>GPL v3.0</license>
+    <license>GPL-3.0-or-later</license>
     <assets>
       <icon>resources/icon.png</icon>
       <fanart>resources/background.jpg</fanart>
