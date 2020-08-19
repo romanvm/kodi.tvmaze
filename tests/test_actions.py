@@ -9,7 +9,9 @@ from __future__ import absolute_import
 
 import io
 import os
+import shutil
 import sys
+import tempfile
 
 import pytest
 from six.moves import urllib_parse
@@ -23,8 +25,17 @@ sys.argv = ['plugin://metadata.tvmaze', '1', '']
 
 from libs import actions, cache  # pylint: disable=wrong-import-position
 
-cache.cache_show_info = lambda _: None
-cache.load_show_info_from_cache = lambda _: None
+
+def setup_module(module):
+    cache_dir = os.path.join(tempfile.gettempdir(), 'tvmaze-test')
+    if not os.path.exists(cache_dir):
+        os.mkdir(cache_dir)
+    cache.CACHE_DIR = cache_dir
+    module.addon_cache_dir = cache_dir
+
+
+def teardown_module(module):
+    shutil.rmtree(module.addon_cache_dir, ignore_errors=True)
 
 
 @pytest.mark.usefixtures('mock_response')
