@@ -164,7 +164,7 @@ def load_episode_info(show_id, episode_id):
     show_info = load_show_info(show_id)
     if show_info is not None:
         try:
-            episode_info = show_info['episodes'][str(episode_id)]
+            episode_info = show_info['episodes'][int(episode_id)]
         except KeyError:
             url = EPISODE_INFO_URL.format(episode_id)
             try:

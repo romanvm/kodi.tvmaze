@@ -19,11 +19,11 @@
 
 from __future__ import absolute_import, unicode_literals
 
-import json
 import os
-import time
+from datetime import datetime, timedelta
 
 from six import PY2
+from six.moves import cPickle as pickle
 import xbmc
 import xbmcvfs
 
@@ -35,7 +35,7 @@ except ImportError:
     pass
 
 
-CACHING_DURATION = 60 * 60 * 3
+CACHING_DURATION = timedelta(hours=3)  # type: timedelta
 
 
 def _get_cache_directory():  # pylint: disable=missing-docstring
@@ -57,13 +57,13 @@ def cache_show_info(show_info):
     """
     Save show_info dict to cache
     """
-    file_name = str(show_info['id']) + '.json'
+    file_name = str(show_info['id']) + '.pickle'
     cache = {
         'show_info': show_info,
-        'timestamp': time.time(),
+        'timestamp': datetime.now(),
     }
     with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
-        json.dump(cache, fo)
+        pickle.dump(cache, fo, protocol=2)
 
 
 def load_show_info_from_cache(show_id):
@@ -74,13 +74,13 @@ def load_show_info_from_cache(show_id):
     :param show_id: show ID on TVmaze
     :return: show_info dict or None
     """
-    file_name = str(show_id) + '.json'
+    file_name = str(show_id) + '.pickle'
     try:
         with open(os.path.join(CACHE_DIR, file_name), 'rb') as fo:
-            cache = json.load(fo)
-        if time.time() - cache['timestamp'] > CACHING_DURATION:
+            cache = pickle.load(fo)
+        if datetime.now() - cache['timestamp'] > CACHING_DURATION:
             return None
         return cache['show_info']
-    except (IOError, ValueError) as exc:
+    except (IOError, pickle.PickleError) as exc:
         logger.debug('Cache error: {} {}'.format(type(exc), exc))
         return None
