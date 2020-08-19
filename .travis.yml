@@ -9,7 +9,6 @@ matrix:
         - pip install -q -r requirements.txt
         - pip install -q git+https://github.com/romanvm/Kodistubs.git
       script:
-        - pylint metadata.tvmaze/libs metadata.tvmaze/main.py tests/conftest.py tests/test_actions.py
         - pytest -v
 
     - python: "3.6"
