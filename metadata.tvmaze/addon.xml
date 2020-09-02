@@ -26,12 +26,6 @@ We provide an API that can be used by anyone or service like Kodi to retrieve TV
 - Fixed a rare crash on some Python 3.x versions.
 
 1.0.4:
-- Fixed a crash with non-ASCII show title in Python 2
-
-1.0.3:
-- Fixed a crash with non-ASCII studio name.
-
-1.0.2:
-- Fixed a workaround for Kodi episodeguide URL bug.</news>
+- Fixed a crash with non-ASCII show title in Python 2</news>
   </extension>
 </addon>
