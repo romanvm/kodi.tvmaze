@@ -40,7 +40,7 @@ SHOW_ID_REGEXPS = (
     r'(thetvdb)\.com[\w=&\?/]+id=(\d+)',
     r'(imdb)\.com/[\w/\-]+/(tt\d+)',
 )
-SUPPORTED_ARTWORK_TYPES = {'poster', 'banner'}
+SUPPORTED_ARTWORK_TYPES = ('poster', 'banner')
 IMAGE_SIZES = ('large', 'original', 'medium')
 CLEAN_PLOT_REPLACEMENTS = (
     ('<b>', '[B]'),
