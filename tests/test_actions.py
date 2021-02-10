@@ -23,14 +23,14 @@ sys.path.append(PROJECT_DIR)
 
 sys.argv = ['plugin://metadata.tvmaze', '1', '']
 
-from libs import actions, cache  # pylint: disable=wrong-import-position
+from libs import actions, cache_service  # pylint: disable=wrong-import-position
 
 
 def setup_module(module):
     cache_dir = os.path.join(tempfile.gettempdir(), 'tvmaze-test')
     if not os.path.exists(cache_dir):
         os.mkdir(cache_dir)
-    cache.CACHE_DIR = cache_dir
+    cache_service.CACHE_DIR = cache_dir
     module.addon_cache_dir = cache_dir
 
 
