@@ -35,10 +35,10 @@ except ImportError:
 
 TAG_RE = re.compile(r'<[^>]+>')
 SHOW_ID_REGEXPS = (
-    r'(tvmaze)\.com/shows/(\d+)/[\w\-]',
-    r'(thetvdb)\.com/.*?series/(\d+)',
-    r'(thetvdb)\.com[\w=&\?/]+id=(\d+)',
-    r'(imdb)\.com/[\w/\-]+/(tt\d+)',
+    re.compile(r'(tvmaze)\.com/shows/(\d+)/[\w\-]', re.I),
+    re.compile(r'(thetvdb)\.com/.*?series/(\d+)', re.I),
+    re.compile(r'(thetvdb)\.com[\w=&\?/]+id=(\d+)', re.I),
+    re.compile(r'(imdb)\.com/[\w/\-]+/(tt\d+)', re.I),
 )
 SUPPORTED_ARTWORK_TYPES = ('poster', 'banner')
 IMAGE_SIZES = ('large', 'original', 'medium')
@@ -255,7 +255,7 @@ def parse_nfo_url(nfo):
     # type: (Text) -> Optional[UrlParseResult]
     """Extract show ID from NFO file contents"""
     for regexp in SHOW_ID_REGEXPS:
-        show_id_match = re.search(regexp, nfo, re.I)
+        show_id_match = regexp.search(nfo)
         if show_id_match:
             return UrlParseResult(show_id_match.group(1), show_id_match.group(2))
     return None
