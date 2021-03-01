@@ -35,7 +35,7 @@ except ImportError:
     pass
 
 
-CACHING_DURATION = timedelta(hours=3)  # type: timedelta
+CACHING_DURATION = timedelta(hours=1)  # type: timedelta
 
 
 def _get_cache_directory():  # pylint: disable=missing-docstring
