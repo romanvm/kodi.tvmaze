@@ -85,6 +85,6 @@ def load_show_info_from_cache(show_id):
         if datetime.now() - cache['timestamp'] > CACHING_DURATION:
             return None
         return cache['show_info']
-    except (IOError, pickle.PickleError) as exc:
+    except (IOError, EOFError, pickle.PickleError) as exc:
         logger.debug('Cache error: {} {}'.format(type(exc), exc))
         return None
