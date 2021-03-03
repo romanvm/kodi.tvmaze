@@ -24,8 +24,11 @@ from datetime import datetime, timedelta
 
 from six import PY2, PY3
 from six.moves import cPickle as pickle
-import xbmc
 import xbmcvfs
+try:
+    from xbmcvfs import translatePath
+except ImportError:
+    from xbmc import translatePath
 
 from .utils import ADDON, logger
 
@@ -40,7 +43,7 @@ CACHING_DURATION = timedelta(hours=1)  # type: timedelta
 
 def _get_cache_directory():  # pylint: disable=missing-docstring
     # type: () -> Text
-    profile_dir = xbmc.translatePath(ADDON.getAddonInfo('profile'))
+    profile_dir = translatePath(ADDON.getAddonInfo('profile'))
     if PY2:
         profile_dir = profile_dir.decode('utf-8')
     cache_dir = os.path.join(profile_dir, 'cache')
