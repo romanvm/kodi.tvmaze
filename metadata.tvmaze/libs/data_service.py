@@ -61,7 +61,7 @@ def process_episode_list(show_info, episode_list):
     for episode in episode_list:
         # xbmc/video/VideoInfoScanner.cpp ~ line 1010
         # "episode 0 with non-zero season is valid! (e.g. prequel episode)"
-        if episode['number'] is not None:
+        if episode['number'] is not None or episode.get('type') == 'significant_special':
             episodes[episode['id']] = episode
         else:
             specials_list.append(episode)
