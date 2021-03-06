@@ -28,7 +28,7 @@ def get_url(url, params=None):  # pylint: disable=unused-argument
 
 @pytest.fixture
 def mock_response():
-    patcher = mock.patch('libs.tvmaze.SESSION')
+    patcher = mock.patch('libs.tvmaze_api.SESSION')
     session = patcher.start()
     session.get = get_url
     yield
