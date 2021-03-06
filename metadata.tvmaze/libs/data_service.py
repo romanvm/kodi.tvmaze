@@ -194,7 +194,7 @@ def add_main_show_info(list_item, show_info, full_info=True):
     }
     if show_info['network'] is not None:
         country = show_info['network']['country']
-        video['studio'] = '{0} ({1})'.format(show_info['network']['name'], country['code'])
+        video['studio'] = '{} ({})'.format(show_info['network']['name'], country['code'])
         video['country'] = country['name']
     elif show_info['webChannel'] is not None:
         video['studio'] = show_info['webChannel']['name']
