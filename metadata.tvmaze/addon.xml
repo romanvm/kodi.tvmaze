@@ -23,10 +23,8 @@ We provide an API that can be used by anyone or service like Kodi to retrieve TV
     <website>https://www.tvmaze.com</website>
     <source>https://github.com/romanvm/kodi.tvmaze</source>
     <news>1.0.6:
+- Changed handling special episodes to match TVmaze website listings.
 - Fixed a crash on a corrupted cache file.
-- Improved crash logging.
-
-1.0.5:
-- Fixed a rare crash on some Python 3.x versions.</news>
+- Improved crash logging.</news>
   </extension>
 </addon>
