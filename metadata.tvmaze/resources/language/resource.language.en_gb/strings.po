@@ -20,17 +20,21 @@ msgid "Default"
 msgstr ""
 
 msgctxt "#32003"
-msgid "DVD Release"
+msgid "DVD/BluRay Release"
 msgstr ""
 
-msgctxt "#32004"
-msgid "Country Premiere"
+msgctxt "#32003"
+msgid "Verbatim"
 msgstr ""
 
 msgctxt "#32005"
-msgid "Streaming Premiere"
+msgid "Country Premiere"
 msgstr ""
 
 msgctxt "#32006"
+msgid "Streaming Premiere"
+msgstr ""
+
+msgctxt "#32007"
 msgid "Broadcast Premiere"
 msgstr ""

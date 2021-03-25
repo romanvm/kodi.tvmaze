@@ -47,6 +47,8 @@ def _get_cache_directory():  # pylint: disable=missing-docstring
     if PY2:
         profile_dir = profile_dir.decode('utf-8')
     cache_dir = os.path.join(profile_dir, 'cache')
+    if not xbmcvfs.exists(profile_dir):
+        xbmcvfs.mkdir(profile_dir)
     if not xbmcvfs.exists(cache_dir):
         xbmcvfs.mkdir(cache_dir)
     return cache_dir
