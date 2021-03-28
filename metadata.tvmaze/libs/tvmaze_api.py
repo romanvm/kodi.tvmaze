@@ -26,7 +26,7 @@ from requests.exceptions import HTTPError
 
 from . import cache_service
 from .data_service import process_episode_list
-from .utils import logger, safe_get
+from .utils import logger
 
 try:
     from typing import Text, Optional, Union, List, Dict, Any  # pylint: disable=unused-import
