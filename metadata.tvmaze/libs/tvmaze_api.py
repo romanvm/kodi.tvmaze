@@ -186,7 +186,7 @@ def _get_alternate_episode_list_id(show_id, episode_order):
         logger.error('TVmaze returned an error: {}'.format(exc))
     else:
         for episode_list in alternate_lists:
-            if episode_list.get(episode_order) is True:
+            if episode_list.get(episode_order):
                 alternate_order_id = episode_list['id']
                 break
     return alternate_order_id
