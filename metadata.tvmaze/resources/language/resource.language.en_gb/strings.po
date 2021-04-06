@@ -38,3 +38,7 @@ msgstr ""
 msgctxt "#32007"
 msgid "Broadcast Premiere"
 msgstr ""
+
+msgctxt "#32008"
+msgid "English Language Premiere"
+msgstr ""

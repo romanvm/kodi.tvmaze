@@ -38,6 +38,7 @@ EPISODE_ORDER_MAP = {
     3: 'country_premiere',
     4: 'streaming_premiere',
     5: 'broadcast_premiere',
+    6: 'language_premiere',
 }
 
 
