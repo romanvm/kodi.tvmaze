@@ -133,7 +133,7 @@ def get_episode_list(show_id, episode_order):  # pylint: disable=missing-docstri
     else:
         show_info = tvmaze_api.load_show_info(show_id, episode_order)
     if show_info is not None:
-        episode_list = show_info.get(episode_order) or show_info['episodes']
+        episode_list = show_info['episodes']
         for episode in six.itervalues(episode_list):
             list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
             list_item = data_service.add_episode_info(list_item, episode, full_info=False)

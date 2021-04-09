@@ -117,17 +117,15 @@ def load_show_info(show_id, episode_order):
             show_info['_embedded']['images'].sort(key=lambda img: img['main'],
                                                   reverse=True)
         processed_episodes = None
-        episodes_key = 'episodes'
         if episode_order != 'default':
             episode_list = load_alternate_episode_list(show_id, episode_order)
             if episode_list:
                 processed_episodes = process_episode_list(episode_list)
-                episodes_key = episode_order
         if processed_episodes is None:
             episode_list = load_episode_list(show_id)
             if episode_list:
                 processed_episodes = process_episode_list(episode_list)
-        show_info[episodes_key] = processed_episodes
+        show_info['episodes'] = processed_episodes
         cache_service.cache_show_info(show_info)
     return show_info
 
