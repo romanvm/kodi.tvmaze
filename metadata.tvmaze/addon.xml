@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="metadata.tvmaze"
   name="TVmaze"
-  version="1.0.6"
+  version="1.0.7"
   provider-name="Roman V.M.">
   <requires>
     <import addon="xbmc.python" version="2.26.0"/>

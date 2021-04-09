@@ -53,24 +53,24 @@ CLEAN_PLOT_REPLACEMENTS = (
 UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
 
 
-def process_episode_list(show_info, episode_list):
-    # type: (InfoType, List[InfoType]) -> None
+def process_episode_list(episode_list):
+    # type: (List[InfoType]) -> Dict[int, InfoType]
     """Convert embedded episode list to a dict"""
-    episodes = OrderedDict()
+    processed_episodes = OrderedDict()
     specials_list = []
     for episode in episode_list:
         # xbmc/video/VideoInfoScanner.cpp ~ line 1010
         # "episode 0 with non-zero season is valid! (e.g. prequel episode)"
         if episode['number'] is not None or episode.get('type') == 'significant_special':
-            episodes[episode['id']] = episode
+            processed_episodes[episode['id']] = episode
         else:
             specials_list.append(episode)
     specials_list.sort(key=lambda ep: ep['airdate'])
     for ep_number, special in enumerate(specials_list, 1):
         special['season'] = 0
         special['number'] = ep_number
-        episodes[special['id']] = special
-    show_info['episodes'] = episodes
+        processed_episodes[special['id']] = special
+    return processed_episodes
 
 
 def _clean_plot(plot):
@@ -258,4 +258,20 @@ def parse_nfo_url(nfo):
         show_id_match = regexp.search(nfo)
         if show_id_match:
             return UrlParseResult(show_id_match.group(1), show_id_match.group(2))
+    return None
+
+
+def filter_by_year(shows, year):
+    # type: (List[InfoType], Text) -> Optional[InfoType]
+    """
+    Filter a show by year
+
+    :param shows: the list of shows from TVmaze
+    :param year: premiere year
+    :return: a found show or None
+    """
+    for show in shows:
+        premiered = safe_get(show['show'], 'premiered', '')
+        if premiered and premiered.startswith(str(year)):
+            return show
     return None
