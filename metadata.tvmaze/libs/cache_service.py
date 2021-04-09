@@ -22,6 +22,7 @@ from __future__ import absolute_import, unicode_literals
 import io
 import json
 import os
+import sys
 import time
 from collections import OrderedDict
 
@@ -91,7 +92,7 @@ def load_show_info_from_cache(show_id):
                      encoding='utf-8') as fo:
             cache_json = fo.read()
         loads_kwargs = {}
-        if six.PY2:
+        if sys.version_info < (3, 6):
             loads_kwargs['object_pairs_hook'] = OrderedDict
         cache = json.loads(cache_json, **loads_kwargs)
         if time.time() - cache['timestamp'] > CACHING_DURATION:

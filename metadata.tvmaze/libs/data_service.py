@@ -20,6 +20,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import re
+import sys
 from collections import OrderedDict, namedtuple
 
 import six
@@ -56,7 +57,11 @@ UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
 def process_episode_list(episode_list):
     # type: (List[InfoType]) -> Dict[int, InfoType]
     """Convert embedded episode list to a dict"""
-    processed_episodes = OrderedDict()
+    if sys.version_info >= (3, 6):
+        ordered_dict_class = dict
+    else:
+        ordered_dict_class = OrderedDict
+    processed_episodes = ordered_dict_class()
     specials_list = []
     for episode in episode_list:
         # xbmc/video/VideoInfoScanner.cpp ~ line 1010
