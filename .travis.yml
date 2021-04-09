@@ -8,7 +8,6 @@ install:
   - pip install -q kodi-addon-checker
 script:
   - pylint metadata.tvmaze/libs metadata.tvmaze/main.py tests/conftest.py tests/test_actions.py
-  - pytest -v
   - kodi-addon-checker --branch $BRANCH $ADDON_ID
 before_deploy:
   - pip install -q git+https://github.com/romanvm/kodi-addon-submitter.git
