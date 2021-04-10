@@ -22,6 +22,7 @@ from __future__ import absolute_import, unicode_literals
 from pprint import pformat
 
 import requests
+import six
 from requests.exceptions import HTTPError
 
 from . import cache_service
@@ -161,8 +162,8 @@ def load_episode_info(show_id, episode_id, episode_order):
     show_info = load_show_info(show_id, episode_order)
     if show_info is not None:
         try:
-            episode_list = show_info.get(episode_order) or show_info['episodes']
-            episode_info = episode_list[int(episode_id)]
+            episode_list = show_info['episodes']
+            episode_info = episode_list[six.text_type(episode_id)]
         except KeyError:
             logger.debug('Unable to retrieve cached episode info')
     if episode_info is None:
