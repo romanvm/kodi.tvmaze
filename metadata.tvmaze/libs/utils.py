@@ -86,7 +86,7 @@ def safe_get(dct, key, default=None):
 def get_episode_order(path_settings):
     # type: (Dict[Text, Text]) -> Text
     episode_order_enum = path_settings.get('episode_order')
-    if not episode_order_enum:
-        episode_order_enum = int(ADDON.getSettingString('episode_order'))
+    if episode_order_enum is None:
+        episode_order_enum = int(ADDON.getSetting('episode_order'))
     episode_order = EPISODE_ORDER_MAP.get(episode_order_enum, 'default')
     return episode_order
