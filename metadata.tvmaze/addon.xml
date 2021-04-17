@@ -24,6 +24,7 @@ We provide an API that can be used by anyone or service like Kodi to retrieve TV
     <source>https://github.com/romanvm/kodi.tvmaze</source>
     <news>1.1.0:
 - Added support for alternative episode orders.
-- Fixed caching of downloaded show info.</news>
+- Fixed caching of downloaded show info.
+- Country codes are no longer added to studio names.</news>
   </extension>
 </addon>
