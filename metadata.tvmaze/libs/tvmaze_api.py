@@ -148,13 +148,15 @@ def load_show_info_by_external_id(provider, show_id):
         return None
 
 
-def load_episode_info(show_id, episode_id, episode_order):
-    # type: (Text, Text, Text) -> Optional[InfoType]
+def load_episode_info(show_id, episode_id, season, episode, episode_order):
+    # type: (Text, Text, Text, Text, Text) -> Optional[InfoType]
     """
     Load episode info
 
     :param show_id:
     :param episode_id:
+    :param season:
+    :param episode:
     :param episode_order:
     :return: episode info or None
     """
@@ -163,7 +165,8 @@ def load_episode_info(show_id, episode_id, episode_order):
     if show_info is not None:
         try:
             episode_list = show_info['episodes']
-            episode_info = episode_list[six.text_type(episode_id)]
+            key = '{}_{}_{}'.format(episode_id, season, episode)
+            episode_info = episode_list[key]
         except KeyError:
             logger.debug('Unable to retrieve cached episode info')
     if episode_info is None:

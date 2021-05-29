@@ -67,14 +67,18 @@ def process_episode_list(episode_list):
         # xbmc/video/VideoInfoScanner.cpp ~ line 1010
         # "episode 0 with non-zero season is valid! (e.g. prequel episode)"
         if episode['number'] is not None or episode.get('type') == 'significant_special':
-            processed_episodes[six.text_type(episode['id'])] = episode
+            # In some orders episodes with the same ID may occur more than once,
+            # so we need a unique key.
+            key = '{}_{}_{}'.format(episode['id'], episode['season'], episode['number'])
+            processed_episodes[key] = episode
         else:
             specials_list.append(episode)
     specials_list.sort(key=lambda ep: ep['airdate'])
     for ep_number, special in enumerate(specials_list, 1):
         special['season'] = 0
         special['number'] = ep_number
-        processed_episodes[six.text_type(special['id'])] = special
+        key = '{}_{}_{}'.format(special['id'], special['season'], special['number'])
+        processed_episodes[key] = special
     return processed_episodes
 
 
