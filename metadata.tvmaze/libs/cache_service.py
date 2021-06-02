@@ -36,7 +36,7 @@ except ImportError:
 from .utils import ADDON_ID, logger
 
 try:
-    from typing import Optional, Text, Dict, Any, Union, Optional  # pylint: disable=unused-import
+    from typing import Optional, Text, Dict, Any, Union  # pylint: disable=unused-import
 except ImportError:
     pass
 
@@ -44,7 +44,7 @@ except ImportError:
 EPISODES_CACHE_TTL = 60 * 10  # 10 minutes
 
 
-class MemoryCache(object):
+class MemoryCache(object):  # pylint: disable=useless-object-inheritance
     CACHE_KEY = '__tvmaze_scraper__'
 
     def __init__(self):
