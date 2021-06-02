@@ -112,11 +112,7 @@ def cache_show_info(show_info):
     Save show_info dict to cache
     """
     file_name = str(show_info['id']) + '.json'
-    cache = {
-        'show_info': show_info,
-        'timestamp': time.time(),
-    }
-    cache_json = json.dumps(cache)
+    cache_json = json.dumps(show_info)
     if isinstance(cache_json, six.text_type):
         cache_json = cache_json.encode('utf-8')
     with open(os.path.join(CACHE_DIR, file_name), 'wb') as fo:
@@ -136,9 +132,9 @@ def load_show_info_from_cache(show_id):
         with io.open(os.path.join(CACHE_DIR, file_name), 'r',
                      encoding='utf-8') as fo:
             cache_json = fo.read()
-        cache = json.loads(cache_json)
+        show_info = json.loads(cache_json)
         logger.debug('Show info cache hit')
-        return cache['show_info']
+        return show_info
     except (IOError, EOFError, ValueError) as exc:
         logger.debug('Cache error: {} {}'.format(type(exc), exc))
         return None
