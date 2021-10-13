@@ -28,7 +28,7 @@ jobs:
         pip install -q git+https://github.com/romanvm/kodi-addon-submitter.git
     - name: Submit addon
       run: |
-        submit-addon -r repo-scripts -b leia -m -s --pull-request metadata.tvmaze
+        submit-addon -r repo-scrapers -b leia -m -s --pull-request metadata.tvmaze
       env:
         GH_USERNAME: romanvm
         GH_TOKEN: ${{ secrets.gh_token }}
