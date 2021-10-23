@@ -31,6 +31,5 @@ def get_imdb_rating(imdb_id):
                 votes = aggregate_rating['ratingCount']
                 return {'rating': rating, 'votes': votes}
     logger.debug('Unable to get IMDB rating for ID {}. Status: {}, response: {}'.format(
-        imdb_id, response.status_code, response.text)
-    )
+        imdb_id, response.status_code, response.text))
     return None
