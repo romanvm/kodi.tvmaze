@@ -124,7 +124,7 @@ def _set_unique_ids(show_info, list_item):
     unique_ids = {'tvmaze': str(show_info['id'])}
     for key, value in six.iteritems(safe_get(show_info, 'externals', {})):
         if key == 'thetvdb':
-            key = key[3:]
+            key = 'tvdb'
         unique_ids[key] = str(value)
     list_item.setUniqueIDs(unique_ids, 'tvmaze')
     return list_item
