@@ -9,7 +9,7 @@
     <import addon="script.module.six" />
     <import addon="script.module.requests" />
   </requires>
-  <extension point="xbmc.metadata.scraper.tvshows" library="main.py" cachepersistence="48:00"/>
+  <extension point="xbmc.metadata.scraper.tvshows" library="main.py" cachepersistence="24:00"/>
   <extension point="xbmc.addon.metadata">
     <summary lang="en_GB">Fetch TV Show metadata from TVmaze.com</summary>
     <description lang="en_GB">TVmaze is a free user driven TV database curated by TV lovers all over the world. You can track your favorite shows from anywhere.
