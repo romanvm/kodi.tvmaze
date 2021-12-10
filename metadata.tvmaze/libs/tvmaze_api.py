@@ -43,7 +43,7 @@ ALTERNATE_LISTS_URL = 'http://api.tvmaze.com/shows/{}/alternatelists'
 ALTERNATE_EPISODES_URL = 'http://api.tvmaze.com/alternatelists/{}/alternateepisodes'
 
 HEADERS = (
-    ('User-Agent', 'Kodi scraper for tvmaze.com by Roman V.M.; roman1972@gmail.com'),
+    ('User-Agent', 'Kodi scraper for tvmaze.com by Roman V.M.'),
     ('Accept', 'application/json'),
 )
 SESSION = requests.Session()
