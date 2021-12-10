@@ -24,8 +24,6 @@ from collections import namedtuple
 
 import six
 
-from .utils import safe_get
-
 try:
     from typing import Optional, Text, Dict, List, Any  # pylint: disable=unused-import
     from xbmcgui import ListItem  # pylint: disable=unused-import
@@ -98,9 +96,9 @@ def _set_cast(show_info, list_item):
             'order': index,
         }
         thumb = None
-        if safe_get(item['character'], 'image') is not None:
+        if item['character'].get('image') is not None:
             thumb = _extract_artwork_url(item['character']['image'])
-        if not thumb and safe_get(item['person'], 'image') is not None:
+        if not thumb and item['person'].get('image') is not None:
             thumb = _extract_artwork_url(item['person']['image'])
         if thumb:
             data['thumbnail'] = thumb
@@ -123,7 +121,7 @@ def _set_unique_ids(show_info, list_item):
     # type: (InfoType, ListItem) -> ListItem
     """Extract unique ID in various online databases"""
     unique_ids = {'tvmaze': str(show_info['id'])}
-    for key, value in six.iteritems(safe_get(show_info, 'externals', {})):
+    for key, value in six.iteritems(show_info.get('externals') or {}):
         if key == 'thetvdb':
             key = 'tvdb'
         unique_ids[key] = str(value)
@@ -150,9 +148,9 @@ def _extract_artwork_url(resolutions):
     """Extract image URL from the list of available resolutions"""
     url = ''
     for image_size in IMAGE_SIZES:
-        url = safe_get(resolutions, image_size, '')
+        url = resolutions.get(image_size) or ''
         if not isinstance(url, six.text_type):
-            url = safe_get(url, 'url', '')
+            url = url.get('url') or ''
             if url:
                 break
     return url
@@ -162,8 +160,8 @@ def _add_season_info(show_info, list_item):
     # type: (InfoType, ListItem) -> ListItem
     """Add info for show seasons"""
     for season in show_info['_embedded']['seasons']:
-        list_item.addSeason(season['number'], safe_get(season, 'name', ''))
-        image = safe_get(season, 'image')
+        list_item.addSeason(season['number'], season.get('name') or '')
+        image = season.get('image')
         if image is not None:
             url = _extract_artwork_url(image)
             if url:
@@ -176,7 +174,7 @@ def set_show_artwork(show_info, list_item):
     """Set available images for a show"""
     fanart_list = []
     for item in show_info['_embedded']['images']:
-        resolutions = safe_get(item, 'resolutions', {})
+        resolutions = item.get('resolutions') or {}
         url = _extract_artwork_url(resolutions)
         if item['type'] in SUPPORTED_ARTWORK_TYPES and url:
             list_item.addAvailableArtwork(url, item['type'])
@@ -190,14 +188,14 @@ def set_show_artwork(show_info, list_item):
 def add_main_show_info(list_item, show_info, full_info=True, default_rating='TVmaze'):
     # type: (ListItem, InfoType, bool, Text) -> ListItem
     """Add main show info to a list item"""
-    plot = _clean_plot(safe_get(show_info, 'summary', ''))
+    plot = _clean_plot(show_info.get('summary') or '')
     video = {
         'plot': plot,
         'plotoutline': plot,
-        'genre': safe_get(show_info, 'genres', ''),
+        'genre': show_info.get('genres') or '',
         'title': show_info['name'],
         'tvshowtitle': show_info['name'],
-        'status': safe_get(show_info, 'status', ''),
+        'status': show_info.get('status') or '',
         'mediatype': 'tvshow',
         # This property is passed as "url" parameter to getepisodelist call
         'episodeguide': str(show_info['id']),
@@ -219,7 +217,7 @@ def add_main_show_info(list_item, show_info, full_info=True, default_rating='TVm
         list_item = _add_season_info(show_info, list_item)
         list_item = _set_cast(show_info, list_item)
     else:
-        image = safe_get(show_info, 'image', {})
+        image = show_info.get('image') or {}
         image_url = _extract_artwork_url(image)
         if image_url:
             list_item.addAvailableArtwork(image_url, 'poster')
@@ -242,7 +240,7 @@ def add_episode_info(list_item, episode_info, full_info=True):
     if episode_info['airdate'] is not None:
         video['aired'] = episode_info['airdate']
     if full_info:
-        summary = safe_get(episode_info, 'summary')
+        summary = episode_info.get('summary')
         if summary is not None:
             video['plot'] = video['plotoutline'] = _clean_plot(summary)
         if episode_info['runtime'] is not None:
@@ -250,7 +248,7 @@ def add_episode_info(list_item, episode_info, full_info=True):
         if episode_info['airdate'] is not None:
             video['premiered'] = episode_info['airdate']
     list_item.setInfo('video', video)
-    image = safe_get(episode_info, 'image', {})
+    image = episode_info.get('image') or {}
     image_url = _extract_artwork_url(image)
     if image_url:
         list_item.addAvailableArtwork(image_url, 'thumb')
@@ -282,7 +280,7 @@ def filter_by_year(shows, year):
     :return: a found show or None
     """
     for show in shows:
-        premiered = safe_get(show['show'], 'premiered', '')
+        premiered = show['show'].get('premiered') or ''
         if premiered and premiered.startswith(str(year)):
             return show
     return None
