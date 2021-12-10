@@ -39,6 +39,7 @@ SHOW_ID_REGEXPS = (
     re.compile(r'(thetvdb)\.com/.*?series/(\d+)', re.I),
     re.compile(r'(thetvdb)\.com[\w=&\?/]+id=(\d+)', re.I),
     re.compile(r'(imdb)\.com/[\w/\-]+/(tt\d+)', re.I),
+    re.compile(r'<uniqueid.+?type="(tvdb|imdb)".*?>([t\d]+?)</uniqueid>', re.I | re.DOTALL),
 )
 SUPPORTED_ARTWORK_TYPES = ('poster', 'banner')
 IMAGE_SIZES = ('large', 'original', 'medium')
@@ -257,8 +258,12 @@ def parse_nfo_url(nfo):
     """Extract show ID from NFO file contents"""
     for regexp in SHOW_ID_REGEXPS:
         show_id_match = regexp.search(nfo)
-        if show_id_match:
-            return UrlParseResult(show_id_match.group(1), show_id_match.group(2))
+        if show_id_match is not None:
+            provider = show_id_match.group(1)
+            show_id = show_id_match.group(2)
+            if provider == 'tvdb':
+                provider = 'thetvdb'
+            return UrlParseResult(provider, show_id)
     return None
 
 
