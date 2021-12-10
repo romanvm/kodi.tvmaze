@@ -20,7 +20,7 @@
 from __future__ import absolute_import, unicode_literals
 
 import re
-from collections import namedtuple
+from collections import namedtuple, defaultdict
 
 import six
 
@@ -41,6 +41,7 @@ SHOW_ID_REGEXPS = (
 )
 SUPPORTED_ARTWORK_TYPES = ('poster', 'banner')
 IMAGE_SIZES = ('large', 'original', 'medium')
+MAX_ARTWORK_NUMBER = 10
 CLEAN_PLOT_REPLACEMENTS = (
     ('<b>', '[B]'),
     ('</b>', '[/B]'),
@@ -169,17 +170,28 @@ def _add_season_info(show_info, list_item):
     return list_item
 
 
+def _extract_artwork(show_info):
+    # type: (InfoType) -> Dict[Text, List[Dict[Text, Any]]]
+    artwork = defaultdict(list)
+    for item in show_info['_embedded']['images']:
+        artwork[item['type']].append(item)
+    return artwork
+
+
 def set_show_artwork(show_info, list_item):
     # type: (InfoType, ListItem) -> ListItem
     """Set available images for a show"""
     fanart_list = []
-    for item in show_info['_embedded']['images']:
-        resolutions = item.get('resolutions') or {}
-        url = _extract_artwork_url(resolutions)
-        if item['type'] in SUPPORTED_ARTWORK_TYPES and url:
-            list_item.addAvailableArtwork(url, item['type'])
-        elif item['type'] == 'background' and url:
-            fanart_list.append({'image': url})
+    artwork = _extract_artwork(show_info)
+    for artwork_type, artwork_list in six.iteritems(artwork):
+        artwork_list.sort(key=lambda art: art.get('main'), reverse=True)
+        for item in artwork_list[:MAX_ARTWORK_NUMBER]:
+            resolutions = item.get('resolutions') or {}
+            url = _extract_artwork_url(resolutions)
+            if artwork_type in SUPPORTED_ARTWORK_TYPES and url:
+                list_item.addAvailableArtwork(url, artwork_type)
+            elif artwork_type == 'background' and url:
+                fanart_list.append({'image': url})
     if fanart_list:
         list_item.setAvailableFanart(fanart_list)
     return list_item
