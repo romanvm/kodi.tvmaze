@@ -27,10 +27,7 @@ We provide an API that can be used by anyone or service like Kodi to retrieve TV
 
 1.2.1:
 - Added parsing of uniqueid NFO tag.
-- Limit the number of saved artwork.
-
-1.2.0:
-- Added IMDB ratings.</news>
+- Limit the number of saved artwork.</news>
     <reuselanguageinvoker>false</reuselanguageinvoker>
   </extension>
 </addon>
