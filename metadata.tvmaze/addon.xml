@@ -31,6 +31,6 @@ We provide an API that can be used by anyone or service like Kodi to retrieve TV
 
 1.2.0:
 - Added IMDB ratings.</news>
-    <reuselanguageinvoker>true</reuselanguageinvoker>
+    <reuselanguageinvoker>false</reuselanguageinvoker>
   </extension>
 </addon>
