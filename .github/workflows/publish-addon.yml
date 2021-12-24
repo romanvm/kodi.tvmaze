@@ -25,7 +25,7 @@ jobs:
         kodi-addon-checker --branch leia
     - name: Install addon submitter
       run: |
-        pip install -q git+https://github.com/romanvm/kodi-addon-submitter.git
+        pip install -q git+https://github.com/xbmc/kodi-addon-submitter.git
     - name: Submit addon
       run: |
         submit-addon -r repo-scrapers -b leia -m -s --pull-request metadata.tvmaze
