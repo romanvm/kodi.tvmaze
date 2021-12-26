@@ -70,6 +70,11 @@ class logger:
         # type: (Text) -> None
         logger.log(message, xbmc.LOGDEBUG)
 
+    @staticmethod
+    def warning(message):
+        # type: (Text) -> None
+        logger.log(message, xbmc.LOGWARNING)
+
 
 def get_episode_order(path_settings):
     # type: (Dict[Text, Any]) -> Text

@@ -205,7 +205,9 @@ def router(paramstring):
     """
     params = dict(urllib_parse.parse_qsl(paramstring))
     logger.debug('Called addon with params: {}'.format(sys.argv))
-    path_settings = json.loads(params['pathSettings'])
+    if 'pathSettings' not in params:
+        logger.warning('path-specific settings are not supported')
+    path_settings = json.loads(params.get('pathSettings')) or {}
     episode_order = get_episode_order(path_settings)
     default_rating = path_settings.get('default_rating')
     if default_rating is None:
