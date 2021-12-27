@@ -61,7 +61,7 @@ def find_show(title, year=None):
 
 
 def get_show_id_from_nfo(nfo):
-    # type: (Text) -> None
+    # type: (Union[Text, ByteString]) -> None
     """
     Get show ID by NFO file contents
 
@@ -73,13 +73,14 @@ def get_show_id_from_nfo(nfo):
     if isinstance(nfo, bytes):
         nfo = nfo.decode('utf-8', 'replace')
     if '<episodedetails>' in nfo:
-        return  # Skip episode NFOs
+        logger.debug('Skipping episodedetails NFO...')
+        return
     logger.debug('Parsing NFO file:\n{}'.format(nfo))
     parse_result = data_service.parse_nfo_url(nfo)
     show_info = None
     if parse_result:
         if parse_result.provider == 'tvmaze':
-            show_info = tvmaze_api.load_show_info(parse_result.show_id)
+            show_info = {'id': parse_result.show_id}
         else:
             show_info = tvmaze_api.load_show_info_by_external_id(
                 parse_result.provider,
@@ -92,7 +93,8 @@ def get_show_id_from_nfo(nfo):
             if search_results and len(search_results) == 1:
                 show_info = search_results[0]
     if show_info is not None:
-        list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
+        list_item = xbmcgui.ListItem(offscreen=True)
+        list_item.setUniqueIDs({'tvmaze': str(show_info['id'])}, 'tvmaze')
         # "url" is some string that unique identifies a show.
         # It may be an actual URL of a TV show page.
         xbmcplugin.addDirectoryItem(
