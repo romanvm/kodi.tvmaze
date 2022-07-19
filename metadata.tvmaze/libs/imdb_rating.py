@@ -8,16 +8,12 @@ import requests
 
 from .utils import logger
 
-try:
-    from typing import Text, Dict, Union, Optional  # pylint: disable=unused-import
-except ImportError:
-    pass
+from typing import Text, Dict, Union, Optional
 
 IMDB_TITLE_URL = 'https://www.imdb.com/title/{}/'
 
 
-def get_imdb_rating(imdb_id):
-    # type: (Text) -> Optional[Dict[Text, Union[int, float]]]
+def get_imdb_rating(imdb_id: str) -> Optional[Dict[Text, Union[int, float]]]:
     url = IMDB_TITLE_URL.format(imdb_id)
     response = requests.get(url)
     if response.ok:

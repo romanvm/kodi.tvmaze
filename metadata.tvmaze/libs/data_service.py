@@ -1,5 +1,3 @@
-# coding: utf-8
-#
 # Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M. <roman1972@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,22 +15,16 @@
 
 """Functions to process data"""
 
-from __future__ import absolute_import, unicode_literals
-
 import re
 from collections import namedtuple, defaultdict
+from typing import Optional, Dict, List, Any, Tuple, Collection
 
-import six
+from xbmcgui import ListItem
 
 from . import tvmaze_api, cache_service as cache
 from .utils import logger
 
-try:
-    from typing import Optional, Text, Dict, List, Any, Tuple  # pylint: disable=unused-import
-    from xbmcgui import ListItem  # pylint: disable=unused-import
-    InfoType = Dict[Text, Any]  # pylint: disable=invalid-name
-except ImportError:
-    pass
+InfoType = Dict[str, Any]  # pylint: disable=invalid-name
 
 TAG_RE = re.compile(r'<[^>]+>')
 SHOW_ID_REGEXPS = (
@@ -59,8 +51,7 @@ CLEAN_PLOT_REPLACEMENTS = (
 UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
 
 
-def _process_episode_list(episode_list):
-    # type: (List[InfoType]) -> Dict[Text, InfoType]
+def _process_episode_list(episode_list: List[InfoType]) -> Dict[str, InfoType]:
     """Convert embedded episode list to a dict"""
     processed_episodes = {}
     specials_list = []
@@ -83,8 +74,7 @@ def _process_episode_list(episode_list):
     return processed_episodes
 
 
-def get_episodes_map(show_id, episode_order):
-    # type: (Text, Text) -> Optional[Dict[Text, InfoType]]
+def get_episodes_map(show_id: str, episode_order: str) -> Optional[Dict[str, InfoType]]:
     processed_episodes = cache.load_episodes_map_from_cache(show_id)
     if not processed_episodes:
         episode_list = tvmaze_api.load_episode_list(show_id, episode_order)
@@ -94,8 +84,11 @@ def get_episodes_map(show_id, episode_order):
     return processed_episodes or {}
 
 
-def get_episode_info(show_id, episode_id, season, episode, episode_order):
-    # type: (Text, Text, Text, Text, Text) -> Optional[InfoType]
+def get_episode_info(show_id: str,
+                     episode_id: str,
+                     season: str,
+                     episode: str,
+                     episode_order: str) -> Optional[InfoType]:
     """
     Load episode info
 
@@ -119,8 +112,7 @@ def get_episode_info(show_id, episode_id, season, episode, episode_order):
     return episode_info
 
 
-def _clean_plot(plot):
-    # type: (Text) -> Text
+def _clean_plot(plot: str) -> str:
     """Replace HTML tags with Kodi skin tags"""
     for repl in CLEAN_PLOT_REPLACEMENTS:
         plot = plot.replace(repl[0], repl[1])
@@ -128,8 +120,7 @@ def _clean_plot(plot):
     return plot
 
 
-def _set_cast(show_info, list_item):
-    # type: (InfoType, ListItem) -> ListItem
+def _set_cast(show_info: InfoType, list_item: ListItem) -> ListItem:
     """Extract cast from show info dict"""
     cast = []
     for index, item in enumerate(show_info['_embedded']['cast'], 1):
@@ -150,8 +141,7 @@ def _set_cast(show_info, list_item):
     return list_item
 
 
-def _get_credits(show_info):
-    # type: (InfoType) -> List[Text]
+def _get_credits(show_info: InfoType) -> List[str]:
     """Extract show creator(s) from show info"""
     credits_ = []
     for item in show_info['_embedded']['crew']:
@@ -160,11 +150,11 @@ def _get_credits(show_info):
     return credits_
 
 
-def _set_unique_ids(show_info, list_item):
-    # type: (InfoType, ListItem) -> ListItem
+def _set_unique_ids(show_info: InfoType, list_item: ListItem) -> ListItem:
     """Extract unique ID in various online databases"""
     unique_ids = {'tvmaze': str(show_info['id'])}
-    for key, value in six.iteritems(show_info.get('externals') or {}):
+    externals = show_info.get('externals') or {}
+    for key, value in externals.items():
         if key == 'thetvdb':
             key = 'tvdb'
         unique_ids[key] = str(value)
@@ -172,8 +162,7 @@ def _set_unique_ids(show_info, list_item):
     return list_item
 
 
-def _set_rating(show_info, list_item, default_rating):
-    # type: (InfoType, ListItem, Text) -> ListItem
+def _set_rating(show_info: InfoType, list_item: ListItem, default_rating: str) -> ListItem:
     """Set show rating"""
     imdb_rating = show_info.get('imdb_rating')
     is_imdb_default = default_rating == 'IMDB' and imdb_rating is not None
@@ -186,21 +175,19 @@ def _set_rating(show_info, list_item, default_rating):
     return list_item
 
 
-def _extract_artwork_url(resolutions):
-    # type: (Dict[Text, Text]) -> Text
+def _extract_artwork_url(resolutions: Dict[str, str]) -> str:
     """Extract image URL from the list of available resolutions"""
     url = ''
     for image_size in IMAGE_SIZES:
         url = resolutions.get(image_size) or ''
-        if not isinstance(url, six.text_type):
+        if not isinstance(url, str):
             url = url.get('url') or ''
             if url:
                 break
     return url
 
 
-def _add_season_info(show_info, list_item):
-    # type: (InfoType, ListItem) -> ListItem
+def _add_season_info(show_info: InfoType, list_item: ListItem) -> ListItem:
     """Add info for show seasons"""
     for season in show_info['_embedded']['seasons']:
         list_item.addSeason(season['number'], season.get('name') or '')
@@ -212,20 +199,18 @@ def _add_season_info(show_info, list_item):
     return list_item
 
 
-def _extract_artwork(show_info):
-    # type: (InfoType) -> Dict[Text, List[Dict[Text, Any]]]
+def _extract_artwork(show_info: InfoType) -> Dict[str, List[Dict[str, Any]]]:
     artwork = defaultdict(list)
     for item in show_info['_embedded']['images']:
         artwork[item['type']].append(item)
     return artwork
 
 
-def set_show_artwork(show_info, list_item):
-    # type: (InfoType, ListItem) -> ListItem
+def set_show_artwork(show_info: InfoType, list_item: ListItem) -> ListItem:
     """Set available images for a show"""
     fanart_list = []
     artwork = _extract_artwork(show_info)
-    for artwork_type, artwork_list in six.iteritems(artwork):
+    for artwork_type, artwork_list in artwork.items():
         artwork_list.sort(key=lambda art: art.get('main'), reverse=True)
         for item in artwork_list[:MAX_ARTWORK_NUMBER]:
             resolutions = item.get('resolutions') or {}
@@ -239,8 +224,10 @@ def set_show_artwork(show_info, list_item):
     return list_item
 
 
-def add_main_show_info(list_item, show_info, full_info=True, default_rating='TVmaze'):
-    # type: (ListItem, InfoType, bool, Text) -> ListItem
+def add_main_show_info(list_item: ListItem,
+                       show_info: InfoType,
+                       full_info: bool = True,
+                       default_rating: str = 'TVmaze') -> ListItem:
     """Add main show info to a list item"""
     plot = _clean_plot(show_info.get('summary') or '')
     video = {
@@ -282,8 +269,9 @@ def add_main_show_info(list_item, show_info, full_info=True, default_rating='TVm
     return list_item
 
 
-def add_episode_info(list_item, episode_info, full_info=True):
-    # type: (ListItem, InfoType, bool) -> ListItem
+def add_episode_info(list_item: ListItem,
+                     episode_info: InfoType,
+                     full_info: bool = True) -> ListItem:
     """Add episode info to a list item"""
     video = {
         'title': episode_info['name'],
@@ -310,8 +298,7 @@ def add_episode_info(list_item, episode_info, full_info=True):
     return list_item
 
 
-def parse_nfo_url(nfo):
-    # type: (Text) -> Optional[UrlParseResult]
+def parse_nfo_url(nfo: str) -> Optional[UrlParseResult]:
     """Extract show ID from NFO file contents"""
     for regexp in SHOW_ID_REGEXPS:
         show_id_match = regexp.search(nfo)
@@ -326,8 +313,7 @@ def parse_nfo_url(nfo):
     return None
 
 
-def parse_nfo_title_and_year(nfo):
-    # type: (Text) -> [Optional[Text], Optional[Text]]
+def parse_nfo_title_and_year(nfo: str) -> Tuple[Optional[str], Optional[str]]:
     title_match = TITLE_RE.search(nfo)
     if title_match is None:
         logger.debug('Unable to find show title in an NFO file')
@@ -346,8 +332,7 @@ def parse_nfo_title_and_year(nfo):
     return title, year
 
 
-def _filter_by_year(shows, year):
-    # type: (List[InfoType], Text) -> Optional[InfoType]
+def _filter_by_year(shows: List[InfoType], year: str) -> Optional[InfoType]:
     """
     Filter a show by year
 
@@ -362,8 +347,7 @@ def _filter_by_year(shows, year):
     return None
 
 
-def search_show(title, year):
-    # type: (Text, Text) -> List[InfoType]
+def search_show(title: str, year: str) -> Collection[InfoType]:
     logger.debug('Searching for TV show {} ({})'.format(title, year))
     raw_search_results = tvmaze_api.search_show(title)
     search_results = [res['show'] for res in raw_search_results]
