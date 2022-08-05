@@ -143,7 +143,6 @@ def get_episode_list(show_id, episode_order):  # pylint: disable=missing-docstri
         episodes_map = data_service.get_episodes_map(show_id, episode_order)
         for episode in six.itervalues(episodes_map):
             list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
-            list_item = data_service.add_episode_info(list_item, episode, full_info=False)
             encoded_ids = urllib_parse.urlencode({
                 'show_id': show_id,
                 'episode_id': str(episode['id']),
