@@ -21,6 +21,10 @@ from __future__ import absolute_import, unicode_literals
 
 import re
 from collections import namedtuple, defaultdict
+try:
+    from xml.etree import cElementTree as Etree
+except ImportError:
+    from xml.etree import ElementTree as Etree
 
 import six
 
@@ -36,15 +40,11 @@ except ImportError:
 
 TAG_RE = re.compile(r'<[^>]+>')
 SHOW_ID_REGEXPS = (
-    re.compile(r'(tvmaze)\.com/shows/(\d+)/[\w\-]', re.I),
-    re.compile(r'(thetvdb)\.com/.*?series/(\d+)', re.I),
-    re.compile(r'(thetvdb)\.com[\w=&\?/]+id=(\d+)', re.I),
-    re.compile(r'(imdb)\.com/[\w/\-]+/(tt\d+)', re.I),
-    re.compile(r'<uniqueid.+?type="(tvdb|imdb)".*?>([t\d]+?)</uniqueid>', re.I | re.DOTALL),
+    r'(tvmaze)\.com/shows/(\d+)/[\w\-]',
+    r'(thetvdb)\.com/.*?series/(\d+)',
+    r'(thetvdb)\.com[\w=&\?/]+id=(\d+)',
+    r'(imdb)\.com/[\w/\-]+/(tt\d+)',
 )
-TITLE_RE = re.compile(r'<title>([^<]+?)</title>', re.I)
-YEAR_RE = re.compile(r'<year>(\d+?)</year>', re.I)
-PREMIERED_RE = re.compile(r'<premiered>([^<]+?)</premiered>', re.I)
 SUPPORTED_ARTWORK_TYPES = ('poster', 'banner')
 IMAGE_SIZES = ('large', 'original', 'medium')
 MAX_ARTWORK_NUMBER = 10
@@ -57,6 +57,7 @@ CLEAN_PLOT_REPLACEMENTS = (
 )
 
 UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
+XmlParseResult = namedtuple('XmlParseResult', ['title', 'year', 'uniqueids'])
 
 
 def _process_episode_list(episode_list):
@@ -310,11 +311,11 @@ def add_episode_info(list_item, episode_info, full_info=True):
     return list_item
 
 
-def parse_nfo_url(nfo):
+def parse_url_nfo_contents(nfo):
     # type: (Text) -> Optional[UrlParseResult]
     """Extract show ID from NFO file contents"""
     for regexp in SHOW_ID_REGEXPS:
-        show_id_match = regexp.search(nfo)
+        show_id_match = re.search(regexp, nfo, re.I)
         if show_id_match is not None:
             provider = show_id_match.group(1)
             show_id = show_id_match.group(2)
@@ -326,24 +327,76 @@ def parse_nfo_url(nfo):
     return None
 
 
-def parse_nfo_title_and_year(nfo):
-    # type: (Text) -> [Optional[Text], Optional[Text]]
-    title_match = TITLE_RE.search(nfo)
-    if title_match is None:
-        logger.debug('Unable to find show title in an NFO file')
-        return None, None
-    title = title_match.group(1)
-    year = None
-    year_match = YEAR_RE.search(nfo)
-    if year_match is not None:
-        year = year_match.group(1)
-    if year is None:
-        premiered_match = PREMIERED_RE.search(nfo)
-        if premiered_match is not None:
-            premiered = premiered_match.group(1)
-            year = premiered[:4]
-    logger.debug('Matched title "{}" and year {}'.format(title, year))
-    return title, year
+def parse_url_nfo(nfo):
+    # type: (Text) -> Optional[InfoType]
+    show_info = None
+    url_parse_result = parse_url_nfo_contents(nfo)
+    if url_parse_result is not None:
+        if url_parse_result.provider == 'tvmaze':
+            show_info = {'id': int(url_parse_result.show_id)}
+        else:
+            show_info = tvmaze_api.load_show_info_by_external_id(
+                url_parse_result.provider,
+                url_parse_result.show_id
+            )
+    return show_info
+
+
+def parse_xml_nfo_contents(nfo):
+    # type: (Text) -> XmlParseResult
+    root = Etree.fromstring(nfo)
+    title = ''
+    year = ''
+    uniqueids = {}
+    title_tag = root.find('title')
+    if title_tag is not None:
+        title = title_tag.text
+    year_tag = root.find('year')
+    if year_tag is not None:
+        year = year_tag.text
+    if not year:
+        premiered_tag = root.find('premiered')
+        if premiered_tag is not None:
+            year = premiered_tag.text[:4]
+    for uniqueid_tag in root.findall('uniqueid'):
+        provider = uniqueid_tag.attrib.get('type')
+        if provider is not None:
+            if provider == 'tvdb':
+                provider = 'thetvdb'
+            uniqueids[provider] = uniqueid_tag.text
+    return XmlParseResult(title, year, uniqueids)
+
+
+def parse_tvshow_xml_nfo(nfo):
+    # type: (Text) -> Optional[InfoType]
+    show_info = None
+    xml_parse_result = parse_xml_nfo_contents(nfo)
+    if 'tvmaze' in xml_parse_result.uniqueids:
+        show_info = {'id': int(xml_parse_result.uniqueids['tvmaze'])}
+    elif 'imdb' in xml_parse_result.uniqueids:
+        show_info = tvmaze_api.load_show_info_by_external_id(
+            'imdb',
+            xml_parse_result.uniqueids['imdb']
+        )
+    elif 'thetvdb' in xml_parse_result.uniqueids:
+        show_info = tvmaze_api.load_show_info_by_external_id(
+            'thetvdb',
+            xml_parse_result.uniqueids['thetvdb']
+        )
+    if show_info is None and xml_parse_result.title:
+        search_results = search_show(xml_parse_result.title, xml_parse_result.year)
+        if search_results and len(search_results) == 1:
+            show_info = search_results[0]
+    return show_info
+
+
+def parse_episode_xml_nfo(nfo):
+    # type: (Text) -> Optional[InfoType]
+    episode_info = None
+    parse_result = parse_xml_nfo_contents(nfo)
+    if 'tvmaze' in parse_result.uniqueids:
+        episode_info = {'id': int(parse_result.uniqueids['tvmaze'])}
+    return episode_info
 
 
 def _filter_by_year(shows, year):

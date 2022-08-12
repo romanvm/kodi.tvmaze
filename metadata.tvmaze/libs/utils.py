@@ -55,25 +55,25 @@ class logger:
             message = message.encode('utf-8')
         xbmc.log(message, level)
 
-    @staticmethod
-    def info(message):
+    @classmethod
+    def info(cls, message):
         # type: (Text) -> None
-        logger.log(message, xbmc.LOGINFO)
+        cls.log(message, xbmc.LOGINFO)
 
-    @staticmethod
-    def error(message):
+    @classmethod
+    def error(cls, message):
         # type: (Text) -> None
-        logger.log(message, xbmc.LOGERROR)
+        cls.log(message, xbmc.LOGERROR)
 
-    @staticmethod
-    def debug(message):
+    @classmethod
+    def debug(cls, message):
         # type: (Text) -> None
-        logger.log(message, xbmc.LOGDEBUG)
+        cls.log(message, xbmc.LOGDEBUG)
 
-    @staticmethod
-    def warning(message):
+    @classmethod
+    def warning(cls, message):
         # type: (Text) -> None
-        logger.log(message, xbmc.LOGWARNING)
+        cls.log(message, xbmc.LOGWARNING)
 
 
 def get_episode_order(path_settings):

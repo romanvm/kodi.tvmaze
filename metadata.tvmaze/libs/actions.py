@@ -21,6 +21,7 @@ from __future__ import absolute_import, unicode_literals
 
 import json
 import sys
+from pprint import pformat
 
 import six
 import xbmcgui
@@ -60,46 +61,48 @@ def find_show(title, year=None):
         )
 
 
-def get_show_id_from_nfo(nfo):
-    # type: (Union[Text, ByteString]) -> None
+def parse_nfo_file(nfo, full_nfo):
+    # type: (Union[Text, ByteString], bool) -> None
     """
-    Get show ID by NFO file contents
+    Analyze NFO file contents
 
-    This function is called first instead of find_show
-    if a NFO file is found in a TV show folder.
+    This function is called either instead of find_show
+    if a tvshow.nfo file is found in the TV show folder or for each episode
+    if episode NFOs are present along with episode files.
 
-    :param nfo: the contents of a NFO file
+    :param nfo: the contents of an NFO file
+    :param full_nfo: use the info from an NFO and not to try to get the info by the scraper
     """
+    is_tvshow_nfo = True
     if isinstance(nfo, bytes):
         nfo = nfo.decode('utf-8', 'replace')
+    logger.debug('Trying to parse NFO file:\n{}'.format(nfo))
+    info = None
     if '<episodedetails>' in nfo:
-        logger.debug('Skipping episodedetails NFO...')
-        return
-    logger.debug('Parsing NFO file:\n{}'.format(nfo))
-    parse_result = data_service.parse_nfo_url(nfo)
-    show_info = None
-    if parse_result:
-        if parse_result.provider == 'tvmaze':
-            show_info = {'id': parse_result.show_id}
-        else:
-            show_info = tvmaze_api.load_show_info_by_external_id(
-                parse_result.provider,
-                parse_result.show_id
-            )
-    if show_info is None:
-        title, year = data_service.parse_nfo_title_and_year(nfo)
-        if title is not None:
-            search_results = data_service.search_show(title, year)
-            if search_results and len(search_results) == 1:
-                show_info = search_results[0]
-    if show_info is not None:
+        if full_nfo:
+            return
+        is_tvshow_nfo = False
+        info = data_service.parse_episode_xml_nfo(nfo)
+        if info is None:
+            # We cannot resolve an episode by alternative IDs or by title/year from TVmaze API
+            return
+    if info is None and '<tvshow>' in nfo:
+        if full_nfo:
+            return
+        info = data_service.parse_tvshow_xml_nfo(nfo)
+    if info is None:
+        info = data_service.parse_url_nfo(nfo)
+    if info is not None:
         list_item = xbmcgui.ListItem(offscreen=True)
-        list_item.setUniqueIDs({'tvmaze': str(show_info['id'])}, 'tvmaze')
+        id_string = str(info['id'])
+        list_item.setUniqueIDs({'tvmaze': id_string}, 'tvmaze')
+        if is_tvshow_nfo:
+            list_item.setInfo('video', {'episodeguide': id_string})
         # "url" is some string that unique identifies a show.
         # It may be an actual URL of a TV show page.
         xbmcplugin.addDirectoryItem(
             HANDLE,
-            url=str(show_info['id']),
+            url=id_string,
             listitem=list_item,
             isFolder=True
         )
@@ -127,7 +130,7 @@ def get_episode_list(show_id, episode_order):  # pylint: disable=missing-docstri
         # Kodi has a bug: when a show directory contains an XML NFO file with
         # episodeguide URL, that URL is always passed here regardless of
         # the actual parsing result in get_show_from_nfo()
-        parse_result = data_service.parse_nfo_url(show_id)
+        parse_result = data_service.parse_url_nfo_contents(show_id)
         if not parse_result:
             return
         if parse_result.provider == 'tvmaze':
@@ -149,7 +152,7 @@ def get_episode_list(show_id, episode_order):  # pylint: disable=missing-docstri
                 'season': str(episode['season']),
                 'episode': str(episode['number']),
             })
-            # Below "url" is some unique ID string (may be an actual URL to an episode page)
+            # Below "url" is some unique ID string (it may be an actual URL to an episode page)
             # that allows to retrieve information about a specific episode.
             url = urllib_parse.quote(encoded_ids)
             xbmcplugin.addDirectoryItem(
@@ -207,16 +210,20 @@ def router(paramstring):
     params = dict(urllib_parse.parse_qsl(paramstring))
     logger.debug('Called addon with params: {}'.format(sys.argv))
     if 'pathSettings' not in params:
-        logger.warning('path-specific settings are not supported')
-    path_settings = json.loads(params.get('pathSettings')) or {}
+        logger.warning('Path-specific settings are not supported, please upgrade your Kodi version')
+    path_settings = json.loads(params.get('pathSettings') or '{}')
+    logger.debug('Path settings: {}'.format(pformat(path_settings)))
     episode_order = get_episode_order(path_settings)
     default_rating = path_settings.get('default_rating')
     if default_rating is None:
         default_rating = ADDON.getSetting('default_rating')
+    full_nfo = path_settings.get('full_nfo')
+    if full_nfo is None:
+        full_nfo = ADDON.getSettingBool('full_nfo')
     if params['action'] == 'find':
         find_show(params['title'], params.get('year'))
     elif params['action'].lower() == 'nfourl':
-        get_show_id_from_nfo(params['nfo'])
+        parse_nfo_file(params['nfo'], full_nfo)
     elif params['action'] == 'getdetails':
         get_details(params['url'], default_rating)
     elif params['action'] == 'getepisodelist':
