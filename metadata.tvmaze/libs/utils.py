@@ -62,6 +62,6 @@ class logger:
 def get_episode_order(path_settings: Dict[Text, Any]) -> str:
     episode_order_enum = path_settings.get('episode_order')
     if episode_order_enum is None:
-        episode_order_enum = int(ADDON.getSetting('episode_order'))
+        episode_order_enum = ADDON.getSettingInt('episode_order')
     episode_order = EPISODE_ORDER_MAP.get(episode_order_enum, 'default')
     return episode_order
