@@ -296,8 +296,6 @@ def add_episode_info(list_item: ListItem,
             video['plot'] = video['plotoutline'] = _clean_plot(summary)
         if episode_info['runtime'] is not None:
             video['duration'] = episode_info['runtime'] * 60
-        if episode_info['airdate'] is not None:
-            video['premiered'] = episode_info['airdate']
         image = episode_info.get('image') or {}
         image_url = _extract_artwork_url(image)
         if image_url:
