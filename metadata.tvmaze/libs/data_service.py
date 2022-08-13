@@ -17,7 +17,7 @@
 
 import re
 from collections import namedtuple, defaultdict
-from typing import Optional, Dict, List, Any, Sequence
+from typing import Optional, Dict, List, Any, Sequence, NamedTuple, Union
 try:
     from xml.etree import cElementTree as Etree
 except ImportError:
@@ -48,8 +48,16 @@ CLEAN_PLOT_REPLACEMENTS = (
     ('</p><p>', '[CR]'),
 )
 
-UrlParseResult = namedtuple('UrlParseResult', ['provider', 'show_id'])
-XmlParseResult = namedtuple('XmlParseResult', ['title', 'year', 'uniqueids'])
+
+class UrlParseResult(NamedTuple):
+    provider: str
+    show_id: str
+
+
+class XmlParseResult(NamedTuple):
+    title: str
+    year: str
+    uniqueids: Dict[str, str]
 
 
 def _process_episode_list(episode_list: List[InfoType]) -> Dict[str, InfoType]:
