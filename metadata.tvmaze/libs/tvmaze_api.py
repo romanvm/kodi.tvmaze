@@ -1,5 +1,3 @@
-# coding: utf-8
-#
 # Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M. <roman1972@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,9 +15,8 @@
 
 """Functions to interact with TVmaze API"""
 
-from __future__ import absolute_import, unicode_literals
-
 from pprint import pformat
+from typing import Text, Optional, Union, List, Dict, Any
 
 import requests
 from requests.exceptions import HTTPError
@@ -28,11 +25,7 @@ from . import cache_service as cache
 from .imdb_rating import get_imdb_rating
 from .utils import logger
 
-try:
-    from typing import Text, Optional, Union, List, Dict, Any  # pylint: disable=unused-import
-    InfoType = Dict[Text, Any]  # pylint: disable=invalid-name
-except ImportError:
-    pass
+InfoType = Dict[str, Any]  # pylint: disable=invalid-name
 
 SEARCH_URL = 'http://api.tvmaze.com/search/shows'
 SEARCH_BY_EXTERNAL_ID_URL = 'http://api.tvmaze.com/lookup/shows'
@@ -50,8 +43,8 @@ SESSION = requests.Session()
 SESSION.headers.update(dict(HEADERS))
 
 
-def _load_info(url, params=None):
-    # type: (Text, Optional[Dict[Text, Union[Text, List[Text]]]]) -> Union[dict, list]
+def _load_info(url: str,
+               params: Optional[Dict[Text, Union[Text, List[Text]]]] = None) -> Union[dict, list]:
     """
     Load info from TVmaze
 
@@ -69,8 +62,7 @@ def _load_info(url, params=None):
     return json_response
 
 
-def search_show(title):
-    # type: (Text) -> List[InfoType]
+def search_show(title: str) -> List[InfoType]:
     """
     Search a single TV show
 
@@ -84,8 +76,7 @@ def search_show(title):
         return []
 
 
-def load_show_info(show_id):
-    # type: (Text) -> Optional[InfoType]
+def load_show_info(show_id: str) -> Optional[InfoType]:
     """
     Get full info for a single show
 
@@ -114,8 +105,7 @@ def load_show_info(show_id):
     return show_info
 
 
-def load_show_info_by_external_id(provider, show_id):
-    # type: (Text, Text) -> Optional[InfoType]
+def load_show_info_by_external_id(provider: str, show_id: str) -> Optional[InfoType]:
     """
     Load show info by external ID (TheTVDB or IMDB)
 
@@ -131,8 +121,7 @@ def load_show_info_by_external_id(provider, show_id):
         return None
 
 
-def _get_alternate_episode_list_id(show_id, episode_order):
-    # type: (Text, Text) -> Optional[int]
+def _get_alternate_episode_list_id(show_id: str, episode_order: str) -> Optional[int]:
     alternate_order_id = None
     url = ALTERNATE_LISTS_URL.format(show_id)
     try:
@@ -147,8 +136,7 @@ def _get_alternate_episode_list_id(show_id, episode_order):
     return alternate_order_id
 
 
-def load_alternate_episode_list(show_id, episode_order):
-    # type: (Text, Text) -> Optional[List[InfoType]]
+def load_alternate_episode_list(show_id: str, episode_order: str) -> Optional[List[InfoType]]:
     alternate_episodes = None
     alternate_order_id = _get_alternate_episode_list_id(show_id, episode_order)
     if alternate_order_id is not None:
@@ -169,8 +157,7 @@ def load_alternate_episode_list(show_id, episode_order):
     return alternate_episodes
 
 
-def load_episode_list(show_id, episode_order):
-    # type: (Text, Text) -> Optional[List[InfoType]]
+def load_episode_list(show_id: str, episode_order: str) -> Optional[List[InfoType]]:
     """Load episode list from TVmaze API"""
     episode_list = None
     if episode_order != 'default':
@@ -184,8 +171,7 @@ def load_episode_list(show_id, episode_order):
     return episode_list
 
 
-def load_episode_info(episode_id):
-    # type: (Union[Text, int]) -> Optional[InfoType]
+def load_episode_info(episode_id: Union[str, int]) -> Optional[InfoType]:
     url = EPISODE_INFO_URL.format(episode_id)
     try:
         return _load_info(url)

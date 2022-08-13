@@ -1,5 +1,3 @@
-# coding: utf-8
-#
 # Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M. <roman1972@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -17,13 +15,11 @@
 
 """Plugin route actions"""
 
-from __future__ import absolute_import, unicode_literals
-
 import json
 import sys
 from pprint import pformat
+from typing import Optional
 
-import six
 import xbmcgui
 import xbmcplugin
 from six.moves import urllib_parse
@@ -31,19 +27,11 @@ from six.moves import urllib_parse
 from . import tvmaze_api, data_service
 from .utils import logger, get_episode_order, ADDON
 
-try:
-    from typing import Optional, Text, Union, ByteString  # pylint: disable=unused-import
-except ImportError:
-    pass
-
-HANDLE = int(sys.argv[1])  # type: int
+HANDLE = int(sys.argv[1])
 
 
-def find_show(title, year=None):
-    # type: (Union[Text, ByteString], Optional[Text]) -> None
+def find_show(title: str, year: Optional[str] = None) -> None:
     """Find a show by title"""
-    if isinstance(title, bytes):
-        title = title.decode('utf-8', 'replace')
     search_results = data_service.search_show(title, year)
     for search_result in search_results:
         show_name = search_result['name']
@@ -61,8 +49,7 @@ def find_show(title, year=None):
         )
 
 
-def parse_nfo_file(nfo, full_nfo):
-    # type: (Union[Text, ByteString], bool) -> None
+def parse_nfo_file(nfo: str, full_nfo: bool):
     """
     Analyze NFO file contents
 
@@ -108,8 +95,7 @@ def parse_nfo_file(nfo, full_nfo):
         )
 
 
-def get_details(show_id, default_rating):
-    # type: (Text, Text) -> None
+def get_details(show_id: str, default_rating: str) -> None:
     """Get details about a specific show"""
     logger.debug('Getting details for show id {}'.format(show_id))
     show_info = tvmaze_api.load_show_info(show_id)
@@ -122,8 +108,7 @@ def get_details(show_id, default_rating):
         xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
 
 
-def get_episode_list(show_id, episode_order):  # pylint: disable=missing-docstring
-    # type: (Text, Text) -> None
+def get_episode_list(show_id: str, episode_order: str) -> None:  # pylint: disable=missing-docstring
     logger.debug('Getting episode list for show id {}, order: {}'.format(
         show_id, episode_order))
     if not show_id.isdigit():
@@ -144,7 +129,7 @@ def get_episode_list(show_id, episode_order):  # pylint: disable=missing-docstri
             show_id = str(show_info['id'])
     if show_id.isdigit():
         episodes_map = data_service.get_episodes_map(show_id, episode_order)
-        for episode in six.itervalues(episodes_map):
+        for episode in episodes_map.values():
             list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
             encoded_ids = urllib_parse.urlencode({
                 'show_id': show_id,
@@ -163,8 +148,7 @@ def get_episode_list(show_id, episode_order):  # pylint: disable=missing-docstri
             )
 
 
-def get_episode_details(encoded_ids, episode_order):  # pylint: disable=missing-docstring
-    # type: (Text, Text) -> None
+def get_episode_details(encoded_ids: str, episode_order: str) -> None:  # pylint: disable=missing-docstring
     encoded_ids = urllib_parse.unquote(encoded_ids)
     decoded_ids = dict(urllib_parse.parse_qsl(encoded_ids))
     logger.debug('Getting episode details for {}'.format(decoded_ids))
@@ -181,8 +165,7 @@ def get_episode_details(encoded_ids, episode_order):  # pylint: disable=missing-
         xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
 
 
-def get_artwork(show_id):
-    # type: (Text) -> None
+def get_artwork(show_id: str) -> None:
     """
     Get available artwork for a show
 
@@ -199,8 +182,7 @@ def get_artwork(show_id):
             xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
 
 
-def router(paramstring):
-    # type: (Text) -> None
+def router(paramstring: str) -> None:
     """
     Route addon calls
 
