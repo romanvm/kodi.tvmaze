@@ -13,9 +13,9 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.10.6
-    - name: Install Pylint
+    - name: Install dependencies
       run: |
-        pip install -q Pylint
+        pip install -q Pylint Kodistubs
     - name: Check with Pylint
       run: |
         pylint metadata.tvmaze/libs metadata.tvmaze/main.py
