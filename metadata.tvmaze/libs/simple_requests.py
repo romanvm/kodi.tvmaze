@@ -129,7 +129,7 @@ def _create_request(url_structure, params=None, data=None, headers=None, auth=No
     query = url_structure.query
     if params is not None:
         separator = '&' if query else ''
-        query += separator + urlencode(params)
+        query += separator + urlencode(params, doseq=True)
     full_url = url_structure.scheme + '://' + url_structure.netloc + url_structure.path
     if query:
         full_url += '?' + query
