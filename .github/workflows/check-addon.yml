@@ -1,13 +1,9 @@
-name: Publish addon
+name: Check addon
 
-on:
-  push:
-    tags:
-      - '*'
-      - '!*-beta'
+on: [push, pull_request]
 
 jobs:
-  publish:
+  check:
 
     runs-on: ubuntu-latest
 
@@ -29,13 +25,3 @@ jobs:
     - name: Check with addon-checker
       run: |
         kodi-addon-checker --branch matrix
-    - name: Install addon submitter
-      run: |
-        pip install -q git+https://github.com/xbmc/kodi-addon-submitter.git
-    - name: Submit addon
-      run: |
-        submit-addon -r repo-scrapers -b matrix -s --pull-request metadata.tvmaze
-      env:
-        GH_USERNAME: romanvm
-        GH_TOKEN: ${{ secrets.gh_token }}
-        EMAIL: roman1972@gmail.com
