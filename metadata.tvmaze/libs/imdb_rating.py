@@ -3,12 +3,10 @@ from __future__ import absolute_import, unicode_literals
 
 import json
 import re
-
-import requests
-
-from .utils import logger
-
 from typing import Text, Dict, Union, Optional
+
+from . import simple_requests as requests
+from .utils import logger
 
 IMDB_TITLE_URL = 'https://www.imdb.com/title/{}/'
 
@@ -26,6 +24,6 @@ def get_imdb_rating(imdb_id: str) -> Optional[Dict[Text, Union[int, float]]]:
                 rating = aggregate_rating['ratingValue']
                 votes = aggregate_rating['ratingCount']
                 return {'rating': rating, 'votes': votes}
-    logger.debug('Unable to get IMDB rating for ID {}. Status: {}, response: {}'.format(
-        imdb_id, response.status_code, response.text))
+    logger.debug(f'Unable to get IMDB rating for ID {imdb_id}. '
+                 f'Status: {response.status_code}, response: {response.text}')
     return None

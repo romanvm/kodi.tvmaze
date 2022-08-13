@@ -62,7 +62,7 @@ class MemoryCache:
         try:
             cache = json.loads(cache_json)
         except ValueError as exc:
-            logger.debug('Memory cache error: {}'.format(exc))
+            logger.debug(f'Memory cache error: {exc}')
             return None
         if cache['id'] != obj_id or time.time() - cache['timestamp'] > EPISODES_CACHE_TTL:
             logger.debug('Memory cache miss')
@@ -118,5 +118,5 @@ def load_show_info_from_cache(show_id: Union[int, str]) -> Optional[Dict[str, An
         logger.debug('Show info cache hit')
         return show_info
     except (IOError, EOFError, ValueError) as exc:
-        logger.debug('Cache error: {} {}'.format(type(exc), exc))
+        logger.debug(f'Cache error: {type(exc)} {exc}')
         return None

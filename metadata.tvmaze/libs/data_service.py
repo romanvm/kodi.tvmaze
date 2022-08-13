@@ -16,8 +16,8 @@
 """Functions to process data"""
 
 import re
-from collections import namedtuple, defaultdict
-from typing import Optional, Dict, List, Any, Sequence, NamedTuple, Union
+from collections import defaultdict
+from typing import Optional, Dict, List, Any, Sequence, NamedTuple
 try:
     from xml.etree import cElementTree as Etree
 except ImportError:
@@ -70,7 +70,7 @@ def _process_episode_list(episode_list: List[InfoType]) -> Dict[str, InfoType]:
         if episode['number'] is not None or episode.get('type') == 'significant_special':
             # In some orders episodes with the same ID may occur more than once,
             # so we need a unique key.
-            key = '{}_{}_{}'.format(episode['id'], episode['season'], episode['number'])
+            key = f'{episode["id"]}_{episode["season"]}_{episode["number"]}'
             processed_episodes[key] = episode
         else:
             specials_list.append(episode)
@@ -78,7 +78,7 @@ def _process_episode_list(episode_list: List[InfoType]) -> Dict[str, InfoType]:
     for ep_number, special in enumerate(specials_list, 1):
         special['season'] = 0
         special['number'] = ep_number
-        key = '{}_{}_{}'.format(special['id'], special['season'], special['number'])
+        key = f'{special["id"]}_{special["season"]}_{special["number"]}'
         processed_episodes[key] = special
     return processed_episodes
 
@@ -112,10 +112,10 @@ def get_episode_info(show_id: str,
     episodes_map = get_episodes_map(show_id, episode_order)
     if episodes_map is not None:
         try:
-            key = '{}_{}_{}'.format(episode_id, season, episode)
+            key = f'{episode_id}_{season}_{episode}'
             episode_info = episodes_map[key]
         except KeyError as exc:
-            logger.error('Unable to retrieve episode info: {}'.format(exc))
+            logger.error(f'Unable to retrieve episode info: {exc}')
     if episode_info is None:
         episode_info = tvmaze_api.load_episode_info(episode_id)
     return episode_info
@@ -316,7 +316,7 @@ def parse_url_nfo_contents(nfo: str) -> Optional[UrlParseResult]:
             show_id = show_id_match.group(2)
             if provider == 'tvdb':
                 provider = 'thetvdb'
-            logger.debug('Matched show ID {} by regexp {}'.format(show_id, regexp))
+            logger.debug(f'Matched show ID {show_id} by regexp {regexp}')
             return UrlParseResult(provider, show_id)
     logger.debug('Unable to find show ID in an NFO file')
     return None
@@ -406,7 +406,7 @@ def _filter_by_year(shows: List[InfoType], year: str) -> Optional[InfoType]:
 
 
 def search_show(title: str, year: str) -> Sequence[InfoType]:
-    logger.debug('Searching for TV show {} ({})'.format(title, year))
+    logger.debug(f'Searching for TV show {title} ({year})')
     raw_search_results = tvmaze_api.search_show(title)
     search_results = [res['show'] for res in raw_search_results]
     if len(search_results) > 1 and year:

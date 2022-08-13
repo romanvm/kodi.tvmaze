@@ -18,10 +18,8 @@
 from pprint import pformat
 from typing import Text, Optional, Union, List, Dict, Any
 
-import requests
-from requests.exceptions import HTTPError
-
 from . import cache_service as cache
+from . import simple_requests as requests
 from .imdb_rating import get_imdb_rating
 from .utils import logger
 
@@ -39,8 +37,6 @@ HEADERS = (
     ('User-Agent', 'Kodi scraper for tvmaze.com by Roman V.M.'),
     ('Accept', 'application/json'),
 )
-SESSION = requests.Session()
-SESSION.headers.update(dict(HEADERS))
 
 
 def _load_info(url: str,
@@ -53,12 +49,12 @@ def _load_info(url: str,
     :return: API response
     :raises requests.exceptions.HTTPError: if any error happens
     """
-    logger.debug('Calling URL "{}" with params {}'.format(url, params))
-    response = SESSION.get(url, params=params)
+    logger.debug(f'Calling URL "{url}" with params {params}')
+    response = requests.get(url, params=params, headers=dict(HEADERS))
     if not response.ok:
         response.raise_for_status()
     json_response = response.json()
-    logger.debug('TVmaze response:\n{}'.format(pformat(json_response)))
+    logger.debug(f'TVmaze response:\n{pformat(json_response)}')
     return json_response
 
 
@@ -71,8 +67,8 @@ def search_show(title: str) -> List[InfoType]:
     """
     try:
         return _load_info(SEARCH_URL, {'q': title})
-    except HTTPError as exc:
-        logger.error('TVmaze returned an error: {}'.format(exc))
+    except requests.HTTPError as exc:
+        logger.error(f'TVmaze returned an error: {exc}')
         return []
 
 
@@ -89,8 +85,8 @@ def load_show_info(show_id: str) -> Optional[InfoType]:
         params = {'embed[]': ['cast', 'seasons', 'images', 'crew']}
         try:
             show_info = _load_info(show_info_url, params)
-        except HTTPError as exc:
-            logger.error('TVmaze returned an error: {}'.format(exc))
+        except requests.HTTPError as exc:
+            logger.error(f'TVmaze returned an error: {exc}')
             return None
         if isinstance(show_info['_embedded']['images'], list):
             show_info['_embedded']['images'].sort(key=lambda img: img['main'],
@@ -116,8 +112,8 @@ def load_show_info_by_external_id(provider: str, show_id: str) -> Optional[InfoT
     query = {provider: show_id}
     try:
         return _load_info(SEARCH_BY_EXTERNAL_ID_URL, query)
-    except HTTPError as exc:
-        logger.error('TVmaze returned an error: {}'.format(exc))
+    except requests.HTTPError as exc:
+        logger.error(f'TVmaze returned an error: {exc}')
         return None
 
 
@@ -126,8 +122,8 @@ def _get_alternate_episode_list_id(show_id: str, episode_order: str) -> Optional
     url = ALTERNATE_LISTS_URL.format(show_id)
     try:
         alternate_lists = _load_info(url)
-    except HTTPError as exc:
-        logger.error('TVmaze returned an error: {}'.format(exc))
+    except requests.HTTPError as exc:
+        logger.error(f'TVmaze returned an error: {exc}')
     else:
         for episode_list in alternate_lists:
             if episode_list.get(episode_order):
@@ -143,8 +139,8 @@ def load_alternate_episode_list(show_id: str, episode_order: str) -> Optional[Li
         url = ALTERNATE_EPISODES_URL.format(alternate_order_id)
         try:
             raw_alternate_episodes = _load_info(url, {'embed': 'episodes'})
-        except HTTPError as exc:
-            logger.error('TVmaze returned an error: {}'.format(exc))
+        except requests.HTTPError as exc:
+            logger.error(f'TVmaze returned an error: {exc}')
         else:
             alternate_episodes = []
             for episode in raw_alternate_episodes:
@@ -166,8 +162,8 @@ def load_episode_list(show_id: str, episode_order: str) -> Optional[List[InfoTyp
         episode_list_url = EPISODE_LIST_URL.format(show_id)
         try:
             episode_list = _load_info(episode_list_url, {'specials': '1'})
-        except HTTPError as exc:
-            logger.error('TVmaze returned an error: {}'.format(exc))
+        except requests.HTTPError as exc:
+            logger.error(f'TVmaze returned an error: {exc}')
     return episode_list
 
 
@@ -175,6 +171,6 @@ def load_episode_info(episode_id: Union[str, int]) -> Optional[InfoType]:
     url = EPISODE_INFO_URL.format(episode_id)
     try:
         return _load_info(url)
-    except HTTPError as exc:
-        logger.error('TVmaze returned an error: {}'.format(exc))
+    except requests.HTTPError as exc:
+        logger.error(f'TVmaze returned an error: {exc}')
         return None

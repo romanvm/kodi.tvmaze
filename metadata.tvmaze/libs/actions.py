@@ -17,7 +17,6 @@
 
 import json
 import sys
-from pprint import pformat
 from typing import Optional
 
 import xbmcgui
@@ -36,7 +35,7 @@ def find_show(title: str, year: Optional[str] = None) -> None:
     for search_result in search_results:
         show_name = search_result['name']
         if search_result.get('premiered'):
-            show_name += ' ({})'.format(search_result['premiered'][:4])
+            show_name += f' ({search_result["premiered"][:4]})'
         list_item = xbmcgui.ListItem(show_name, offscreen=True)
         list_item = data_service.add_main_show_info(list_item, search_result, False)
         # Below "url" is some unique ID string (may be an actual URL to a show page)
@@ -61,9 +60,7 @@ def parse_nfo_file(nfo: str, full_nfo: bool):
     :param full_nfo: use the info from an NFO and not to try to get the info by the scraper
     """
     is_tvshow_nfo = True
-    if isinstance(nfo, bytes):
-        nfo = nfo.decode('utf-8', 'replace')
-    logger.debug('Trying to parse NFO file:\n{}'.format(nfo))
+    logger.debug(f'Trying to parse NFO file:\n{nfo}')
     info = None
     if '<episodedetails>' in nfo:
         if full_nfo:
@@ -97,7 +94,7 @@ def parse_nfo_file(nfo: str, full_nfo: bool):
 
 def get_details(show_id: str, default_rating: str) -> None:
     """Get details about a specific show"""
-    logger.debug('Getting details for show id {}'.format(show_id))
+    logger.debug(f'Getting details for show id {show_id}')
     show_info = tvmaze_api.load_show_info(show_id)
     if show_info is not None:
         list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
@@ -109,8 +106,7 @@ def get_details(show_id: str, default_rating: str) -> None:
 
 
 def get_episode_list(show_id: str, episode_order: str) -> None:  # pylint: disable=missing-docstring
-    logger.debug('Getting episode list for show id {}, order: {}'.format(
-        show_id, episode_order))
+    logger.debug(f'Getting episode list for show id {show_id}, order: {episode_order}')
     if not show_id.isdigit():
         # Kodi has a bug: when a show directory contains an XML NFO file with
         # episodeguide URL, that URL is always passed here regardless of
@@ -151,7 +147,7 @@ def get_episode_list(show_id: str, episode_order: str) -> None:  # pylint: disab
 def get_episode_details(encoded_ids: str, episode_order: str) -> None:  # pylint: disable=missing-docstring
     encoded_ids = urllib_parse.unquote(encoded_ids)
     decoded_ids = dict(urllib_parse.parse_qsl(encoded_ids))
-    logger.debug('Getting episode details for {}'.format(decoded_ids))
+    logger.debug(f'Getting episode details for {decoded_ids}')
     episode_info = data_service.get_episode_info(decoded_ids['show_id'],
                                                  decoded_ids['episode_id'],
                                                  decoded_ids['season'],
@@ -171,7 +167,7 @@ def get_artwork(show_id: str) -> None:
 
     :param show_id: default unique ID set by setUniqueIDs() method
     """
-    logger.debug('Getting artwork for show ID {}'.format(show_id))
+    logger.debug(f'Getting artwork for show ID {show_id}')
     if show_id:
         show_info = tvmaze_api.load_show_info(show_id)
         if show_info is not None:
@@ -190,11 +186,11 @@ def router(paramstring: str) -> None:
     :raises RuntimeError: on unknown call action
     """
     params = dict(urllib_parse.parse_qsl(paramstring))
-    logger.debug('Called addon with params: {}'.format(sys.argv))
+    logger.debug(f'Called addon with params: {sys.argv}')
     if 'pathSettings' not in params:
         logger.warning('Path-specific settings are not supported, please upgrade your Kodi version')
     path_settings = json.loads(params.get('pathSettings') or '{}')
-    logger.debug('Path settings: {}'.format(pformat(path_settings)))
+    logger.debug(f'Path settings: {path_settings}')
     episode_order = get_episode_order(path_settings)
     default_rating = path_settings.get('default_rating')
     if default_rating is None:
@@ -215,5 +211,5 @@ def router(paramstring: str) -> None:
     elif params['action'] == 'getartwork':
         get_artwork(params.get('id'))
     else:
-        raise RuntimeError('Invalid addon call: {}'.format(sys.argv))
+        raise RuntimeError(f'Invalid addon call: {sys.argv}')
     xbmcplugin.endOfDirectory(HANDLE)
