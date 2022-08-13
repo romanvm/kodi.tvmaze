@@ -76,7 +76,7 @@ def search_show(title: str) -> List[InfoType]:
         return []
 
 
-def load_show_info(show_id: str) -> Optional[List[InfoType]]:
+def load_show_info(show_id: str) -> Optional[InfoType]:
     """
     Get full info for a single show
 
