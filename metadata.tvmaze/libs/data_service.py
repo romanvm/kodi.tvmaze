@@ -298,12 +298,12 @@ def add_episode_info(list_item: ListItem,
             video['duration'] = episode_info['runtime'] * 60
         if episode_info['airdate'] is not None:
             video['premiered'] = episode_info['airdate']
+        image = episode_info.get('image') or {}
+        image_url = _extract_artwork_url(image)
+        if image_url:
+            list_item.addAvailableArtwork(image_url, 'thumb')
+        list_item.setUniqueIDs({'tvmaze': str(episode_info['id'])}, 'tvmaze')
     list_item.setInfo('video', video)
-    image = episode_info.get('image') or {}
-    image_url = _extract_artwork_url(image)
-    if image_url:
-        list_item.addAvailableArtwork(image_url, 'thumb')
-    list_item.setUniqueIDs({'tvmaze': str(episode_info['id'])}, 'tvmaze')
     return list_item
 
 
