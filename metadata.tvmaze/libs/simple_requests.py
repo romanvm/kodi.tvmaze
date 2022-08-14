@@ -141,7 +141,7 @@ def _create_request(url_structure, params=None, data=None, headers=None, auth=No
         body = _json.dumps(json).encode('utf-8')
         prepared_headers['Content-Type'] = 'application/json'
     if body is None and data is not None:
-        body = urlencode(data, doseq=True).encode('utf-8')
+        body = urlencode(data, doseq=True).encode('ascii')
         prepared_headers['Content-Type'] = 'application/x-www-form-urlencoded'
     if auth is not None:
         encoded_credentials = b64encode((auth[0] + ':' + auth[1]).encode('utf-8')).decode('ascii')
