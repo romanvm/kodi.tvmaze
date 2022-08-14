@@ -15,7 +15,7 @@
 
 import json
 import re
-from typing import Text, Dict, Union, Optional
+from typing import Dict, Union, Optional
 
 from . import simple_requests as requests
 from .utils import logger
@@ -23,7 +23,7 @@ from .utils import logger
 IMDB_TITLE_URL = 'https://www.imdb.com/title/{}/'
 
 
-def get_imdb_rating(imdb_id: str) -> Optional[Dict[Text, Union[int, float]]]:
+def get_imdb_rating(imdb_id: str) -> Optional[Dict[str, Union[int, float]]]:
     url = IMDB_TITLE_URL.format(imdb_id)
     response = requests.get(url)
     if response.ok:
