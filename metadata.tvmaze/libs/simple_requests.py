@@ -144,7 +144,7 @@ def _create_request(url_structure, params=None, data=None, headers=None, auth=No
         body = urlencode(data, doseq=True).encode('utf-8')
         prepared_headers['Content-Type'] = 'application/x-www-form-urlencoded'
     if auth is not None:
-        encoded_credentials = b64encode((auth[0] + ':' + auth[1]).encode('utf-8')).decode('utf-8')
+        encoded_credentials = b64encode((auth[0] + ':' + auth[1]).encode('utf-8')).decode('ascii')
         prepared_headers['Authorization'] = f'Basic {encoded_credentials}'
     if 'Accept-Encoding' not in prepared_headers:
         prepared_headers['Accept-Encoding'] = 'gzip'
