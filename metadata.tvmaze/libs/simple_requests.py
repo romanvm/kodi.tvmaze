@@ -161,6 +161,7 @@ def post(url: str,
          json: Optional[Dict[str, Any]] = None) -> Response:
     """
     POST request
+
     This function assumes that a request body should be encoded with UTF-8
     and by default sends Accept-Encoding: gzip header to receive response content compressed.
 
@@ -217,6 +218,7 @@ def get(url: str,
         verify: bool = True) -> Response:
     """
     GET request
+
     This function by default sends Accept-Encoding: gzip header
     to receive response content compressed.
 
