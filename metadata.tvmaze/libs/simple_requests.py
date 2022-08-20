@@ -163,6 +163,7 @@ def post(url: str,
     POST request
     This function assumes that a request body should be encoded with UTF-8
     and by default sends Accept-Encoding: gzip header to receive response content compressed.
+
     :param url: URL
     :param params: URL query params
     :param data: request payload as form data. If "data" or "json" are passed
@@ -218,6 +219,7 @@ def get(url: str,
     GET request
     This function by default sends Accept-Encoding: gzip header
     to receive response content compressed.
+
     :param url: URL
     :param params: URL query params
     :param headers: additional headers
