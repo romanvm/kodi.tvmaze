@@ -14,7 +14,9 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 A simple library for making HTTP requests with API similar to the popular "requests" library
+
 It depends only on the Python standard library.
+
 Supported:
 * HTTP methods: GET, POST
 * HTTP and HTTPS.
