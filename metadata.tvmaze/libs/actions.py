@@ -188,8 +188,6 @@ def router(paramstring: str) -> None:
     """
     params = dict(urllib_parse.parse_qsl(paramstring))
     logger.debug(f'Called addon with params: {sys.argv}')
-    if 'pathSettings' not in params:
-        logger.warning('Path-specific settings are not supported, please upgrade your Kodi version')
     path_settings = json.loads(params.get('pathSettings') or '{}')
     logger.debug(f'Path settings: {path_settings}')
     episode_order = get_episode_order(path_settings)
