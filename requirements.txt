@@ -1,4 +1,2 @@
 Kodistubs
-six
-requests
 Pylint
