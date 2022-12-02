@@ -105,13 +105,38 @@ def get_details(show_id: str, default_rating: str) -> None:
         xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
 
 
-def get_episode_list(show_id: str, episode_order: str) -> None:  # pylint: disable=missing-docstring
-    logger.debug(f'Getting episode list for show id {show_id}, order: {episode_order}')
-    if not show_id.isdigit():
+def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: disable=missing-docstring
+    logger.debug(f'Getting episode list for show id {episodeguide}, order: {episode_order}')
+    show_id = None
+    if episodeguide.startswith('{'):
+        try:
+            uniqueids = json.loads(episodeguide)
+        except ValueError:
+            pass
+        else:
+            show_id = uniqueids.get('tvmaze')
+            if show_id is None:
+                for external_id_type in ('tvdb', 'imdb'):
+                    external_id = uniqueids.get(external_id_type)
+                    if external_id is not None:
+                        if external_id == 'tvdb':
+                            external_id = 'thetvdb'
+                        show_info = tvmaze_api.load_show_info_by_external_id(
+                            external_id_type,
+                            external_id
+                        )
+                        if show_info:
+                            show_id = str(show_info['id'])
+                            break
+        if show_id is None:
+            logger.error(f'Unable to determine TVmaze show ID from episodeguide: {episodeguide}')
+            return
+    if show_id is None and not episodeguide.isdigit():
         # Kodi has a bug: when a show directory contains an XML NFO file with
         # episodeguide URL, that URL is always passed here regardless of
         # the actual parsing result in get_show_from_nfo()
-        parse_result = data_service.parse_url_nfo_contents(show_id)
+        logger.warning(f'Invalid episodeguide format: {episodeguide} (probably URL).')
+        parse_result = data_service.parse_url_nfo_contents(episodeguide)
         if not parse_result:
             return
         if parse_result.provider == 'tvmaze':
@@ -123,13 +148,17 @@ def get_episode_list(show_id: str, episode_order: str) -> None:  # pylint: disab
             )
         if show_info:
             show_id = str(show_info['id'])
-    if show_id.isdigit():
+    if show_id is None and episodeguide.isdigit():
+        logger.warning(f'Invalid episodeguide format: {episodeguide} (a numeric string). '
+                       f'Please consider re-scanning the show to update episodeguide record.')
+        show_id = episodeguide
+    if show_id is not None:
         episodes_map = data_service.get_episodes_map(show_id, episode_order)
         for episode in episodes_map.values():
             list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
             data_service.add_episode_info(list_item, episode, full_info=False)
             encoded_ids = urllib_parse.urlencode({
-                'show_id': show_id,
+                'show_id': episodeguide,
                 'episode_id': str(episode['id']),
                 'season': str(episode['season']),
                 'episode': str(episode['number']),
