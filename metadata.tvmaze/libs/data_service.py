@@ -14,7 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """Functions to process data"""
-
+import json
 import re
 from collections import defaultdict
 from typing import Optional, Dict, List, Any, Sequence, NamedTuple
@@ -159,7 +159,7 @@ def _get_credits(show_info: InfoType) -> List[str]:
     return credits_
 
 
-def _set_unique_ids(show_info: InfoType, list_item: ListItem) -> ListItem:
+def _get_unique_ids(show_info: InfoType) -> Dict[str, str]:
     """Extract unique ID in various online databases"""
     unique_ids = {'tvmaze': str(show_info['id'])}
     externals = show_info.get('externals') or {}
@@ -167,8 +167,7 @@ def _set_unique_ids(show_info: InfoType, list_item: ListItem) -> ListItem:
         if key == 'thetvdb':
             key = 'tvdb'
         unique_ids[key] = str(value)
-    list_item.setUniqueIDs(unique_ids, 'tvmaze')
-    return list_item
+    return unique_ids
 
 
 def _set_rating(show_info: InfoType, list_item: ListItem, default_rating: str) -> ListItem:
@@ -239,6 +238,7 @@ def add_main_show_info(list_item: ListItem,
                        default_rating: str = 'TVmaze') -> ListItem:
     """Add main show info to a list item"""
     plot = _clean_plot(show_info.get('summary') or '')
+    unique_ids = _get_unique_ids(show_info)
     video = {
         'plot': plot,
         'plotoutline': plot,
@@ -248,8 +248,10 @@ def add_main_show_info(list_item: ListItem,
         'status': show_info.get('status') or '',
         'mediatype': 'tvshow',
         # This property is passed as "url" parameter to getepisodelist call
-        'episodeguide': str(show_info['id']),
+        'episodeguide': json.dumps(unique_ids),
     }
+    # This is needed for getting artwork
+    list_item.setUniqueIDs(unique_ids, 'tvmaze')
     if show_info['network'] is not None:
         video['studio'] = show_info['network']['name']
         video['country'] = show_info['network']['country']['name']
@@ -273,8 +275,6 @@ def add_main_show_info(list_item: ListItem,
             list_item.addAvailableArtwork(image_url, 'poster')
     list_item.setInfo('video', video)
     list_item = _set_rating(show_info, list_item, default_rating)
-    # This is needed for getting artwork
-    list_item = _set_unique_ids(show_info, list_item)
     return list_item
 
 
