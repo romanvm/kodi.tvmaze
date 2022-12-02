@@ -111,25 +111,7 @@ def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: 
     logger.debug(f'Getting episode list for show id {episodeguide}, order: {episode_order}')
     show_id = None
     if episodeguide.startswith('{'):
-        try:
-            uniqueids = json.loads(episodeguide)
-        except ValueError:
-            pass
-        else:
-            show_id = uniqueids.get('tvmaze')
-            if show_id is None:
-                for external_id_type in ('tvdb', 'imdb'):
-                    external_id = uniqueids.get(external_id_type)
-                    if external_id is not None:
-                        if external_id == 'tvdb':
-                            external_id = 'thetvdb'
-                        show_info = tvmaze_api.load_show_info_by_external_id(
-                            external_id_type,
-                            external_id
-                        )
-                        if show_info:
-                            show_id = str(show_info['id'])
-                            break
+        show_id = data_service.parse_json_episogeguide(episodeguide)
         if show_id is None:
             logger.error(f'Unable to determine TVmaze show ID from episodeguide: {episodeguide}')
             return
@@ -138,18 +120,7 @@ def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: 
         # episodeguide URL, that URL is always passed here regardless of
         # the actual parsing result in get_show_from_nfo()
         logger.warning(f'Invalid episodeguide format: {episodeguide} (probably URL).')
-        parse_result = data_service.parse_url_nfo_contents(episodeguide)
-        if not parse_result:
-            return
-        if parse_result.provider == 'tvmaze':
-            show_info = tvmaze_api.load_show_info(parse_result.show_id)
-        else:
-            show_info = tvmaze_api.load_show_info_by_external_id(
-                parse_result.provider,
-                parse_result.show_id
-            )
-        if show_info:
-            show_id = str(show_info['id'])
+        show_id = data_service.parse_url_episodeguide(episodeguide)
     if show_id is None and episodeguide.isdigit():
         logger.warning(f'Invalid episodeguide format: {episodeguide} (a numeric string). '
                        f'Please consider re-scanning the show to update episodeguide record.')
