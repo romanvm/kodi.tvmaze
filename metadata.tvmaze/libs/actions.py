@@ -79,9 +79,11 @@ def parse_nfo_file(nfo: str, full_nfo: bool):
     if info is not None:
         list_item = xbmcgui.ListItem(offscreen=True)
         id_string = str(info['id'])
-        list_item.setUniqueIDs({'tvmaze': id_string}, 'tvmaze')
+        uniqueids = {'tvmaze': id_string}
+        list_item.setUniqueIDs(uniqueids, 'tvmaze')
         if is_tvshow_nfo:
-            list_item.setInfo('video', {'episodeguide': id_string})
+            episodeguide = json.dumps(uniqueids)
+            list_item.setInfo('video', {'episodeguide': episodeguide})
         # "url" is some string that unique identifies a show.
         # It may be an actual URL of a TV show page.
         xbmcplugin.addDirectoryItem(
