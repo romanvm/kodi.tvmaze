@@ -131,7 +131,7 @@ def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: 
             list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
             data_service.add_episode_info(list_item, episode, full_info=False)
             encoded_ids = urllib_parse.urlencode({
-                'show_id': episodeguide,
+                'show_id': show_id,
                 'episode_id': str(episode['id']),
                 'season': str(episode['season']),
                 'episode': str(episode['number']),
