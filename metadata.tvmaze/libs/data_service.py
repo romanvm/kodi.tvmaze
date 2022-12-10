@@ -439,7 +439,7 @@ def parse_url_episodeguide(episodeguide: str) -> Optional[str]:
     show_id = None
     parse_result = parse_url_nfo_contents(episodeguide)
     if not parse_result:
-        return
+        return None
     if parse_result.provider == 'tvmaze':
         show_info = tvmaze_api.load_show_info(parse_result.show_id)
     else:
