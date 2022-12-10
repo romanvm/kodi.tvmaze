@@ -18,7 +18,7 @@ jobs:
         pip install -q Pylint Kodistubs
     - name: Check with Pylint
       run: |
-        pylint metadata.tvmaze/libs metadata.tvmaze/main.py
+        pylint --exit-zero metadata.tvmaze/libs metadata.tvmaze/main.py
     - name: Install addon checker
       run: |
         pip install -q kodi-addon-checker
