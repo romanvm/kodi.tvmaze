@@ -47,6 +47,7 @@ CLEAN_PLOT_REPLACEMENTS = (
     ('</i>', '[/I]'),
     ('</p><p>', '[CR]'),
 )
+SUPPORTED_EXTERNAL_IDS = ('tvdb', 'imdb')
 
 
 class UrlParseResult(NamedTuple):
@@ -420,7 +421,7 @@ def parse_json_episogeguide(episodeguide: str) -> Optional[str]:
         return None
     show_id = uniqueids.get('tvmaze')
     if show_id is None:
-        for external_id_type in ('tvdb', 'imdb'):
+        for external_id_type in SUPPORTED_EXTERNAL_IDS:
             external_id = uniqueids.get(external_id_type)
             if external_id is not None:
                 if external_id == 'tvdb':
