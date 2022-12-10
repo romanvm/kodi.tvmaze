@@ -370,7 +370,7 @@ def parse_tvshow_xml_nfo(nfo: str) -> Optional[InfoType]:
         )
     elif 'thetvdb' in xml_parse_result.uniqueids:
         show_info = tvmaze_api.load_show_info_by_external_id(
-            'thetvdb',
+            'tvdb',
             xml_parse_result.uniqueids['thetvdb']
         )
     if show_info is None and xml_parse_result.title:
