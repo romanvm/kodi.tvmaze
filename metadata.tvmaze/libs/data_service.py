@@ -313,8 +313,6 @@ def parse_url_nfo_contents(nfo: str) -> Optional[UrlParseResult]:
         if show_id_match is not None:
             provider = show_id_match.group(1)
             show_id = show_id_match.group(2)
-            if provider == 'tvdb':
-                provider = 'thetvdb'
             logger.debug(f'Matched show ID {show_id} by regexp "{regexp}"')
             return UrlParseResult(provider, show_id)
     logger.debug('Unable to find show ID in an NFO file')
