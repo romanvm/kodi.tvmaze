@@ -108,7 +108,7 @@ def get_details(show_id: str, default_rating: str) -> None:
 
 
 def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: disable=missing-docstring
-    logger.debug(f'Getting episode list for show id {episodeguide}, order: {episode_order}')
+    logger.debug(f'Getting episode list for episodeguide {episodeguide}, order: {episode_order}')
     show_id = None
     if episodeguide.startswith('{'):
         show_id = data_service.parse_json_episogeguide(episodeguide)
