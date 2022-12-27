@@ -119,10 +119,11 @@ def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: 
         # Kodi has a bug: when a show directory contains an XML NFO file with
         # episodeguide URL, that URL is always passed here regardless of
         # the actual parsing result in get_show_from_nfo()
-        logger.warning(f'Invalid episodeguide format: {episodeguide} (probably URL).')
+        logger.warning(f'Deprecated episodeguide format: {episodeguide} (probably URL). '
+                       f'Please consider re-scanning the show to update episodeguide record.')
         show_id = data_service.parse_url_episodeguide(episodeguide)
     if show_id is None and episodeguide.isdigit():
-        logger.warning(f'Invalid episodeguide format: {episodeguide} (a numeric string). '
+        logger.warning(f'Deprecated episodeguide format: {episodeguide} (a numeric string). '
                        f'Please consider re-scanning the show to update episodeguide record.')
         show_id = episodeguide
     if show_id is not None:
