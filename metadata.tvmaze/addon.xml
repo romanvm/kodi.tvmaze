@@ -23,6 +23,6 @@ We provide an API that can be used by anyone or service like Kodi to retrieve TV
     <news>1.3.3:
 - Internal changes.
     </news>
-    <reuselanguageinvoker>false</reuselanguageinvoker>
+    <reuselanguageinvoker>true</reuselanguageinvoker>
   </extension>
 </addon>
