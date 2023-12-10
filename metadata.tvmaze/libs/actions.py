@@ -94,17 +94,22 @@ def parse_nfo_file(nfo: str, full_nfo: bool):
         )
 
 
-def get_details(show_id: str, default_rating: str) -> None:
+def get_details(show_id: Optional[str], default_rating: str, unique_ids: Optional[str] = None) -> None:
     """Get details about a specific show"""
     logger.debug(f'Getting details for show id {show_id}')
+    if not show_id and unique_ids is not None:
+        show_id = data_service.parse_json_episogeguide(unique_ids)
+        if not show_id:
+            xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
+            return
     show_info = tvmaze_api.load_show_info(show_id)
     if show_info is not None:
         list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
         list_item = data_service.add_main_show_info(list_item, show_info,
                                                     default_rating=default_rating)
         xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
-    else:
-        xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
+        return
+    xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
 
 
 def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: disable=missing-docstring
@@ -201,7 +206,9 @@ def router(paramstring: str) -> None:
     elif params['action'].lower() == 'nfourl':
         parse_nfo_file(params['nfo'], full_nfo)
     elif params['action'] == 'getdetails':
-        get_details(params['url'], default_rating)
+        url = params.get('url')
+        unique_ids = params.get('uniqueIDs')
+        get_details(url, default_rating, unique_ids)
     elif params['action'] == 'getepisodelist':
         get_episode_list(params['url'], episode_order)
     elif params['action'] == 'getepisodedetails':
