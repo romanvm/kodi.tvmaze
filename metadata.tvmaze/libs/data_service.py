@@ -47,7 +47,7 @@ CLEAN_PLOT_REPLACEMENTS = (
     ('</i>', '[/I]'),
     ('</p><p>', '[CR]'),
 )
-SUPPORTED_EXTERNAL_IDS = ('tvdb', 'imdb')
+SUPPORTED_EXTERNAL_IDS = ('tvdb', 'thetvdb', 'imdb')
 
 
 class UrlParseResult(NamedTuple):
