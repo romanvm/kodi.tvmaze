@@ -37,5 +37,5 @@ jobs:
         submit-addon -r repo-scrapers -b matrix -s --pull-request metadata.tvmaze
       env:
         GH_USERNAME: romanvm
-        GH_TOKEN: ${{ secrets.gh_token }}
+        GH_TOKEN: ${{ secrets.GHTOKEN2 }}
         EMAIL: roman1972@gmail.com
