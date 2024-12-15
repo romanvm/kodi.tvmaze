@@ -1,2 +1,3 @@
 Kodistubs
 Pylint
+git+https://github.com/romanvm/kodi.simple-requests.git
