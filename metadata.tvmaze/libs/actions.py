@@ -103,7 +103,7 @@ def get_details(show_id: Optional[str],
     """Get details about a specific show"""
     logging.debug('Getting details for show id %s', show_id)
     if not show_id and unique_ids is not None:
-        show_id = data_service.parse_json_episogeguide(unique_ids)
+        show_id = data_service.extract_show_id_from_json_episogeguide(unique_ids)
         if not show_id:
             xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
             return
@@ -122,13 +122,13 @@ def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: 
                   episodeguide, episode_order)
     show_id = None
     if episodeguide.startswith('{'):
-        show_id = data_service.parse_json_episogeguide(episodeguide)
+        show_id = data_service.extract_show_id_from_json_episogeguide(episodeguide)
         if show_id is None:
             logging.error('Unable to determine TVmaze show ID from episodeguide: %s', episodeguide)
             return
     if show_id is None and not episodeguide.isdigit():
         logging.warning('Invalid episodeguide format: %s (probably URL).', episodeguide)
-        show_id = data_service.parse_url_episodeguide(episodeguide)
+        show_id = data_service.extract_show_id_from_url_episodeguide(episodeguide)
     if show_id is None and episodeguide.isdigit():
         logging.warning('Invalid episodeguide format: %s (a numeric string). '
                         'Please consider re-scanning the show to update episodeguide record.',
@@ -138,7 +138,6 @@ def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: 
         episodes_map = data_service.get_episodes_map(show_id, episode_order)
         for episode in episodes_map.values():
             list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
-            data_service.add_episode_info(list_item, episode, full_info=False)
             encoded_ids = urllib_parse.urlencode({
                 'show_id': show_id,
                 'episode_id': str(episode['id']),

@@ -394,7 +394,7 @@ def _extract_artwork(show_info: InfoType) -> Dict[str, List[Dict[str, Any]]]:
     return artwork
 
 
-def set_list_item_fanart(media_info: InfoType, list_item: ListItem) -> None:
+def _set_list_item_fanart(media_info: InfoType, list_item: ListItem) -> None:
     kodi_fanart = []
     artwork = _extract_artwork(media_info)
     fanart = artwork.get('background')
@@ -421,7 +421,7 @@ def add_full_show_info(list_item: ListItem, show_info: InfoType) -> None:
         setter = setter_class(show_info, info_tag_method, tvmaze_property)
         if setter.should_set():
             setter.set_info_tag_property(info_tag)
-    set_list_item_fanart(show_info, list_item)
+    _set_list_item_fanart(show_info, list_item)
 
 
 def add_episode_info(list_item: ListItem,
@@ -557,7 +557,7 @@ def search_show(title: str, year: str) -> Sequence[InfoType]:
     return search_results
 
 
-def parse_json_episogeguide(episodeguide: str) -> Optional[str]:
+def extract_show_id_from_json_episogeguide(episodeguide: str) -> Optional[str]:
     try:
         uniqueids = json.loads(episodeguide)
     except ValueError:
@@ -577,7 +577,7 @@ def parse_json_episogeguide(episodeguide: str) -> Optional[str]:
     return None
 
 
-def parse_url_episodeguide(episodeguide: str) -> Optional[str]:
+def extract_show_id_from_url_episodeguide(episodeguide: str) -> Optional[str]:
     show_id = None
     parse_result = parse_url_nfo_contents(episodeguide)
     if not parse_result:
