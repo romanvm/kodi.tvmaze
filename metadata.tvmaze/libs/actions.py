@@ -38,7 +38,7 @@ def find_show(title: str, year: Optional[str] = None) -> None:
         if search_result.get('premiered'):
             show_name += f' ({search_result["premiered"][:4]})'
         list_item = xbmcgui.ListItem(show_name, offscreen=True)
-        list_item = data_service.add_main_show_info(list_item, search_result, False)
+        data_service.add_basic_show_info(list_item, search_result)
         # Below "url" is some unique ID string (may be an actual URL to a show page)
         # that is used to get information about a specific TV show.
         xbmcplugin.addDirectoryItem(
@@ -95,7 +95,10 @@ def parse_nfo_file(nfo: str, full_nfo: bool):
         )
 
 
-def get_details(show_id: Optional[str], default_rating: str, unique_ids: Optional[str] = None) -> None:
+def get_details(show_id: Optional[str],
+                default_rating: str,
+                unique_ids: Optional[str] = None
+                ) -> None:
     """Get details about a specific show"""
     logging.debug('Getting details for show id %s', show_id)
     if not show_id and unique_ids is not None:
@@ -106,8 +109,8 @@ def get_details(show_id: Optional[str], default_rating: str, unique_ids: Optiona
     show_info = tvmaze_api.load_show_info(show_id)
     if show_info is not None:
         list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
-        list_item = data_service.add_main_show_info(list_item, show_info,
-                                                    default_rating=default_rating)
+        show_info['default_rating'] = default_rating
+        data_service.add_full_show_info(list_item, show_info)
         xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
         return
     xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
@@ -120,7 +123,7 @@ def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: 
     if episodeguide.startswith('{'):
         show_id = data_service.parse_json_episogeguide(episodeguide)
         if show_id is None:
-            logging.error(f'Unable to determine TVmaze show ID from episodeguide: %s', episodeguide)
+            logging.error('Unable to determine TVmaze show ID from episodeguide: %s', episodeguide)
             return
     if show_id is None and not episodeguide.isdigit():
         logging.warning('Invalid episodeguide format: %s (probably URL).', episodeguide)
@@ -198,9 +201,6 @@ def router(paramstring: str) -> None:
     path_settings = json.loads(params.get('pathSettings') or '{}')
     logging.debug('Path settings: %s', path_settings)
     episode_order = get_episode_order(path_settings)
-    default_rating = path_settings.get('default_rating')
-    if default_rating is None:
-        default_rating = ADDON.getSetting('default_rating')
     full_nfo = path_settings.get('full_nfo')
     if full_nfo is None:
         full_nfo = ADDON.getSettingBool('full_nfo')
@@ -210,6 +210,9 @@ def router(paramstring: str) -> None:
         parse_nfo_file(params['nfo'], full_nfo)
     elif params['action'] == 'getdetails':
         url = params.get('url')
+        default_rating = path_settings.get('default_rating')
+        if default_rating is None:
+            default_rating = ADDON.getSetting('default_rating')
         unique_ids = params.get('uniqueIDs')
         get_details(url, default_rating, unique_ids)
     elif params['action'] == 'getepisodelist':

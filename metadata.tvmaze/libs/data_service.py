@@ -17,13 +17,12 @@
 import json
 import logging
 import re
+from abc import ABC, abstractmethod
 from collections import defaultdict
-from typing import Optional, Dict, List, Any, Sequence, NamedTuple
-try:
-    from xml.etree import cElementTree as Etree
-except ImportError:
-    from xml.etree import ElementTree as Etree
+from typing import Optional, Dict, List, Tuple, Any, Sequence, NamedTuple, Type
+from xml.etree import ElementTree as Etree
 
+from xbmc import InfoTagVideo, Actor
 from xbmcgui import ListItem
 
 from . import tvmaze_api, cache_service as cache
@@ -59,6 +58,252 @@ class XmlParseResult(NamedTuple):
     title: str
     year: str
     uniqueids: Dict[str, str]
+
+
+class BaseInfoTagPropertySetter(ABC):
+
+    def __init__(self,
+                 media_info: InfoType,
+                 info_tag_method: str,
+                 tvmaze_property: Optional[str] = None) -> None:
+        self._media_info = media_info
+        self._property_value = media_info.get(tvmaze_property)
+        self._info_tag_method = info_tag_method
+
+    @abstractmethod
+    def should_set(self) -> bool:
+        raise NotImplementedError
+
+    @abstractmethod
+    def set_info_tag_property(self, info_tag: InfoTagVideo) -> None:
+        raise NotImplementedError
+
+
+class SimpleInfoTagPropertySetter(BaseInfoTagPropertySetter):
+    """
+    Sets a media property from a dictionary returned by TVmaze API to
+    xbmc.InfoTagVideo class instance
+    """
+
+    def should_set(self) -> bool:
+        return bool(self._property_value)
+
+    def get_method_args(self) -> Sequence[Any]:
+        return (self._property_value,)
+
+    def set_info_tag_property(self, info_tag: InfoTagVideo) -> None:
+        args = self.get_method_args()
+        method = getattr(info_tag, self._info_tag_method)
+        method(*args)
+
+
+class PlotSetter(SimpleInfoTagPropertySetter):
+
+    def get_method_args(self) -> Sequence[Any]:
+        cleaned_plot = _clean_plot(self._property_value)
+        return (cleaned_plot,)
+
+
+class MediaTypeSetter(SimpleInfoTagPropertySetter):
+
+    def should_set(self) -> bool:
+        return True
+
+    def get_method_args(self) -> Sequence[Any]:
+        return ('tvshow',)
+
+
+class EpisodeGuideSetter(SimpleInfoTagPropertySetter):
+
+    def should_set(self) -> bool:
+        return True
+
+    def _get_unique_ids(self) -> Dict[str, str]:
+        """Extract unique ID in various online databases"""
+        if unique_ids := self._media_info.get('unique_ids'):
+            return unique_ids
+        unique_ids = {'tvmaze': str(self._media_info['id'])}
+        externals = self._media_info.get('externals') or {}
+        for key, value in externals.items():
+            if key == 'thetvdb':
+                key = 'tvdb'
+            unique_ids[key] = str(value)
+        self._media_info['unique_ids'] = unique_ids
+        return unique_ids
+
+    def get_method_args(self) -> Sequence[Any]:
+        unique_ids = self._get_unique_ids()
+        return (json.dumps(unique_ids),)
+
+
+class UniqueIDsSetter(EpisodeGuideSetter):
+
+    def get_method_args(self) -> Sequence[Any]:
+        unique_ids = self._get_unique_ids()
+        return unique_ids, 'tvmaze'
+
+
+class CountrySetter(SimpleInfoTagPropertySetter):
+
+    def should_set(self) -> bool:
+        channel = self._media_info.get('network')
+        if channel is None:
+            channel = self._media_info.get('webChannel')
+        if channel is None:
+            return False
+        country = channel.get('country')
+        if country is None:
+            return False
+        return True
+
+    def get_method_args(self) -> Sequence[Any]:
+        channel = self._media_info.get('network') or self._media_info.get('webChannel')
+        return ([channel['country']['name']],)
+
+
+class StudioSetter(SimpleInfoTagPropertySetter):
+
+    def should_set(self) -> bool:
+        channel = self._media_info.get('network')
+        if channel is None:
+            channel = self._media_info.get('webChannel')
+        if channel is None:
+            return False
+        return True
+
+    def get_method_args(self) -> Sequence[Any]:
+        channel = self._media_info.get('network') or self._media_info.get('webChannel')
+        return ([channel['name']],)
+
+
+class YearSetter(SimpleInfoTagPropertySetter):
+
+    def get_method_args(self) -> Sequence[Any]:
+        year = self._property_value[:4]
+        return (int(year),)
+
+class PremieredSetter(SimpleInfoTagPropertySetter):
+
+    def get_method_args(self) -> Sequence[Any]:
+        return (self._property_value,)
+
+
+class CreatorsSetter(SimpleInfoTagPropertySetter):
+
+    def should_set(self) -> bool:
+        return bool(self._media_info.get('_embedded', {}).get('crew'))
+
+    def _get_credits(self) -> List[str]:
+        """Extract show creator(s) from show info"""
+        credits_ = []
+        for item in self._media_info['_embedded']['crew']:
+            if item['type'].lower() == 'creator':
+                credits_.append(item['person']['name'])
+        return credits_
+
+    def get_method_args(self) -> Sequence[Any]:
+        credits = self._get_credits()
+        return (credits,)
+
+
+class CastSetter(SimpleInfoTagPropertySetter):
+
+    def should_set(self) -> bool:
+        return bool(self._media_info.get('_embedded', {}).get('cast'))
+
+    def get_method_args(self) -> Sequence[Any]:
+        cast = []
+        for index, item in enumerate(self._media_info['_embedded']['cast'], 1):
+            data = {
+                'name': item['person']['name'],
+                'role': item['character']['name'],
+                'order': index,
+            }
+            thumb = None
+            if item['character'].get('image') is not None:
+                thumb = _extract_artwork_url(item['character']['image'])
+            if not thumb and item['person'].get('image') is not None:
+                thumb = _extract_artwork_url(item['person']['image'])
+            if thumb:
+                data['thumbnail'] = thumb
+            cast.append(Actor(**data))
+        return (cast,)
+
+
+class AvailableArtworkSetter(BaseInfoTagPropertySetter):
+
+    def should_set(self) -> bool:
+        return True
+
+    def set_info_tag_property(self, info_tag: InfoTagVideo) -> None:
+        set_available_artwork_method = getattr(info_tag, self._info_tag_method)
+        image = self._media_info.get('image') or {}
+        image_url = _extract_artwork_url(image)
+        if image_url:
+            set_available_artwork_method(image_url, 'poster')
+        artwork = _extract_artwork(self._media_info)
+        for artwork_type, artwork_list in artwork.items():
+            for item in artwork_list[:MAX_ARTWORK_NUMBER]:
+                resolutions = item.get('resolutions') or {}
+                url = _extract_artwork_url(resolutions)
+                if artwork_type in SUPPORTED_ARTWORK_TYPES and url:
+                    set_available_artwork_method(url, artwork_type)
+
+
+class RatingSetter(BaseInfoTagPropertySetter):
+
+    def should_set(self) -> bool:
+        return True
+
+    def set_info_tag_property(self, info_tag: InfoTagVideo) -> None:
+        set_rating_method = getattr(info_tag, self._info_tag_method)
+        imdb_rating = self._media_info.get('imdb_rating')
+        default_rating = self._media_info.get('default_rating') or 'TVmaze'
+        is_imdb_default = default_rating == 'IMDB' and imdb_rating is not None
+        if self._property_value is not None and self._property_value['average'] is not None:
+            rating = float(self._media_info['rating']['average'])
+            set_rating_method(rating, type='tvmaze', isdefault=not is_imdb_default)
+        if imdb_rating is not None:
+            set_rating_method(imdb_rating['rating'], imdb_rating['votes'], type='imdb',
+                       isdefault=is_imdb_default)
+
+
+class SeasonInfoSetter(BaseInfoTagPropertySetter):
+
+    def should_set(self) -> bool:
+        return bool(self._media_info.get('_embedded', {}).get('seasons'))
+
+    def set_info_tag_property(self, info_tag: InfoTagVideo) -> None:
+        add_season_method = getattr(info_tag, self._info_tag_method)
+        for season in self._media_info['_embedded']['seasons']:
+            add_season_method(season['number'], season.get('name') or '')
+            image = season.get('image')
+            if image is not None:
+                url = _extract_artwork_url(image)
+                if url:
+                    info_tag.addAvailableArtwork(url, 'poster', season=season['number'])
+
+
+SHOW_MEDIA_PROPERTY_SETTERS: List[Tuple[str, Type[SimpleInfoTagPropertySetter],  Optional[str]]] = [
+    ('setPlot', PlotSetter, 'summary'),
+    ('setPlotOutline', PlotSetter, 'summary'),
+    ('setGenres', SimpleInfoTagPropertySetter, 'genres'),
+    ('setTitle', SimpleInfoTagPropertySetter, 'name'),
+    ('setTvShowTitle', SimpleInfoTagPropertySetter, 'name'),
+    ('status', 'setTvShowStatus', SimpleInfoTagPropertySetter, 'status'),
+    ('setMediaType', MediaTypeSetter, None),
+    ('setEpisodeGuide', EpisodeGuideSetter, None),
+    ('setUniqueIDs', UniqueIDsSetter, None),
+    ('setCountries', CountrySetter, None),
+    ('setStudios', StudioSetter, None),
+    ('setYear', YearSetter, 'premiered'),
+    ('setPremiered', PremieredSetter, 'premiered'),
+    ('setWriters', CreatorsSetter, None),
+    ('setCast', CastSetter, None),
+    ('addAvailableArtwork', AvailableArtworkSetter, None),
+    ('setRating', RatingSetter, 'rating'),
+    ('addSeason', SeasonInfoSetter, None),
+]
 
 
 def _process_episode_list(episode_list: List[InfoType]) -> Dict[str, InfoType]:
@@ -130,82 +375,16 @@ def _clean_plot(plot: str) -> str:
     return plot
 
 
-def _set_cast(show_info: InfoType, list_item: ListItem) -> ListItem:
-    """Extract cast from show info dict"""
-    cast = []
-    for index, item in enumerate(show_info['_embedded']['cast'], 1):
-        data = {
-            'name': item['person']['name'],
-            'role': item['character']['name'],
-            'order': index,
-        }
-        thumb = None
-        if item['character'].get('image') is not None:
-            thumb = _extract_artwork_url(item['character']['image'])
-        if not thumb and item['person'].get('image') is not None:
-            thumb = _extract_artwork_url(item['person']['image'])
-        if thumb:
-            data['thumbnail'] = thumb
-        cast.append(data)
-    list_item.setCast(cast)
-    return list_item
-
-
-def _get_credits(show_info: InfoType) -> List[str]:
-    """Extract show creator(s) from show info"""
-    credits_ = []
-    for item in show_info['_embedded']['crew']:
-        if item['type'].lower() == 'creator':
-            credits_.append(item['person']['name'])
-    return credits_
-
-
-def _get_unique_ids(show_info: InfoType) -> Dict[str, str]:
-    """Extract unique ID in various online databases"""
-    unique_ids = {'tvmaze': str(show_info['id'])}
-    externals = show_info.get('externals') or {}
-    for key, value in externals.items():
-        if key == 'thetvdb':
-            key = 'tvdb'
-        unique_ids[key] = str(value)
-    return unique_ids
-
-
-def _set_rating(show_info: InfoType, list_item: ListItem, default_rating: str) -> ListItem:
-    """Set show rating"""
-    imdb_rating = show_info.get('imdb_rating')
-    is_imdb_default = default_rating == 'IMDB' and imdb_rating is not None
-    if show_info['rating'] is not None and show_info['rating']['average'] is not None:
-        rating = float(show_info['rating']['average'])
-        list_item.setRating('tvmaze', rating, defaultt=not is_imdb_default)
-    if imdb_rating is not None:
-        list_item.setRating('imdb', imdb_rating['rating'], imdb_rating['votes'],
-                            defaultt=is_imdb_default)
-    return list_item
-
-
 def _extract_artwork_url(resolutions: Dict[str, str]) -> str:
     """Extract image URL from the list of available resolutions"""
     url = ''
     for image_size in IMAGE_SIZES:
         url = resolutions.get(image_size) or ''
-        if not isinstance(url, str):
+        if isinstance(url, dict):
             url = url.get('url') or ''
             if url:
                 break
     return url
-
-
-def _add_season_info(show_info: InfoType, list_item: ListItem) -> ListItem:
-    """Add info for show seasons"""
-    for season in show_info['_embedded']['seasons']:
-        list_item.addSeason(season['number'], season.get('name') or '')
-        image = season.get('image')
-        if image is not None:
-            url = _extract_artwork_url(image)
-            if url:
-                list_item.addAvailableArtwork(url, 'poster', season=season['number'])
-    return list_item
 
 
 def _extract_artwork(show_info: InfoType) -> Dict[str, List[Dict[str, Any]]]:
@@ -215,68 +394,34 @@ def _extract_artwork(show_info: InfoType) -> Dict[str, List[Dict[str, Any]]]:
     return artwork
 
 
-def set_show_artwork(show_info: InfoType, list_item: ListItem) -> ListItem:
-    """Set available images for a show"""
-    fanart_list = []
-    artwork = _extract_artwork(show_info)
-    for artwork_type, artwork_list in artwork.items():
-        artwork_list.sort(key=lambda art: art.get('main'), reverse=True)
-        for item in artwork_list[:MAX_ARTWORK_NUMBER]:
-            resolutions = item.get('resolutions') or {}
-            url = _extract_artwork_url(resolutions)
-            if artwork_type in SUPPORTED_ARTWORK_TYPES and url:
-                list_item.addAvailableArtwork(url, artwork_type)
-            elif artwork_type == 'background' and url:
-                fanart_list.append({'image': url})
-    if fanart_list:
-        list_item.setAvailableFanart(fanart_list)
-    return list_item
+def set_list_item_fanart(media_info: InfoType, list_item: ListItem) -> None:
+    kodi_fanart = []
+    artwork = _extract_artwork(media_info)
+    fanart = artwork.get('background')
+    if not fanart:
+        return
+    for item in fanart[:MAX_ARTWORK_NUMBER]:
+        resolutions = item.get('resolutions') or {}
+        url = _extract_artwork_url(resolutions)
+        if url:
+            kodi_fanart.append({'image': url})
+    if kodi_fanart:
+        list_item.setAvailableFanart(kodi_fanart)
 
 
-def add_main_show_info(list_item: ListItem,
-                       show_info: InfoType,
-                       full_info: bool = True,
-                       default_rating: str = 'TVmaze') -> ListItem:
+def add_basic_show_info(list_item: ListItem, show_info: InfoType) -> None:
+    info_tag = list_item.getVideoInfoTag()
+    UniqueIDsSetter(show_info, 'setUniqueIDs', None).set_info_tag_property(info_tag)
+
+
+def add_full_show_info(list_item: ListItem, show_info: InfoType) -> None:
     """Add main show info to a list item"""
-    plot = _clean_plot(show_info.get('summary') or '')
-    unique_ids = _get_unique_ids(show_info)
-    video = {
-        'plot': plot,
-        'plotoutline': plot,
-        'genre': show_info.get('genres') or '',
-        'title': show_info['name'],
-        'tvshowtitle': show_info['name'],
-        'status': show_info.get('status') or '',
-        'mediatype': 'tvshow',
-        # This property is passed as "url" parameter to getepisodelist call
-        'episodeguide': json.dumps(unique_ids),
-    }
-    # This is needed for getting artwork
-    list_item.setUniqueIDs(unique_ids, 'tvmaze')
-    if show_info['network'] is not None:
-        video['studio'] = show_info['network']['name']
-        video['country'] = show_info['network']['country']['name']
-    elif show_info['webChannel'] is not None:
-        video['studio'] = show_info['webChannel']['name']
-        # Global Web Channels do not have a country specified
-        if show_info['webChannel']['country'] is not None:
-            video['country'] = show_info['webChannel']['country']['name']
-    if show_info['premiered'] is not None:
-        video['year'] = int(show_info['premiered'][:4])
-        video['premiered'] = show_info['premiered']
-    if full_info:
-        video['credits'] = _get_credits(show_info)
-        list_item = set_show_artwork(show_info, list_item)
-        list_item = _add_season_info(show_info, list_item)
-        list_item = _set_cast(show_info, list_item)
-    else:
-        image = show_info.get('image') or {}
-        image_url = _extract_artwork_url(image)
-        if image_url:
-            list_item.addAvailableArtwork(image_url, 'poster')
-    list_item.setInfo('video', video)
-    list_item = _set_rating(show_info, list_item, default_rating)
-    return list_item
+    info_tag = list_item.getVideoInfoTag()
+    for info_tag_method, setter_class, tvmaze_property in SHOW_MEDIA_PROPERTY_SETTERS:
+        setter = setter_class(show_info, info_tag_method, tvmaze_property)
+        if setter.should_set():
+            setter.set_info_tag_property(info_tag)
+    set_list_item_fanart(show_info, list_item)
 
 
 def add_episode_info(list_item: ListItem,
@@ -403,7 +548,7 @@ def _filter_by_year(shows: List[InfoType], year: str) -> Optional[InfoType]:
 
 
 def search_show(title: str, year: str) -> Sequence[InfoType]:
-    logging.debug(f'Searching for TV show %s (%s)', title, year)
+    logging.debug('Searching for TV show %s (%s)', title, year)
     raw_search_results = tvmaze_api.search_show(title)
     search_results = [res['show'] for res in raw_search_results]
     if len(search_results) > 1 and year:
@@ -449,3 +594,20 @@ def parse_url_episodeguide(episodeguide: str) -> Optional[str]:
     if show_info:
         show_id = str(show_info['id'])
     return show_id
+
+
+def set_show_artwork(show_info: InfoType, list_item: ListItem) -> ListItem:
+    """Set available images for a show"""
+    fanart_list = []
+    artwork = _extract_artwork(show_info)
+    for artwork_type, artwork_list in artwork.items():
+        for item in artwork_list[:MAX_ARTWORK_NUMBER]:
+            resolutions = item.get('resolutions') or {}
+            url = _extract_artwork_url(resolutions)
+            if artwork_type in SUPPORTED_ARTWORK_TYPES and url:
+                list_item.addAvailableArtwork(url, artwork_type)
+            elif artwork_type == 'background' and url:
+                fanart_list.append({'image': url})
+    if fanart_list:
+        list_item.setAvailableFanart(fanart_list)
+    return list_item
