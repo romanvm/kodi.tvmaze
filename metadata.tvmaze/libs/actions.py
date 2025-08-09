@@ -79,13 +79,14 @@ def parse_nfo_file(nfo: str, full_nfo: bool):
         info = data_service.parse_url_nfo(nfo)
     if info is not None:
         list_item = xbmcgui.ListItem(offscreen=True)
+        info_tag = list_item.getVideoInfoTag()
         id_string = str(info['id'])
         uniqueids = {'tvmaze': id_string}
-        list_item.setUniqueIDs(uniqueids, 'tvmaze')
+        info_tag.setUniqueIDs(uniqueids, 'tvmaze')
         if is_tvshow_nfo:
             episodeguide = json.dumps(uniqueids)
-            list_item.setInfo('video', {'episodeguide': episodeguide})
-        # "url" is some string that unique identifies a show.
+            info_tag.setEpisodeGuide(episodeguide)
+        # "url" is some string that uniquely identifies a show.
         # It may be an actual URL of a TV show page.
         xbmcplugin.addDirectoryItem(
             HANDLE,
@@ -107,13 +108,13 @@ def get_details(show_id: Optional[str],
             xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
             return
     show_info = tvmaze_api.load_show_info(show_id)
-    if show_info is not None:
-        list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
-        show_info['default_rating'] = default_rating
-        data_service.add_full_show_info(list_item, show_info)
-        xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
+    if show_info is None:
+        xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
         return
-    xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
+    list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
+    show_info['default_rating'] = default_rating
+    data_service.add_full_show_info(list_item, show_info)
+    xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
 
 
 def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: disable=missing-docstring

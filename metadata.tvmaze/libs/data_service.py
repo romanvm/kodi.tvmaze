@@ -563,20 +563,18 @@ def parse_json_episogeguide(episodeguide: str) -> Optional[str]:
     except ValueError:
         return None
     show_id = uniqueids.get('tvmaze')
-    if show_id is None:
-        for external_id_type in SUPPORTED_EXTERNAL_IDS:
-            external_id = uniqueids.get(external_id_type)
-            if external_id is not None:
-                if external_id == 'tvdb':
-                    external_id = 'thetvdb'
-                show_info = tvmaze_api.load_show_info_by_external_id(
-                    external_id_type,
-                    external_id
-                )
-                if show_info:
-                    show_id = str(show_info['id'])
-                    break
-    return show_id
+    if show_id is not None:
+        return show_id
+    for external_id_type in SUPPORTED_EXTERNAL_IDS:
+        external_id = uniqueids.get(external_id_type)
+        if external_id is None:
+            continue
+        if external_id == 'tvdb':
+            external_id = 'thetvdb'
+        show_info = tvmaze_api.load_show_info_by_external_id(external_id_type, external_id)
+        if show_info:
+            return str(show_info['id'])
+    return None
 
 
 def parse_url_episodeguide(episodeguide: str) -> Optional[str]:
