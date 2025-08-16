@@ -17,8 +17,8 @@
 
 import json
 import logging
-import os
 import time
+from pathlib import Path
 from typing import Optional, Text, Dict, Any, Union
 
 import xbmcgui
@@ -26,7 +26,7 @@ import xbmcvfs
 
 from .utils import ADDON_ID
 
-EPISODES_CACHE_TTL = 60 * 10  # 10 minutes
+EPISODES_CACHE_TTL_SECONDS = 60 * 10  # 10 minutes
 
 
 class MemoryCache:
@@ -44,7 +44,7 @@ class MemoryCache:
     def set(self, obj_id: Union[int, str], obj: Any) -> None:
         cache = {
             'id': obj_id,
-            'timestamp': time.time(),
+            'timestamp': time.monotonic(),
             'object': obj,
         }
         cache_json = json.dumps(cache)
@@ -60,7 +60,8 @@ class MemoryCache:
         except ValueError as exc:
             logging.debug('Memory cache error: %s', exc)
             return None
-        if cache['id'] != obj_id or time.time() - cache['timestamp'] > EPISODES_CACHE_TTL:
+        if (cache['id'] != obj_id
+                or time.monotonic() - cache['timestamp'] > EPISODES_CACHE_TTL_SECONDS):
             logging.debug('Memory cache miss')
             return None
         logging.debug('Memory cache hit')
@@ -76,27 +77,22 @@ def load_episodes_map_from_cache(show_id: Union[int, str]) -> Optional[Dict[str,
     return episodes_map
 
 
-def _get_cache_directory() -> str:  # pylint: disable=missing-docstring
-    temp_dir = xbmcvfs.translatePath('special://temp')
-    if isinstance(temp_dir, bytes):
-        temp_dir = temp_dir.decode('utf-8')
-    cache_dir = os.path.join(temp_dir, 'scrapers', ADDON_ID)
-    if not xbmcvfs.exists(cache_dir):
-        xbmcvfs.mkdir(cache_dir)
+def _get_cache_directory() -> Path:  # pylint: disable=missing-docstring
+    temp_dir = Path(xbmcvfs.translatePath('special://temp'))
+    cache_dir = temp_dir / 'scrapers' / ADDON_ID
+    if not xbmcvfs.exists(str(cache_dir)):
+        xbmcvfs.mkdir(str(cache_dir))
     return cache_dir
-
-
-CACHE_DIR = _get_cache_directory()
 
 
 def cache_show_info(show_info: Dict[str, Any]) -> None:
     """
     Save show_info dict to cache
     """
-    file_name = str(show_info['id']) + '.json'
-    cache_json = json.dumps(show_info)
-    with open(os.path.join(CACHE_DIR, file_name), 'w', encoding='utf-8') as fo:
-        fo.write(cache_json)
+    cache_dir = _get_cache_directory()
+    cache_file = cache_dir / f'{show_info["id"]}.json'
+    with cache_file.open('w', encoding='utf-8') as fo:
+        json.dump(show_info, fo)
 
 
 def load_show_info_from_cache(show_id: Union[int, str]) -> Optional[Dict[str, Any]]:
@@ -106,11 +102,11 @@ def load_show_info_from_cache(show_id: Union[int, str]) -> Optional[Dict[str, An
     :param show_id: show ID on TVmaze
     :return: show_info dict or None
     """
-    file_name = str(show_id) + '.json'
+    cache_dir = _get_cache_directory()
+    cache_file = cache_dir / f'{show_id}.json'
     try:
-        with open(os.path.join(CACHE_DIR, file_name), 'r', encoding='utf-8') as fo:
-            cache_json = fo.read()
-        show_info = json.loads(cache_json)
+        with cache_file.open('r', encoding='utf-8') as fo:
+            show_info = json.load(fo)
         logging.debug('Show info cache hit')
         return show_info
     except (IOError, EOFError, ValueError) as exc:
