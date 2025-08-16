@@ -1,4 +1,4 @@
-# (c) Roman Miroshnychenko <roman1972@gmail.com> 2023
+# (c) Roman Miroshnychenko aka Roman V.M. 2023
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

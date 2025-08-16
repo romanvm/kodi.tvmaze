@@ -1,4 +1,4 @@
-# Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M. <roman1972@gmail.com>
+# Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ from typing import Optional, Text, Dict, Any, Union
 import xbmcgui
 import xbmcvfs
 
-from .utils import ADDON_ID
+from .kodi_utils import ADDON_ID
 
 EPISODES_CACHE_TTL_SECONDS = 60 * 10  # 10 minutes
 

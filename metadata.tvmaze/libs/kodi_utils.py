@@ -15,7 +15,6 @@
 
 """Misc utils"""
 import logging
-from typing import Text, Any, Dict
 
 import xbmc
 from xbmcaddon import Addon
@@ -24,18 +23,6 @@ ADDON = Addon()
 ADDON_ID = ADDON.getAddonInfo('id')
 VERSION = ADDON.getAddonInfo('version')
 
-LOG_FORMAT = '[{addon_id} v.{addon_version}] {filename}:{lineno} - {message}'
-
-EPISODE_ORDER_MAP = {
-    0: 'default',
-    1: 'dvd_release',
-    2: 'verbatim_order',
-    3: 'country_premiere',
-    4: 'streaming_premiere',
-    5: 'broadcast_premiere',
-    6: 'language_premiere',
-}
-
 
 class KodiLogHandler(logging.Handler):
     """
@@ -43,6 +30,7 @@ class KodiLogHandler(logging.Handler):
 
     It also adds {addon_id} and {addon_version} variables available to log format.
     """
+    LOG_FORMAT = '[{addon_id} v.{addon_version}] {filename}:{lineno} - {message}'
     LEVEL_MAP = {
         logging.NOTSET: xbmc.LOGNONE,
         logging.DEBUG: xbmc.LOGDEBUG,
@@ -68,17 +56,9 @@ def initialize_logging():
     After initialization, you can use Python logging facilities as usual.
     """
     logging.basicConfig(
-        format=LOG_FORMAT,
+        format=KodiLogHandler.LOG_FORMAT,
         style='{',
         level=logging.DEBUG,
         handlers=[KodiLogHandler()],
         force=True
     )
-
-
-def get_episode_order(path_settings: Dict[Text, Any]) -> str:
-    episode_order_enum = path_settings.get('episode_order')
-    if episode_order_enum is None:
-        episode_order_enum = ADDON.getSettingInt('episode_order')
-    episode_order = EPISODE_ORDER_MAP.get(episode_order_enum, 'default')
-    return episode_order

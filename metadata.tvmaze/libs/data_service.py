@@ -1,4 +1,4 @@
-# Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M. <roman1972@gmail.com>
+# Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,6 +30,7 @@ from .info_tag_property_setters import (
     EPISODE_MEDIA_PROPERTY_SETTERS,
     extract_artwork_url,
 )
+from .kodi_utils import ADDON
 
 InfoType = Dict[str, Any]  # pylint: disable=invalid-name
 
@@ -43,6 +44,16 @@ SUPPORTED_ARTWORK_TYPES = ('poster', 'banner')
 MAX_ARTWORK_NUMBER = 10
 
 SUPPORTED_EXTERNAL_IDS = ('tvdb', 'thetvdb', 'imdb')
+
+EPISODE_ORDER_MAP = {
+    0: 'default',
+    1: 'dvd_release',
+    2: 'verbatim_order',
+    3: 'country_premiere',
+    4: 'streaming_premiere',
+    5: 'broadcast_premiere',
+    6: 'language_premiere',
+}
 
 
 class ShowIdInfo(NamedTuple):
@@ -316,3 +327,11 @@ def set_show_artwork(show_info: InfoType, list_item: ListItem) -> ListItem:
     if fanart_list:
         list_item.setAvailableFanart(fanart_list)
     return list_item
+
+
+def get_episode_order(path_settings: Dict[str, Any]) -> str:
+    episode_order_enum = path_settings.get('episode_order')
+    if episode_order_enum is None:
+        episode_order_enum = ADDON.getSettingInt('episode_order')
+    episode_order = EPISODE_ORDER_MAP.get(episode_order_enum, 'default')
+    return episode_order

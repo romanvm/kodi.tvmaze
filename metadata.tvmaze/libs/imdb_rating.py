@@ -1,4 +1,4 @@
-# Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M. <roman1972@gmail.com>
+# Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,8 +33,8 @@ def get_imdb_rating(imdb_id: str) -> Optional[Dict[str, Union[int, float]]]:
     url = IMDB_TITLE_URL.format(imdb_id)
     response = requests.get(url, headers=dict(HEADERS))
     if (response.ok
-            and (ld_json_match := re.search(r'<script type="application/ld\+json">([^<]+?)</script>',
-                                            response.text))):
+            and (ld_json_match := re.search(
+                r'<script type="application/ld\+json">([^<]+?)</script>', response.text))):
         ld_json = json.loads(ld_json_match.group(1))
         if aggregate_rating := ld_json.get('aggregateRating'):
             rating = aggregate_rating['ratingValue']

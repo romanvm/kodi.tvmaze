@@ -1,7 +1,21 @@
+# Copyright (C) 2025, Roman Miroshnychenko aka Roman V.M.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 import json
 import re
 from abc import ABC, abstractmethod
-from logging import BASIC_FORMAT
 from typing import Optional, Dict, Any, Sequence, List, Tuple, Type
 
 from xbmc import Actor, InfoTagVideo
@@ -137,7 +151,7 @@ class CountrySetter(SimpleInfoTagPropertySetter):
         if channel is None:
             return False
         country = channel.get('country')
-        if country is None:
+        if not country:
             return False
         return True
 
@@ -187,14 +201,14 @@ class CreatorsSetter(SimpleInfoTagPropertySetter):
         return credits_
 
     def get_method_args(self) -> Sequence[Any]:
-        credits = self._get_credits()
-        return (credits,)
+        credits_ = self._get_credits()
+        return (credits_,)
 
 
 class CastSetter(SimpleInfoTagPropertySetter):
 
     def should_set(self) -> bool:
-        return bool(self._media_info.get('_embedded', {}).get('cast'))
+        return True
 
     def get_method_args(self) -> Sequence[Any]:
         cast = []
@@ -243,7 +257,7 @@ class RatingSetter(BaseInfoTagPropertySetter):
 class SeasonInfoSetter(BaseInfoTagPropertySetter):
 
     def should_set(self) -> bool:
-        return bool(self._media_info.get('_embedded', {}).get('seasons'))
+        return True
 
     def set_info_tag_property(self, info_tag: InfoTagVideo) -> None:
         add_season_method = getattr(info_tag, self._info_tag_method)
@@ -271,12 +285,16 @@ class EpisodeUniqueIDsSetter(SimpleInfoTagPropertySetter):
         return {'tvmaze': str(self._property_value)}, 'tvmaze'
 
 
-BASIC_SHOW_MEDIA_PROPERTY_SETTERS: List[Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]] = [
+BASIC_SHOW_MEDIA_PROPERTY_SETTERS: List[
+    Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
+] = [
     ('addAvailableArtwork', ThumbSetter, 'image'),
     ('setUniqueIDs', ShowUniqueIDsSetter, None),
 ]
 
-SHOW_MEDIA_PROPERTY_SETTERS: List[Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]] = [
+SHOW_MEDIA_PROPERTY_SETTERS: List[
+    Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
+] = [
     ('setPlot', PlotSetter, 'summary'),
     ('setPlotOutline', PlotSetter, 'summary'),
     ('setGenres', SimpleInfoTagPropertySetter, 'genres'),
@@ -297,7 +315,9 @@ SHOW_MEDIA_PROPERTY_SETTERS: List[Tuple[str, Type[BaseInfoTagPropertySetter],  O
     ('addSeason', SeasonInfoSetter, None),
 ]
 
-EPISODE_MEDIA_PROPERTY_SETTERS: List[Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]] = [
+EPISODE_MEDIA_PROPERTY_SETTERS: List[
+    Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
+] = [
     ('setTitle', SimpleInfoTagPropertySetter, 'name'),
     ('setSeason', SimpleInfoTagPropertySetter, 'season'),
     ('setEpisode', SimpleInfoTagPropertySetter, 'number'),

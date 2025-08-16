@@ -1,4 +1,4 @@
-# Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M. <roman1972@gmail.com>
+# Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@ import sys
 
 from libs.actions import router
 from libs.exception_logger import catch_exception
-from libs.utils import initialize_logging
+from libs.kodi_utils import initialize_logging
 
 if __name__ == '__main__':
     initialize_logging()

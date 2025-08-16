@@ -1,4 +1,4 @@
-# Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M. <roman1972@gmail.com>
+# Copyright (C) 2019, Roman Miroshnychenko aka Roman V.M.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ import xbmcgui
 import xbmcplugin
 
 from . import tvmaze_api, data_service
-from .utils import get_episode_order, ADDON
+from .kodi_utils import ADDON
 
 HANDLE = int(sys.argv[1])
 
@@ -202,7 +202,7 @@ def router(paramstring: str) -> None:
     logging.debug('Called addon with params: %s', str(sys.argv))
     path_settings = json.loads(params.get('pathSettings') or '{}')
     logging.debug('Path settings: %s', path_settings)
-    episode_order = get_episode_order(path_settings)
+    episode_order = data_service.get_episode_order(path_settings)
     full_nfo = path_settings.get('full_nfo')
     if full_nfo is None:
         full_nfo = ADDON.getSettingBool('full_nfo')
