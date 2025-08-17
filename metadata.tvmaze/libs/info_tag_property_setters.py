@@ -300,7 +300,7 @@ SHOW_MEDIA_PROPERTY_SETTERS: List[
     ('setGenres', SimpleInfoTagPropertySetter, 'genres'),
     ('setTitle', SimpleInfoTagPropertySetter, 'name'),
     ('setTvShowTitle', SimpleInfoTagPropertySetter, 'name'),
-    ('status', 'setTvShowStatus', SimpleInfoTagPropertySetter, 'status'),
+    ('setTvShowStatus', SimpleInfoTagPropertySetter, 'status'),
     ('setMediaType', TvshowMediaTypeSetter, None),
     ('setEpisodeGuide', EpisodeGuideSetter, None),
     ('setUniqueIDs', ShowUniqueIDsSetter, None),
