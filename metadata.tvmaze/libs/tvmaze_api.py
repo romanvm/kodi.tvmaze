@@ -23,6 +23,7 @@ import simple_requests as requests
 
 from . import cache_service as cache
 from .imdb_rating import get_imdb_rating
+from .kodi_utils import VERSION
 
 InfoType = Dict[str, Any]  # pylint: disable=invalid-name
 
@@ -35,7 +36,7 @@ ALTERNATE_LISTS_URL = 'http://api.tvmaze.com/shows/{}/alternatelists'
 ALTERNATE_EPISODES_URL = 'http://api.tvmaze.com/alternatelists/{}/alternateepisodes'
 
 HEADERS = (
-    ('User-Agent', 'Kodi scraper for tvmaze.com by Roman V.M.'),
+    ('User-Agent', f'Kodi scraper for tvmaze.com by Roman V.M. v.{VERSION}'),
     ('Accept', 'application/json'),
 )
 
