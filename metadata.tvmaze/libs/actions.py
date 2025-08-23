@@ -25,7 +25,7 @@ import xbmcgui
 import xbmcplugin
 
 from . import tvmaze_api, data_service
-from .kodi_utils import ADDON
+from .kodi_utils import Settings
 
 HANDLE = int(sys.argv[1])
 
@@ -49,7 +49,7 @@ def find_show(title: str, year: Optional[str] = None) -> None:
         )
 
 
-def parse_nfo_file(nfo: str, full_nfo: bool):
+def parse_nfo_file(nfo: str):
     """
     Analyze NFO file contents
 
@@ -58,11 +58,11 @@ def parse_nfo_file(nfo: str, full_nfo: bool):
     if episode NFOs are present along with episode files.
 
     :param nfo: the contents of an NFO file
-    :param full_nfo: use the info from an NFO and not to try to get the info by the scraper
     """
     is_tvshow_nfo = True
     logging.debug('Trying to parse NFO file:\n%s', nfo)
     tvmaze_id = None
+    full_nfo = Settings().get_value_bool('full_nfo')
     if '<episodedetails>' in nfo:
         if full_nfo:
             return
@@ -97,10 +97,7 @@ def parse_nfo_file(nfo: str, full_nfo: bool):
     )
 
 
-def get_details(show_id: Optional[str],
-                default_rating: str,
-                unique_ids: Optional[str] = None
-                ) -> None:
+def get_details(show_id: Optional[str], unique_ids: Optional[str] = None) -> None:
     """Get details about a specific show"""
     logging.debug('Getting details for show id %s', show_id)
     if not show_id and unique_ids is not None:
@@ -115,7 +112,6 @@ def get_details(show_id: Optional[str],
         xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
         return
     list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
-    show_info['default_rating'] = default_rating
     data_service.add_full_show_info(list_item, show_info)
     xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
 
@@ -205,21 +201,16 @@ def router(paramstring: str) -> None:
     logging.debug('Called addon with params: %s', str(sys.argv))
     path_settings = json.loads(params.get('pathSettings') or '{}')
     logging.debug('Path settings: %s', path_settings)
-    episode_order = data_service.get_episode_order(path_settings)
-    full_nfo = path_settings.get('full_nfo')
-    if full_nfo is None:
-        full_nfo = ADDON.getSettingBool('full_nfo')
+    Settings().initialize(path_settings)
+    episode_order = data_service.get_episode_order()
     if params['action'] == 'find':
         find_show(params['title'], params.get('year'))
     elif params['action'].lower() == 'nfourl':
-        parse_nfo_file(params['nfo'], full_nfo)
+        parse_nfo_file(params['nfo'])
     elif params['action'] == 'getdetails':
         url = params.get('url')
-        default_rating = path_settings.get('default_rating')
-        if default_rating is None:
-            default_rating = ADDON.getSetting('default_rating')
         unique_ids = params.get('uniqueIDs')
-        get_details(url, default_rating, unique_ids)
+        get_details(url, unique_ids)
     elif params['action'] == 'getepisodelist':
         get_episode_list(params['url'], episode_order)
     elif params['action'] == 'getepisodedetails':

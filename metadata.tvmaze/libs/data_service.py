@@ -31,7 +31,7 @@ from .info_tag_property_setters import (
     EPISODE_MEDIA_PROPERTY_SETTERS,
     extract_artwork_url,
 )
-from .kodi_utils import ADDON
+from .kodi_utils import ADDON, Settings
 
 InfoType = Dict[str, Any]  # pylint: disable=invalid-name
 
@@ -340,9 +340,7 @@ def set_show_artwork(show_info: InfoType, list_item: ListItem) -> ListItem:
     return list_item
 
 
-def get_episode_order(path_settings: Dict[str, Any]) -> str:
-    episode_order_enum = path_settings.get('episode_order')
-    if episode_order_enum is None:
-        episode_order_enum = ADDON.getSettingInt('episode_order')
+def get_episode_order() -> str:
+    episode_order_enum = Settings().get_value_int('episode_order')
     episode_order = EPISODE_ORDER_MAP.get(episode_order_enum, 'default')
     return episode_order

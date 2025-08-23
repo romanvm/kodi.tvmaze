@@ -23,7 +23,7 @@ import simple_requests as requests
 
 from . import cache_service as cache
 from .imdb_rating import get_imdb_rating
-from .kodi_utils import VERSION
+from .kodi_utils import VERSION, Settings
 
 InfoType = Dict[str, Any]  # pylint: disable=invalid-name
 
@@ -94,11 +94,9 @@ def load_show_info(show_id: str) -> Optional[InfoType]:
             show_info['_embedded']['images'].sort(key=lambda img: img['main'],
                                                   reverse=True)
         external_ids = show_info.get('externals') or {}
-        imdb_id = external_ids.get('imdb')
-        if imdb_id is not None:
+        if ((imdb_id := external_ids.get('imdb'))
+                and Settings().get_value_str('default_rating') == 'IMDB'):
             show_info['imdb_rating'] = get_imdb_rating(imdb_id)
-        else:
-            show_info['imdb_rating'] = None
         cache.cache_show_info(show_info)
     return show_info
 

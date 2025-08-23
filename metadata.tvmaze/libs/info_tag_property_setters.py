@@ -20,6 +20,8 @@ from typing import Optional, Dict, Any, Sequence, List, Tuple, Type
 
 from xbmc import Actor, InfoTagVideo
 
+from .kodi_utils import Settings
+
 InfoType = Dict[str, Any]
 
 CLEAN_PLOT_REPLACEMENTS = (
@@ -244,7 +246,7 @@ class RatingSetter(BaseInfoTagPropertySetter):
     def set_info_tag_property(self, info_tag: InfoTagVideo) -> None:
         set_rating_method = getattr(info_tag, self._info_tag_method)
         imdb_rating = self._media_info.get('imdb_rating')
-        default_rating = self._media_info.get('default_rating') or 'TVmaze'
+        default_rating = Settings().get_value_str('default_rating')
         is_imdb_default = default_rating == 'IMDB' and imdb_rating is not None
         if self._property_value is not None and self._property_value['average'] is not None:
             rating = float(self._media_info['rating']['average'])

@@ -15,6 +15,7 @@
 
 """Misc utils"""
 import logging
+from typing import Dict, Any
 
 import xbmc
 from xbmcaddon import Addon
@@ -22,6 +23,39 @@ from xbmcaddon import Addon
 ADDON = Addon()
 ADDON_ID = ADDON.getAddonInfo('id')
 VERSION = ADDON.getAddonInfo('version')
+
+
+class Settings:
+    _instance = None
+
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+    def __init__(self):
+        self._path_settings = {}
+
+    def initialize(self, path_settings: Dict[str, Any]) -> None:
+        self._path_settings.update(path_settings)
+
+    def get_value_str(self, key: str) -> str:
+        value = self._path_settings.get(key)
+        if value is None:
+            value = ADDON.getSettingString(key)
+        return value
+
+    def get_value_int(self, key: str) -> int:
+        value = self._path_settings.get(key)
+        if value is None:
+            value = ADDON.getSettingInt(key)
+        return value
+
+    def get_value_bool(self, key: str) -> bool:
+        value = self._path_settings.get(key)
+        if value is None:
+            value = ADDON.getSettingBool(key)
+        return value
 
 
 class KodiLogHandler(logging.Handler):
