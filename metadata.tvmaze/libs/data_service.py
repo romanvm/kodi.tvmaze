@@ -253,6 +253,7 @@ def add_full_show_info(list_item: ListItem, show_info: InfoType) -> None:
         setter = setter_class(show_info, info_tag_method, tvmaze_property)
         if setter.should_set():
             setter.set_info_tag_property(info_tag)
+    set_show_artwork(show_info, list_item)
 
 
 def add_basic_episode_info(list_item: ListItem, episode_info: InfoType) -> None:
@@ -293,7 +294,7 @@ def get_tvmaze_show_id_from_json_episodeguide(episodeguide: str) -> Optional[str
     return None
 
 
-def get_show_id_from_url_episodeguide(episodeguide: str) -> Optional[str]:
+def get_tvmaze_show_id_from_url_episodeguide(episodeguide: str) -> Optional[str]:
     show_id = None
     show_id_info = _get_show_id_from_url(episodeguide)
     if show_id_info is None:

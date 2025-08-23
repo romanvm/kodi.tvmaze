@@ -56,7 +56,7 @@ def _load_info(url: str,
     if not response.ok:
         response.raise_for_status()
     json_response = response.json()
-    # logging.debug('TVmaze response:\n%s', pformat(json_response))
+    logging.debug('TVmaze response:\n%s', pformat(json_response))
     return json_response
 
 

@@ -131,7 +131,7 @@ def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: 
             return
     if show_id is None and not episodeguide.isdigit():
         logging.warning('Invalid episodeguide format: %s (probably URL).', episodeguide)
-        show_id = data_service.get_show_id_from_url_episodeguide(episodeguide)
+        show_id = data_service.get_tvmaze_show_id_from_url_episodeguide(episodeguide)
     if show_id is None and episodeguide.isdigit():
         logging.warning('Invalid episodeguide format: %s (a numeric string). '
                         'Please consider re-scanning the show to update episodeguide record.',
