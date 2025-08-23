@@ -27,6 +27,7 @@ from . import tvmaze_api, cache_service as cache
 from .info_tag_property_setters import (
     BASIC_SHOW_MEDIA_PROPERTY_SETTERS,
     SHOW_MEDIA_PROPERTY_SETTERS,
+    BASIC_EPISODE_MEDIA_PROPERTY_SETTERS,
     EPISODE_MEDIA_PROPERTY_SETTERS,
     extract_artwork_url,
 )
@@ -254,7 +255,16 @@ def add_full_show_info(list_item: ListItem, show_info: InfoType) -> None:
             setter.set_info_tag_property(info_tag)
 
 
-def add_episode_info(list_item: ListItem, episode_info: InfoType) -> None:
+def add_basic_episode_info(list_item: ListItem, episode_info: InfoType) -> None:
+    """Add basic episode info to a list item"""
+    info_tag = list_item.getVideoInfoTag()
+    for info_tag_method, setter_class, tvmaze_property in BASIC_EPISODE_MEDIA_PROPERTY_SETTERS:
+        setter = setter_class(episode_info, info_tag_method, tvmaze_property)
+        if setter.should_set():
+            setter.set_info_tag_property(info_tag)
+
+
+def add_full_episode_info(list_item: ListItem, episode_info: InfoType) -> None:
     """Add episode info to a list item"""
     info_tag = list_item.getVideoInfoTag()
     for info_tag_method, setter_class, tvmaze_property in EPISODE_MEDIA_PROPERTY_SETTERS:

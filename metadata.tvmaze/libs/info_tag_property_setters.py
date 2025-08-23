@@ -315,6 +315,15 @@ SHOW_MEDIA_PROPERTY_SETTERS: List[
     ('addSeason', SeasonInfoSetter, None),
 ]
 
+BASIC_EPISODE_MEDIA_PROPERTY_SETTERS: List[
+    Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
+] = [
+    ('setTitle', SimpleInfoTagPropertySetter, 'name'),
+    ('setSeason', SimpleInfoTagPropertySetter, 'season'),
+    ('setEpisode', SimpleInfoTagPropertySetter, 'number'),
+    ('setPremiered', PremieredSetter, 'premiered'),
+]
+
 EPISODE_MEDIA_PROPERTY_SETTERS: List[
     Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
 ] = [

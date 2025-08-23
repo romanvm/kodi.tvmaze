@@ -142,6 +142,7 @@ def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: 
     episodes_map = data_service.get_episodes_map(show_id, episode_order)
     for episode in episodes_map.values():
         list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
+        data_service.add_basic_episode_info(list_item, episode)
         encoded_ids = urllib_parse.urlencode({
             'show_id': show_id,
             'episode_id': str(episode['id']),
@@ -172,7 +173,7 @@ def get_episode_details(encoded_ids: str, episode_order: str) -> None:  # pylint
         xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
         return
     list_item = xbmcgui.ListItem(episode_info['name'], offscreen=True)
-    data_service.add_episode_info(list_item, episode_info)
+    data_service.add_full_episode_info(list_item, episode_info)
     xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
 
 
