@@ -263,7 +263,7 @@ def add_episode_info(list_item: ListItem, episode_info: InfoType) -> None:
             setter.set_info_tag_property(info_tag)
 
 
-def get_show_id_from_json_episodeguide(episodeguide: str) -> Optional[str]:
+def get_tvmaze_show_id_from_json_episodeguide(episodeguide: str) -> Optional[str]:
     try:
         uniqueids = json.loads(episodeguide)
     except ValueError:

@@ -104,8 +104,10 @@ def get_details(show_id: Optional[str],
     """Get details about a specific show"""
     logging.debug('Getting details for show id %s', show_id)
     if not show_id and unique_ids is not None:
-        show_id = data_service.get_show_id_from_json_episodeguide(unique_ids)
+        show_id = data_service.get_tvmaze_show_id_from_json_episodeguide(unique_ids)
         if not show_id:
+            logging.error('Unable to determine TVmaze show ID. show_id: %s,  unique_ids: %s',
+                          show_id, unique_ids)
             xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
             return
     show_info = tvmaze_api.load_show_info(show_id)
@@ -123,7 +125,7 @@ def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: 
                   episodeguide, episode_order)
     show_id = None
     if episodeguide.startswith('{'):
-        show_id = data_service.get_show_id_from_json_episodeguide(episodeguide)
+        show_id = data_service.get_tvmaze_show_id_from_json_episodeguide(episodeguide)
         if show_id is None:
             logging.error('Unable to determine TVmaze show ID from episodeguide: %s', episodeguide)
             return
