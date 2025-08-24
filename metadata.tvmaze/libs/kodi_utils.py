@@ -26,6 +26,7 @@ VERSION = ADDON.getAddonInfo('version')
 
 
 class Settings:
+    """Access addon settings"""
     _instance = None
 
     def __new__(cls):
