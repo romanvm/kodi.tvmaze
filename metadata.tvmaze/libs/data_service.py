@@ -318,7 +318,7 @@ def _extract_artwork(show_info: InfoType) -> Dict[str, List[Dict[str, Any]]]:
     return artwork
 
 
-def set_show_artwork(show_info: InfoType, list_item: ListItem) -> ListItem:
+def set_show_artwork(show_info: InfoType, list_item: ListItem) -> None:
     """Set available images for a show"""
     info_tag = list_item.getVideoInfoTag()
     poster_info = show_info.get('image') or {}
@@ -337,7 +337,6 @@ def set_show_artwork(show_info: InfoType, list_item: ListItem) -> ListItem:
                 fanart_list.append({'image': url})
     if fanart_list:
         list_item.setAvailableFanart(fanart_list)
-    return list_item
 
 
 def get_episode_order() -> str:
