@@ -184,7 +184,7 @@ def get_artwork(show_id: str) -> None:
         show_info = tvmaze_api.load_show_info(show_id)
         if show_info is not None:
             list_item = xbmcgui.ListItem(show_info['name'], offscreen=True)
-            list_item = data_service.set_show_artwork(show_info, list_item)
+            data_service.set_show_artwork(show_info, list_item)
             xbmcplugin.setResolvedUrl(HANDLE, True, list_item)
             return
     xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
