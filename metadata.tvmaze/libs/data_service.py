@@ -335,8 +335,11 @@ def set_show_artwork(show_info: InfoType, list_item: ListItem) -> None:
                 info_tag.addAvailableArtwork(url, artwork_type)
             elif artwork_type == 'background' and url:
                 fanart_list.append({'image': url})
+    set_available_fanart = getattr(info_tag, 'setAvailableFanart', None)
+    if set_available_fanart is None:
+        set_available_fanart = list_item.setAvailableFanart
     if fanart_list:
-        list_item.setAvailableFanart(fanart_list)
+        set_available_fanart(fanart_list)
 
 
 def get_episode_order() -> str:
