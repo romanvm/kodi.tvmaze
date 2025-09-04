@@ -313,6 +313,10 @@ def get_tvmaze_show_id_from_url_episodeguide(episodeguide: str) -> Optional[str]
 
 def _extract_artwork(show_info: InfoType) -> Dict[str, List[Dict[str, Any]]]:
     artwork = defaultdict(list)
+    poster_info = show_info.get('image') or {}
+    poster_url = extract_artwork_url(poster_info)
+    if poster_url:
+        artwork['poster'].append({'url': poster_url})
     for item in show_info['_embedded']['images']:
         artwork[item['type']].append(item)
     return artwork
@@ -321,10 +325,6 @@ def _extract_artwork(show_info: InfoType) -> Dict[str, List[Dict[str, Any]]]:
 def set_show_artwork(show_info: InfoType, list_item: ListItem) -> None:
     """Set available images for a show"""
     info_tag = list_item.getVideoInfoTag()
-    poster_info = show_info.get('image') or {}
-    poster_url = extract_artwork_url(poster_info)
-    if poster_url:
-        info_tag.addAvailableArtwork(poster_url, 'poster')
     fanart_list = []
     artwork = _extract_artwork(show_info)
     for artwork_type, artwork_list in artwork.items():
@@ -335,11 +335,11 @@ def set_show_artwork(show_info: InfoType, list_item: ListItem) -> None:
                 info_tag.addAvailableArtwork(url, artwork_type)
             elif artwork_type == 'background' and url:
                 fanart_list.append({'image': url})
-    set_available_fanart = getattr(info_tag, 'setAvailableFanart', None)
-    if set_available_fanart is None:
-        set_available_fanart = list_item.setAvailableFanart
     if fanart_list:
-        set_available_fanart(fanart_list)
+        set_available_fanart_method = getattr(info_tag, 'setAvailableFanart', None)
+        if set_available_fanart_method is None:
+            set_available_fanart_method = list_item.setAvailableFanart
+        set_available_fanart_method(fanart_list)
 
 
 def get_episode_order() -> str:
