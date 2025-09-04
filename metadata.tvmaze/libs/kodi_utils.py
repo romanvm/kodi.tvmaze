@@ -15,6 +15,7 @@
 
 """Misc utils"""
 import logging
+from decimal import Decimal
 from typing import Dict, Any
 
 import xbmc
@@ -22,7 +23,8 @@ from xbmcaddon import Addon
 
 ADDON = Addon()
 ADDON_ID = ADDON.getAddonInfo('id')
-VERSION = ADDON.getAddonInfo('version')
+ADDON_VERSION = ADDON.getAddonInfo('version')
+KODI_VERSION = Decimal(xbmc.getInfoLabel('System.BuildVersion')[:4])
 
 
 class Settings:
@@ -78,7 +80,7 @@ class KodiLogHandler(logging.Handler):
 
     def emit(self, record):
         record.addon_id = ADDON_ID
-        record.addon_version = VERSION
+        record.addon_version = ADDON_VERSION
         message = self.format(record)
         kodi_log_level = self.LEVEL_MAP.get(record.levelno, xbmc.LOGDEBUG)
         xbmc.log(message, level=kodi_log_level)

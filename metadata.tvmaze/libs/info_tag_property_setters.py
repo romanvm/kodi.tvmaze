@@ -20,7 +20,7 @@ from typing import Optional, Dict, Any, Sequence, List, Tuple, Type
 
 from xbmc import Actor, InfoTagVideo
 
-from .kodi_utils import Settings
+from .kodi_utils import Settings, KODI_VERSION
 
 InfoType = Dict[str, Any]
 
@@ -42,6 +42,7 @@ def _clean_plot(plot: str) -> str:
         plot = plot.replace(repl[0], repl[1])
     plot = TAG_RE.sub('', plot)
     return plot
+
 
 def extract_artwork_url(resolutions: Dict[str, str]) -> str:
     """Extract image URL from the list of available resolutions"""
@@ -259,12 +260,17 @@ class RatingSetter(BaseInfoTagPropertySetter):
 class SeasonInfoSetter(BaseInfoTagPropertySetter):
 
     def should_set(self) -> bool:
-        return True
+        return bool(self._media_info.get('_embedded', {}).get('seasons'))
 
     def set_info_tag_property(self, info_tag: InfoTagVideo) -> None:
         add_season_method = getattr(info_tag, self._info_tag_method)
         for season in self._media_info['_embedded']['seasons']:
-            add_season_method(season['number'], season.get('name') or '')
+            method_args = [season['number'], season.get('name') or '']
+            if KODI_VERSION >= 22:
+                season_plot = season.get('summary') or ''
+                season_plot = _clean_plot(season_plot)
+                method_args.append(season_plot)
+            add_season_method(*method_args)
             image = season.get('image')
             if image is not None:
                 url = extract_artwork_url(image)
