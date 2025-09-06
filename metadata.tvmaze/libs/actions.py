@@ -178,6 +178,9 @@ def get_artwork(show_id: str) -> None:
     Get available artwork for a show
 
     :param show_id: default unique ID set by setUniqueIDs() method
+
+    .. note:: This action does not seem to be used in Kodi v. 21 and above.
+        You should set all shows artwork in the get_details action.
     """
     logging.debug('Getting artwork for show ID %s', show_id)
     if show_id:
