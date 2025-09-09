@@ -293,6 +293,14 @@ class EpisodeUniqueIDsSetter(SimpleInfoTagPropertySetter):
         return {'tvmaze': str(self._property_value)}, 'tvmaze'
 
 
+class OriginalLanguageSetter(SimpleInfoTagPropertySetter):
+
+    def should_set(self) -> bool:
+        if KODI_VERSION < 22:
+            return False
+        return super().should_set()
+
+
 BASIC_SHOW_MEDIA_PROPERTY_SETTERS: List[
     Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
 ] = [
@@ -321,6 +329,7 @@ SHOW_MEDIA_PROPERTY_SETTERS: List[
     ('addAvailableArtwork', ThumbSetter, 'image'),
     ('setRating', RatingSetter, 'rating'),
     ('addSeason', SeasonInfoSetter, None),
+    ('setOriginalLanguage', OriginalLanguageSetter, 'language'),
 ]
 
 BASIC_EPISODE_MEDIA_PROPERTY_SETTERS: List[
