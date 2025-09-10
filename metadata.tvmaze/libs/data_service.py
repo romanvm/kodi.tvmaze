@@ -314,9 +314,8 @@ def get_tvmaze_show_id_from_url_episodeguide(episodeguide: str) -> Optional[str]
 def _extract_artwork(show_info: InfoType) -> Dict[str, List[Dict[str, Any]]]:
     artwork = defaultdict(list)
     poster_info = show_info.get('image') or {}
-    poster_url = extract_artwork_url(poster_info)
-    if poster_url:
-        artwork['poster'].append({'url': poster_url})
+    if poster_info:
+        artwork['poster'].append({'resolutions': poster_info})
     for item in show_info['_embedded']['images']:
         artwork[item['type']].append(item)
     return artwork
