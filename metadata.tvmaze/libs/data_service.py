@@ -89,7 +89,8 @@ def search_show(title: str, year: str) -> Sequence[InfoType]:
     search_results = [res['show'] for res in raw_search_results]
     if len(search_results) > 1 and year:
         search_result = _filter_by_year(search_results, year)
-        search_results = (search_result,) if search_result else ()
+        if search_results is not None:
+            return (search_result,)
     return search_results
 
 
