@@ -133,11 +133,10 @@ def get_tvmaze_show_id_from_url_nfo(nfo: str) -> Optional[int]:
 def _parse_xml_nfo_contents(nfo: str) -> XmlParseResult:
     root = Etree.fromstring(nfo)
     title = ''
-    year = ''
-    uniqueids = {}
     title_tag = root.find('title')
     if title_tag is not None:
         title = title_tag.text
+    year = ''
     year_tag = root.find('year')
     if year_tag is not None:
         year = year_tag.text
@@ -145,6 +144,7 @@ def _parse_xml_nfo_contents(nfo: str) -> XmlParseResult:
         premiered_tag = root.find('premiered')
         if premiered_tag is not None:
             year = premiered_tag.text[:4]
+    uniqueids = {}
     for uniqueid_tag in root.findall('uniqueid'):
         provider = uniqueid_tag.attrib.get('type')
         if provider is not None:
