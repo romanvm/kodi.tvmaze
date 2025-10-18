@@ -21,7 +21,7 @@ We provide an API that can be used by anyone or service like Kodi to retrieve TV
     </assets>
     <website>https://www.tvmaze.com</website>
     <source>https://github.com/romanvm/kodi.tvmaze</source>
-    <news>1.4.8:
+    <news>1.4.0:
 - Added support for show original language and season plot in Kodi v.22+
 - Internal changes.
     </news>
