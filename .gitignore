@@ -110,3 +110,4 @@ venv.bak/
 *.bat
 *.cmd
 .venv3/
+.vscode/
