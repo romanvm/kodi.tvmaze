@@ -20,7 +20,6 @@ multiline-quotes = 'double'
 docstring-quotes = 'double'
 
 [lint.isort]
-force-sort-within-sections = true  # sort 'import x' and 'from x import y' together alphabetically
 case-sensitive = false
 order-by-type = false              # plain alphabetical order, ignoring CONSTANT/Class/function grouping
 

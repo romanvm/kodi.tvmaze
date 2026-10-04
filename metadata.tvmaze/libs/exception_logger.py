@@ -14,11 +14,11 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """Exception logger with extended diagnostic info"""
 
-from contextlib import contextmanager
 import inspect
+import sys
+from contextlib import contextmanager
 from platform import uname
 from pprint import pformat
-import sys
 from typing import Any, Callable, Dict, Generator, Iterable, Optional
 
 import xbmc

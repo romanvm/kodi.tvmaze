@@ -13,9 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-from abc import ABC, abstractmethod
 import json
 import re
+from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Sequence, Tuple, Type
 
 from xbmc import Actor, InfoTagVideo

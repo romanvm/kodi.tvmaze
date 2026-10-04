@@ -17,8 +17,8 @@
 
 import json
 import logging
-from pathlib import Path
 import time
+from pathlib import Path
 from typing import Any, Dict, Optional, Text, Union
 
 import xbmcgui

@@ -15,10 +15,10 @@
 
 """Functions to process data"""
 
-from collections import defaultdict
 import json
 import logging
 import re
+from collections import defaultdict
 from typing import Any, Dict, List, NamedTuple, Optional, Sequence
 from xml.etree import ElementTree as Etree
 
