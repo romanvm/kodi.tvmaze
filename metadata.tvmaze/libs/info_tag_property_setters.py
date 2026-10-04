@@ -228,6 +228,9 @@ class CastSetter(SimpleInfoTagPropertySetter):
                 thumb = extract_artwork_url(item['person']['image'])
             if thumb:
                 data['thumbnail'] = thumb
+            if hasattr(Actor, 'setBirthDate'):
+                data['birthdate'] = item['person'].get('birthday') or ''
+                data['deathdate'] = item['person'].get('deathday') or ''
             cast.append(Actor(**data))
         return (cast,)
 
