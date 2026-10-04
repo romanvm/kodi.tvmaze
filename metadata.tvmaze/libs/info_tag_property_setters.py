@@ -307,11 +307,12 @@ class OriginalLanguageSetter(SimpleInfoTagPropertySetter):
 BASIC_SHOW_MEDIA_PROPERTY_SETTERS: List[
     Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
 ] = [
+    ('setYear', YearSetter, 'premiered'),
     ('addAvailableArtwork', ThumbSetter, 'image'),
     ('setUniqueIDs', ShowUniqueIDsSetter, None),
 ]
 
-SHOW_MEDIA_PROPERTY_SETTERS: List[
+FULL_SHOW_MEDIA_PROPERTY_SETTERS: List[
     Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
 ] = [
     ('setPlot', PlotSetter, 'summary'),
@@ -344,7 +345,7 @@ BASIC_EPISODE_MEDIA_PROPERTY_SETTERS: List[
     ('setPremiered', PremieredSetter, 'premiered'),
 ]
 
-EPISODE_MEDIA_PROPERTY_SETTERS: List[
+FULL_EPISODE_MEDIA_PROPERTY_SETTERS: List[
     Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
 ] = [
     ('setTitle', SimpleInfoTagPropertySetter, 'name'),

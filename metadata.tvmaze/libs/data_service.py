@@ -26,9 +26,9 @@ from xbmcgui import ListItem
 from . import tvmaze_api, cache_service as cache
 from .info_tag_property_setters import (
     BASIC_SHOW_MEDIA_PROPERTY_SETTERS,
-    SHOW_MEDIA_PROPERTY_SETTERS,
+    FULL_SHOW_MEDIA_PROPERTY_SETTERS,
     BASIC_EPISODE_MEDIA_PROPERTY_SETTERS,
-    EPISODE_MEDIA_PROPERTY_SETTERS,
+    FULL_EPISODE_MEDIA_PROPERTY_SETTERS,
     extract_artwork_url,
 )
 from .kodi_utils import ADDON, Settings
@@ -250,7 +250,7 @@ def get_episode_info(show_id: str,
 def add_full_show_info(list_item: ListItem, show_info: InfoType) -> None:
     """Add main show info to a list item"""
     info_tag = list_item.getVideoInfoTag()
-    for info_tag_method, setter_class, tvmaze_property in SHOW_MEDIA_PROPERTY_SETTERS:
+    for info_tag_method, setter_class, tvmaze_property in FULL_SHOW_MEDIA_PROPERTY_SETTERS:
         setter = setter_class(show_info, info_tag_method, tvmaze_property)
         if setter.should_set():
             setter.set_info_tag_property(info_tag)
@@ -269,7 +269,7 @@ def add_basic_episode_info(list_item: ListItem, episode_info: InfoType) -> None:
 def add_full_episode_info(list_item: ListItem, episode_info: InfoType) -> None:
     """Add episode info to a list item"""
     info_tag = list_item.getVideoInfoTag()
-    for info_tag_method, setter_class, tvmaze_property in EPISODE_MEDIA_PROPERTY_SETTERS:
+    for info_tag_method, setter_class, tvmaze_property in FULL_EPISODE_MEDIA_PROPERTY_SETTERS:
         setter = setter_class(episode_info, info_tag_method, tvmaze_property)
         if setter.should_set():
             setter.set_info_tag_property(info_tag)
