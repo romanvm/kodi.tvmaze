@@ -17,7 +17,7 @@
 
 import logging
 from pprint import pformat
-from typing import Text, Optional, Union, List, Dict, Any
+from typing import Any, Dict, List, Optional, Text, Union
 
 import simple_requests as requests
 
@@ -41,8 +41,9 @@ HEADERS = (
 )
 
 
-def _load_info(url: str,
-               params: Optional[Dict[Text, Union[Text, List[Text]]]] = None) -> Union[dict, list]:
+def _load_info(
+    url: str, params: Optional[Dict[Text, Union[Text, List[Text]]]] = None
+) -> Union[dict, list]:
     """
     Load info from TVmaze
 
@@ -91,11 +92,11 @@ def load_show_info(show_id: str) -> Optional[InfoType]:
             logging.error('TVmaze returned an error: %s', exc)
             return None
         if isinstance(show_info['_embedded']['images'], list):
-            show_info['_embedded']['images'].sort(key=lambda img: img['main'],
-                                                  reverse=True)
+            show_info['_embedded']['images'].sort(key=lambda img: img['main'], reverse=True)
         external_ids = show_info.get('externals') or {}
-        if ((imdb_id := external_ids.get('imdb'))
-                and Settings().get_value_str('default_rating') == 'IMDB'):
+        if (imdb_id := external_ids.get('imdb')) and Settings().get_value_str(
+            'default_rating'
+        ) == 'IMDB':
             show_info['imdb_rating'] = get_imdb_rating(imdb_id)
         cache.cache_show_info(show_info)
     return show_info

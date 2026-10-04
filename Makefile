@@ -1,5 +1,10 @@
-lint:
-	. .venv/bin/activate && \
-	pylint metadata.tvmaze/libs metadata.tvmaze/main.py
+PHONY: lint, format, ruff
 
-PHONY: lint
+lint:
+	. .venv/bin/activate && ruff check
+
+format:
+	. .venv/bin/activate && ruff format
+
+ruff:
+	. .venv/bin/activate && ruff check --fix && ruff format

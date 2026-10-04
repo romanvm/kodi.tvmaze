@@ -1,0 +1,28 @@
+include = ['metadata.tvmaze/**/*.py', 'metadata.tvmaze/main.py']
+line-length = 100
+
+[lint]
+select = [
+    'E',    # pycodestyle errors
+    'W',    # pycodestyle warnings
+    'F',    # pyflakes
+    'I',    # isort (import sorting)
+    'Q',    # flake8-quotes
+    'LOG',  # flake8-logging
+]
+ignore = [
+    'LOG015',  # allow calls on the root logger (logging.info(), logging.debug(), etc.)
+]
+
+[lint.flake8-quotes]
+inline-quotes = 'single'
+multiline-quotes = 'double'
+docstring-quotes = 'double'
+
+[lint.isort]
+force-sort-within-sections = true  # sort 'import x' and 'from x import y' together alphabetically
+case-sensitive = false
+order-by-type = false              # plain alphabetical order, ignoring CONSTANT/Class/function grouping
+
+[format]
+quote-style = 'single'

@@ -14,24 +14,26 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """Functions to process data"""
+
+from collections import defaultdict
 import json
 import logging
 import re
-from collections import defaultdict
-from typing import Optional, Dict, List, Any, Sequence, NamedTuple
+from typing import Any, Dict, List, NamedTuple, Optional, Sequence
 from xml.etree import ElementTree as Etree
 
 from xbmcgui import ListItem
 
-from . import tvmaze_api, cache_service as cache
+from . import cache_service as cache
+from . import tvmaze_api
 from .info_tag_property_setters import (
-    BASIC_SHOW_MEDIA_PROPERTY_SETTERS,
-    FULL_SHOW_MEDIA_PROPERTY_SETTERS,
     BASIC_EPISODE_MEDIA_PROPERTY_SETTERS,
-    FULL_EPISODE_MEDIA_PROPERTY_SETTERS,
+    BASIC_SHOW_MEDIA_PROPERTY_SETTERS,
     extract_artwork_url,
+    FULL_EPISODE_MEDIA_PROPERTY_SETTERS,
+    FULL_SHOW_MEDIA_PROPERTY_SETTERS,
 )
-from .kodi_utils import ADDON, Settings
+from .kodi_utils import Settings
 
 InfoType = Dict[str, Any]  # pylint: disable=invalid-name
 
@@ -122,8 +124,7 @@ def get_tvmaze_show_id_from_url_nfo(nfo: str) -> Optional[int]:
     if show_id_info.provider == 'tvmaze':
         return int(show_id_info.show_id)
     show_info = tvmaze_api.load_show_info_by_external_id(
-        show_id_info.provider,
-        show_id_info.show_id
+        show_id_info.provider, show_id_info.show_id
     )
     if show_info is not None:
         return show_info.get('id')
@@ -160,15 +161,13 @@ def get_tvmaze_show_id_from_xml_nfo(nfo: str) -> Optional[int]:
         return int(xml_parse_result.uniqueids['tvmaze'])
     if 'imdb' in xml_parse_result.uniqueids:
         show_info = tvmaze_api.load_show_info_by_external_id(
-            'imdb',
-            xml_parse_result.uniqueids['imdb']
+            'imdb', xml_parse_result.uniqueids['imdb']
         )
         if show_info:
             return show_info['id']
     if 'thetvdb' in xml_parse_result.uniqueids:
         show_info = tvmaze_api.load_show_info_by_external_id(
-            'thetvdb',
-            xml_parse_result.uniqueids['thetvdb']
+            'thetvdb', xml_parse_result.uniqueids['thetvdb']
         )
         if show_info:
             return show_info['id']
@@ -219,11 +218,9 @@ def get_episodes_map(show_id: str, episode_order: str) -> Optional[Dict[str, Inf
     return processed_episodes or {}
 
 
-def get_episode_info(show_id: str,
-                     episode_id: str,
-                     season: str,
-                     episode: str,
-                     episode_order: str) -> Optional[InfoType]:
+def get_episode_info(
+    show_id: str, episode_id: str, season: str, episode: str, episode_order: str
+) -> Optional[InfoType]:
     """
     Load episode info
 
@@ -304,8 +301,7 @@ def get_tvmaze_show_id_from_url_episodeguide(episodeguide: str) -> Optional[str]
         show_info = tvmaze_api.load_show_info(show_id_info.show_id)
     else:
         show_info = tvmaze_api.load_show_info_by_external_id(
-            show_id_info.provider,
-            show_id_info.show_id
+            show_id_info.provider, show_id_info.show_id
         )
     if show_info:
         show_id = str(show_info['id'])

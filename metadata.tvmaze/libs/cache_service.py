@@ -17,9 +17,9 @@
 
 import json
 import logging
-import time
 from pathlib import Path
-from typing import Optional, Text, Dict, Any, Union
+import time
+from typing import Any, Dict, Optional, Text, Union
 
 import xbmcgui
 import xbmcvfs
@@ -60,8 +60,10 @@ class MemoryCache:
         except ValueError as exc:
             logging.debug('Memory cache error: %s', exc)
             return None
-        if (cache['id'] != obj_id
-                or time.monotonic() - cache['timestamp'] > EPISODES_CACHE_TTL_SECONDS):
+        if (
+            cache['id'] != obj_id
+            or time.monotonic() - cache['timestamp'] > EPISODES_CACHE_TTL_SECONDS
+        ):
             logging.debug('Memory cache miss')
             return None
         logging.debug('Memory cache hit')

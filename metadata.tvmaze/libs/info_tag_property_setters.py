@@ -13,14 +13,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
+from abc import ABC, abstractmethod
 import json
 import re
-from abc import ABC, abstractmethod
-from typing import Optional, Dict, Any, Sequence, List, Tuple, Type
+from typing import Any, Dict, List, Optional, Sequence, Tuple, Type
 
 from xbmc import Actor, InfoTagVideo
 
-from .kodi_utils import Settings, KODI_VERSION
+from .kodi_utils import KODI_VERSION, Settings
 
 InfoType = Dict[str, Any]
 
@@ -57,11 +57,9 @@ def extract_artwork_url(resolutions: Dict[str, str]) -> str:
 
 
 class BaseInfoTagPropertySetter(ABC):
-
-    def __init__(self,
-                 media_info: InfoType,
-                 info_tag_method: str,
-                 tvmaze_property: Optional[str] = None) -> None:
+    def __init__(
+        self, media_info: InfoType, info_tag_method: str, tvmaze_property: Optional[str] = None
+    ) -> None:
         self._media_info = media_info
         self._property_value = media_info.get(tvmaze_property)
         self._info_tag_method = info_tag_method
@@ -94,14 +92,12 @@ class SimpleInfoTagPropertySetter(BaseInfoTagPropertySetter):
 
 
 class PlotSetter(SimpleInfoTagPropertySetter):
-
     def get_method_args(self) -> Sequence[Any]:
         cleaned_plot = _clean_plot(self._property_value)
         return (cleaned_plot,)
 
 
 class TvshowMediaTypeSetter(SimpleInfoTagPropertySetter):
-
     def should_set(self) -> bool:
         return True
 
@@ -110,13 +106,11 @@ class TvshowMediaTypeSetter(SimpleInfoTagPropertySetter):
 
 
 class EpisodeMediaTypesSetter(TvshowMediaTypeSetter):
-
     def get_method_args(self) -> Sequence[Any]:
         return ('episode',)
 
 
 class EpisodeGuideSetter(SimpleInfoTagPropertySetter):
-
     def should_set(self) -> bool:
         return True
 
@@ -139,14 +133,12 @@ class EpisodeGuideSetter(SimpleInfoTagPropertySetter):
 
 
 class ShowUniqueIDsSetter(EpisodeGuideSetter):
-
     def get_method_args(self) -> Sequence[Any]:
         unique_ids = self._get_unique_ids()
         return unique_ids, 'tvmaze'
 
 
 class CountrySetter(SimpleInfoTagPropertySetter):
-
     def should_set(self) -> bool:
         channel = self._media_info.get('network')
         if channel is None:
@@ -164,7 +156,6 @@ class CountrySetter(SimpleInfoTagPropertySetter):
 
 
 class StudioSetter(SimpleInfoTagPropertySetter):
-
     def should_set(self) -> bool:
         channel = self._media_info.get('network')
         if channel is None:
@@ -179,19 +170,17 @@ class StudioSetter(SimpleInfoTagPropertySetter):
 
 
 class YearSetter(SimpleInfoTagPropertySetter):
-
     def get_method_args(self) -> Sequence[Any]:
         year = self._property_value[:4]
         return (int(year),)
 
-class PremieredSetter(SimpleInfoTagPropertySetter):
 
+class PremieredSetter(SimpleInfoTagPropertySetter):
     def get_method_args(self) -> Sequence[Any]:
         return (self._property_value,)
 
 
 class CreatorsSetter(SimpleInfoTagPropertySetter):
-
     def should_set(self) -> bool:
         return bool(self._media_info.get('_embedded', {}).get('crew'))
 
@@ -209,7 +198,6 @@ class CreatorsSetter(SimpleInfoTagPropertySetter):
 
 
 class CastSetter(SimpleInfoTagPropertySetter):
-
     def should_set(self) -> bool:
         return True
 
@@ -236,14 +224,12 @@ class CastSetter(SimpleInfoTagPropertySetter):
 
 
 class ThumbSetter(SimpleInfoTagPropertySetter):
-
     def get_method_args(self) -> Sequence[Any]:
         image_url = extract_artwork_url(self._property_value)
         return image_url, 'thumb'
 
 
 class RatingSetter(BaseInfoTagPropertySetter):
-
     def should_set(self) -> bool:
         return True
 
@@ -256,12 +242,12 @@ class RatingSetter(BaseInfoTagPropertySetter):
             rating = float(self._media_info['rating']['average'])
             set_rating_method(rating, type='tvmaze', isdefault=not is_imdb_default)
         if imdb_rating is not None:
-            set_rating_method(imdb_rating['rating'], imdb_rating['votes'], type='imdb',
-                       isdefault=is_imdb_default)
+            set_rating_method(
+                imdb_rating['rating'], imdb_rating['votes'], type='imdb', isdefault=is_imdb_default
+            )
 
 
 class SeasonInfoSetter(BaseInfoTagPropertySetter):
-
     def should_set(self) -> bool:
         return bool(self._media_info.get('_embedded', {}).get('seasons'))
 
@@ -282,7 +268,6 @@ class SeasonInfoSetter(BaseInfoTagPropertySetter):
 
 
 class DurationSetter(SimpleInfoTagPropertySetter):
-
     def should_set(self) -> bool:
         return self._property_value is not None
 
@@ -291,13 +276,11 @@ class DurationSetter(SimpleInfoTagPropertySetter):
 
 
 class EpisodeUniqueIDsSetter(SimpleInfoTagPropertySetter):
-
     def get_method_args(self) -> Sequence[Any]:
         return {'tvmaze': str(self._property_value)}, 'tvmaze'
 
 
 class OriginalLanguageSetter(SimpleInfoTagPropertySetter):
-
     def should_set(self) -> bool:
         if KODI_VERSION < 22:
             return False
@@ -305,7 +288,7 @@ class OriginalLanguageSetter(SimpleInfoTagPropertySetter):
 
 
 BASIC_SHOW_MEDIA_PROPERTY_SETTERS: List[
-    Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
+    Tuple[str, Type[BaseInfoTagPropertySetter], Optional[str]]
 ] = [
     ('setYear', YearSetter, 'premiered'),
     ('addAvailableArtwork', ThumbSetter, 'image'),
@@ -313,7 +296,7 @@ BASIC_SHOW_MEDIA_PROPERTY_SETTERS: List[
 ]
 
 FULL_SHOW_MEDIA_PROPERTY_SETTERS: List[
-    Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
+    Tuple[str, Type[BaseInfoTagPropertySetter], Optional[str]]
 ] = [
     ('setPlot', PlotSetter, 'summary'),
     ('setPlotOutline', PlotSetter, 'summary'),
@@ -337,7 +320,7 @@ FULL_SHOW_MEDIA_PROPERTY_SETTERS: List[
 ]
 
 BASIC_EPISODE_MEDIA_PROPERTY_SETTERS: List[
-    Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
+    Tuple[str, Type[BaseInfoTagPropertySetter], Optional[str]]
 ] = [
     ('setTitle', SimpleInfoTagPropertySetter, 'name'),
     ('setSeason', SimpleInfoTagPropertySetter, 'season'),
@@ -346,7 +329,7 @@ BASIC_EPISODE_MEDIA_PROPERTY_SETTERS: List[
 ]
 
 FULL_EPISODE_MEDIA_PROPERTY_SETTERS: List[
-    Tuple[str, Type[BaseInfoTagPropertySetter],  Optional[str]]
+    Tuple[str, Type[BaseInfoTagPropertySetter], Optional[str]]
 ] = [
     ('setTitle', SimpleInfoTagPropertySetter, 'name'),
     ('setSeason', SimpleInfoTagPropertySetter, 'season'),

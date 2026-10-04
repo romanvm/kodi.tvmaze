@@ -24,7 +24,7 @@ from urllib import parse as urllib_parse
 import xbmcgui
 import xbmcplugin
 
-from . import tvmaze_api, data_service
+from . import data_service, tvmaze_api
 from .kodi_utils import Settings
 
 HANDLE = int(sys.argv[1])
@@ -42,10 +42,7 @@ def find_show(title: str, year: Optional[str] = None) -> None:
         # Below "url" is some unique ID string (may be an actual URL to a show page)
         # that is used to get information about a specific TV show.
         xbmcplugin.addDirectoryItem(
-            HANDLE,
-            url=str(search_result['id']),
-            listitem=list_item,
-            isFolder=True
+            HANDLE, url=str(search_result['id']), listitem=list_item, isFolder=True
         )
 
 
@@ -89,12 +86,7 @@ def parse_nfo_file(nfo: str):
         info_tag.setEpisodeGuide(episodeguide)
     # "url" is some string that uniquely identifies a show.
     # It may be an actual URL of a TV show page.
-    xbmcplugin.addDirectoryItem(
-        HANDLE,
-        url=id_string,
-        listitem=list_item,
-        isFolder=True
-    )
+    xbmcplugin.addDirectoryItem(HANDLE, url=id_string, listitem=list_item, isFolder=True)
 
 
 def get_details(show_id: Optional[str], unique_ids: Optional[str] = None) -> None:
@@ -103,8 +95,11 @@ def get_details(show_id: Optional[str], unique_ids: Optional[str] = None) -> Non
     if not show_id and unique_ids is not None:
         show_id = data_service.get_tvmaze_show_id_from_json_episodeguide(unique_ids)
         if not show_id:
-            logging.error('Unable to determine TVmaze show ID. show_id: %s,  unique_ids: %s',
-                          show_id, unique_ids)
+            logging.error(
+                'Unable to determine TVmaze show ID. show_id: %s,  unique_ids: %s',
+                show_id,
+                unique_ids,
+            )
             xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
             return
     show_info = tvmaze_api.load_show_info(show_id)
@@ -117,8 +112,9 @@ def get_details(show_id: Optional[str], unique_ids: Optional[str] = None) -> Non
 
 
 def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: disable=missing-docstring
-    logging.debug('Getting episode list for episodeguide %s, order: %s',
-                  episodeguide, episode_order)
+    logging.debug(
+        'Getting episode list for episodeguide %s, order: %s', episodeguide, episode_order
+    )
     show_id = None
     if episodeguide.startswith('{'):
         show_id = data_service.get_tvmaze_show_id_from_json_episodeguide(episodeguide)
@@ -129,9 +125,11 @@ def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: 
         logging.warning('Invalid episodeguide format: %s (probably URL).', episodeguide)
         show_id = data_service.get_tvmaze_show_id_from_url_episodeguide(episodeguide)
     if show_id is None and episodeguide.isdigit():
-        logging.warning('Invalid episodeguide format: %s (a numeric string). '
-                        'Please consider re-scanning the show to update episodeguide record.',
-                        episodeguide)
+        logging.warning(
+            'Invalid episodeguide format: %s (a numeric string). '
+            'Please consider re-scanning the show to update episodeguide record.',
+            episodeguide,
+        )
         show_id = episodeguide
     if show_id is None:
         return
@@ -139,32 +137,31 @@ def get_episode_list(episodeguide: str, episode_order: str) -> None:  # pylint: 
     for episode in episodes_map.values():
         list_item = xbmcgui.ListItem(episode['name'], offscreen=True)
         data_service.add_basic_episode_info(list_item, episode)
-        encoded_ids = urllib_parse.urlencode({
-            'show_id': show_id,
-            'episode_id': str(episode['id']),
-            'season': str(episode['season']),
-            'episode': str(episode['number']),
-        })
+        encoded_ids = urllib_parse.urlencode(
+            {
+                'show_id': show_id,
+                'episode_id': str(episode['id']),
+                'season': str(episode['season']),
+                'episode': str(episode['number']),
+            }
+        )
         # Below "url" is some unique ID string (it may be an actual URL to an episode page)
         # that allows to retrieve information about a specific episode.
         url = urllib_parse.quote(encoded_ids)
-        xbmcplugin.addDirectoryItem(
-            HANDLE,
-            url=url,
-            listitem=list_item,
-            isFolder=True
-        )
+        xbmcplugin.addDirectoryItem(HANDLE, url=url, listitem=list_item, isFolder=True)
 
 
 def get_episode_details(encoded_ids: str, episode_order: str) -> None:  # pylint: disable=missing-docstring
     encoded_ids = urllib_parse.unquote(encoded_ids)
     decoded_ids = dict(urllib_parse.parse_qsl(encoded_ids))
     logging.debug('Getting episode details for %s', decoded_ids)
-    episode_info = data_service.get_episode_info(decoded_ids['show_id'],
-                                                 decoded_ids['episode_id'],
-                                                 decoded_ids['season'],
-                                                 decoded_ids['episode'],
-                                                 episode_order)
+    episode_info = data_service.get_episode_info(
+        decoded_ids['show_id'],
+        decoded_ids['episode_id'],
+        decoded_ids['season'],
+        decoded_ids['episode'],
+        episode_order,
+    )
     if not episode_info:
         xbmcplugin.setResolvedUrl(HANDLE, False, xbmcgui.ListItem(offscreen=True))
         return

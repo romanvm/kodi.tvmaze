@@ -19,10 +19,10 @@ jobs:
         python-version: "3.10"
     - name: Install dependencies
       run: |
-        pip install -q Pylint Kodistubs typing-extensions
-    - name: Check with Pylint
+        pip install -q requirements.txt
+    - name: Check with ruff
       run: |
-        pylint --exit-zero metadata.tvmaze/libs metadata.tvmaze/main.py
+        ruff
     - name: Install addon checker
       run: |
         pip install -q kodi-addon-checker

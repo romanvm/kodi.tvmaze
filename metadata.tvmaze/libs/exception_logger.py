@@ -14,12 +14,12 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """Exception logger with extended diagnostic info"""
 
-import inspect
-import sys
 from contextlib import contextmanager
+import inspect
 from platform import uname
 from pprint import pformat
-from typing import Any, Dict, Callable, Generator, Iterable, Optional
+import sys
+from typing import Any, Callable, Dict, Generator, Iterable, Optional
 
 import xbmc
 
@@ -35,8 +35,11 @@ def _format_vars(variables: Dict[str, Any]) -> str:
     :param variables: variables dict
     :return: formatted string with sorted ``var = val`` pairs
     """
-    var_list = [(var, val) for var, val in variables.items()
-                if not (var.startswith('__') or var.endswith('__'))]
+    var_list = [
+        (var, val)
+        for var, val in variables.items()
+        if not (var.startswith('__') or var.endswith('__'))
+    ]
     var_list.sort(key=lambda i: i[0])
     lines = []
     for var, val in var_list:
@@ -72,7 +75,7 @@ def _format_frame_info(frame_info: inspect.FrameInfo) -> str:
         file_path=frame_info.filename,
         lineno=frame_info.lineno,
         code_context=_format_code_context(frame_info),
-        local_vars=_format_vars(frame_info.frame.f_locals)
+        local_vars=_format_vars(frame_info.frame.f_locals),
     )
 
 
@@ -150,7 +153,7 @@ def format_exception(exc_obj: Optional[Exception] = None) -> str:
         kodi_version=xbmc.getInfoLabel('System.BuildVersion'),
         sys_argv=pformat(sys.argv),
         sys_path=pformat(sys.path),
-        stack_trace_info=stack_trace_info
+        stack_trace_info=stack_trace_info,
     )
     return message
 
@@ -189,6 +192,8 @@ def catch_exception(logger_func: Callable[[str], None] = _log_error) -> Generato
     except Exception as exc:
         message = format_exception(exc)
         # pylint: disable=line-too-long
-        logger_func('\n*********************************** Unhandled exception detected ***********************************\n'
-                    + message)
+        logger_func(
+            '\n*********************************** Unhandled exception detected ***********************************\n'  # noqa: E501
+            + message
+        )
         raise

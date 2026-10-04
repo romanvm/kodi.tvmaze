@@ -16,15 +16,18 @@
 import json
 import logging
 import re
-from typing import Dict, Union, Optional
+from typing import Dict, Optional, Union
 
 import simple_requests as requests
 
 IMDB_TITLE_URL = 'https://www.imdb.com/title/{}/'
 
 HEADERS = (
-    ('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 '
-                   '(KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36'),
+    (
+        'User-Agent',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 '
+        '(KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36',
+    ),
     ('Accept', 'text/html'),
 )
 
@@ -32,14 +35,20 @@ HEADERS = (
 def get_imdb_rating(imdb_id: str) -> Optional[Dict[str, Union[int, float]]]:
     url = IMDB_TITLE_URL.format(imdb_id)
     response = requests.get(url, headers=dict(HEADERS))
-    if (response.ok
-            and (ld_json_match := re.search(
-                r'<script type="application/ld\+json">([^<]+?)</script>', response.text))):
+    if response.ok and (
+        ld_json_match := re.search(
+            r'<script type="application/ld\+json">([^<]+?)</script>', response.text
+        )
+    ):
         ld_json = json.loads(ld_json_match.group(1))
         if aggregate_rating := ld_json.get('aggregateRating'):
             rating = aggregate_rating['ratingValue']
             votes = aggregate_rating['ratingCount']
             return {'rating': rating, 'votes': votes}
-    logging.debug('Unable to get IMDB rating for ID %s. Status: %s, response: %s',
-                  imdb_id, response.status_code, response.text)
+    logging.debug(
+        'Unable to get IMDB rating for ID %s. Status: %s, response: %s',
+        imdb_id,
+        response.status_code,
+        response.text,
+    )
     return None

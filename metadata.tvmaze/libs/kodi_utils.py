@@ -14,9 +14,10 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """Misc utils"""
-import logging
+
 from decimal import Decimal
-from typing import Dict, Any
+import logging
+from typing import Any, Dict
 
 import xbmc
 from xbmcaddon import Addon
@@ -29,6 +30,7 @@ KODI_VERSION = Decimal(xbmc.getInfoLabel('System.BuildVersion')[:4])
 
 class Settings:
     """Access addon settings"""
+
     _instance = None
 
     def __new__(cls):
@@ -67,12 +69,13 @@ class KodiLogHandler(logging.Handler):
 
     It also adds {addon_id} and {addon_version} variables available to log format.
     """
+
     LOG_FORMAT = '[{addon_id} v.{addon_version}] {filename}:{lineno} - {message}'
     LEVEL_MAP = {
         logging.NOTSET: xbmc.LOGNONE,
         logging.DEBUG: xbmc.LOGDEBUG,
         logging.INFO: xbmc.LOGINFO,
-        logging.WARN: xbmc.LOGWARNING,
+        logging.WARNING: xbmc.LOGWARNING,
         logging.WARNING: xbmc.LOGWARNING,
         logging.ERROR: xbmc.LOGERROR,
         logging.CRITICAL: xbmc.LOGFATAL,
@@ -97,5 +100,5 @@ def initialize_logging():
         style='{',
         level=logging.DEBUG,
         handlers=[KodiLogHandler()],
-        force=True
+        force=True,
     )
