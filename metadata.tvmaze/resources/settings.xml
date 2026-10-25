@@ -19,17 +19,6 @@
           </constraints>
           <control type="spinner" format="string"/>
         </setting>
-        <setting id="default_rating" type="string" label="32009" help="">
-          <level>0</level>
-          <default>TVmaze</default>
-          <constraints>
-            <options>
-              <option label="TVmaze">TVmaze</option>
-              <option label="IMDB">IMDB</option>
-            </options>
-          </constraints>
-          <control type="spinner" format="string"/>
-        </setting>
         <setting id="full_nfo" type="boolean" label="32010" help="">
           <level>0</level>
           <default>false</default>

@@ -20,7 +20,7 @@ from typing import Any, Dict, List, Optional, Sequence, Tuple, Type
 
 from xbmc import Actor, InfoTagVideo
 
-from .kodi_utils import KODI_VERSION, Settings
+from .kodi_utils import KODI_VERSION
 
 InfoType = Dict[str, Any]
 
@@ -231,20 +231,12 @@ class ThumbSetter(SimpleInfoTagPropertySetter):
 
 class RatingSetter(BaseInfoTagPropertySetter):
     def should_set(self) -> bool:
-        return True
+        return self._property_value is not None and self._property_value['average'] is not None
 
     def set_info_tag_property(self, info_tag: InfoTagVideo) -> None:
         set_rating_method = getattr(info_tag, self._info_tag_method)
-        imdb_rating = self._media_info.get('imdb_rating')
-        default_rating = Settings().get_value_str('default_rating')
-        is_imdb_default = default_rating == 'IMDB' and imdb_rating is not None
-        if self._property_value is not None and self._property_value['average'] is not None:
-            rating = float(self._media_info['rating']['average'])
-            set_rating_method(rating, type='tvmaze', isdefault=not is_imdb_default)
-        if imdb_rating is not None:
-            set_rating_method(
-                imdb_rating['rating'], imdb_rating['votes'], type='imdb', isdefault=is_imdb_default
-            )
+        rating = float(self._property_value['average'])
+        set_rating_method(rating, type='tvmaze', isdefault=True)
 
 
 class SeasonInfoSetter(BaseInfoTagPropertySetter):

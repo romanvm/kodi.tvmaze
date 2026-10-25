@@ -21,8 +21,6 @@ and submitted).
   - `cache_service.py` — two caches: show info as JSON files in `special://temp/scrapers/metadata.tvmaze/`
     (TTL governed by `cachepersistence` in `addon.xml`), and the episodes map in a Home window (10000) property
     with a 10-minute TTL (`MemoryCache`, holds only one show at a time).
-  - `imdb_rating.py` — scrapes IMDB rating from the title page's `ld+json` block (only when the
-    `default_rating` setting is `IMDB`).
   - `kodi_utils.py` — `ADDON`, `ADDON_ID`, `ADDON_VERSION`, `KODI_VERSION` (Decimal), `Settings` singleton,
     Kodi logging handler.
   - `exception_logger.py` — `catch_exception` context manager that dumps frames/locals to the Kodi log.

@@ -43,10 +43,6 @@ msgctxt "#32008"
 msgid "English Language Premiere"
 msgstr ""
 
-msgctxt "#32009"
-msgid "Default Rating"
-msgstr ""
-
 msgctxt "#32010"
 msgid ".NFO files include full show/episodes information"
 msgstr ""

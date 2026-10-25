@@ -22,8 +22,7 @@ from typing import Any, Dict, List, Optional, Text, Union
 import simple_requests as requests
 
 from . import cache_service as cache
-from .imdb_rating import get_imdb_rating
-from .kodi_utils import ADDON_VERSION, Settings
+from .kodi_utils import ADDON_VERSION
 
 InfoType = Dict[str, Any]  # pylint: disable=invalid-name
 
@@ -93,11 +92,6 @@ def load_show_info(show_id: str) -> Optional[InfoType]:
             return None
         if isinstance(show_info['_embedded']['images'], list):
             show_info['_embedded']['images'].sort(key=lambda img: img['main'], reverse=True)
-        external_ids = show_info.get('externals') or {}
-        if (imdb_id := external_ids.get('imdb')) and Settings().get_value_str(
-            'default_rating'
-        ) == 'IMDB':
-            show_info['imdb_rating'] = get_imdb_rating(imdb_id)
         cache.cache_show_info(show_info)
     return show_info
 
