@@ -91,7 +91,7 @@ def search_show(title: str, year: str) -> Sequence[InfoType]:
     search_results = [res['show'] for res in raw_search_results]
     if len(search_results) > 1 and year:
         search_result = _filter_by_year(search_results, year)
-        if search_results is not None:
+        if search_result is not None:
             return (search_result,)
     return search_results
 
@@ -284,9 +284,8 @@ def get_tvmaze_show_id_from_json_episodeguide(episodeguide: str) -> Optional[str
         external_id = uniqueids.get(external_id_type)
         if external_id is None:
             continue
-        if external_id == 'tvdb':
-            external_id = 'thetvdb'
-        show_info = tvmaze_api.load_show_info_by_external_id(external_id_type, external_id)
+        provider = 'thetvdb' if external_id_type == 'tvdb' else external_id_type
+        show_info = tvmaze_api.load_show_info_by_external_id(provider, external_id)
         if show_info:
             return str(show_info['id'])
     return None

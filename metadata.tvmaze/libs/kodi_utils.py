@@ -76,7 +76,6 @@ class KodiLogHandler(logging.Handler):
         logging.DEBUG: xbmc.LOGDEBUG,
         logging.INFO: xbmc.LOGINFO,
         logging.WARNING: xbmc.LOGWARNING,
-        logging.WARNING: xbmc.LOGWARNING,
         logging.ERROR: xbmc.LOGERROR,
         logging.CRITICAL: xbmc.LOGFATAL,
     }
