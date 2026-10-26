@@ -47,6 +47,10 @@ def _clean_plot(plot: str) -> str:
 def extract_artwork_url(resolutions: Dict[str, str]) -> str:
     """Extract image URL from the list of available resolutions"""
     url = ''
+    # Nested resolutions ({'original': {'url': ...}}, from show "images" embed) stop at the first
+    # available size in IMAGE_SIZES order. Flat dicts ({'medium': url, 'original': url},
+    # from "image" fields) never break, so "medium" wins: this is intentional,
+    # as a trade-off between image size and quality.
     for image_size in IMAGE_SIZES:
         url = resolutions.get(image_size) or ''
         if isinstance(url, dict):
@@ -317,7 +321,8 @@ BASIC_EPISODE_MEDIA_PROPERTY_SETTERS: List[
     ('setTitle', SimpleInfoTagPropertySetter, 'name'),
     ('setSeason', SimpleInfoTagPropertySetter, 'season'),
     ('setEpisode', SimpleInfoTagPropertySetter, 'number'),
-    ('setPremiered', PremieredSetter, 'premiered'),
+    # Kodi uses the first aired date to match episodes by date
+    ('setFirstAired', SimpleInfoTagPropertySetter, 'airdate'),
 ]
 
 FULL_EPISODE_MEDIA_PROPERTY_SETTERS: List[
