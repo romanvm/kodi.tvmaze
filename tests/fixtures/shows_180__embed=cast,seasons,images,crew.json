@@ -1,0 +1,684 @@
+{
+  "id": 180,
+  "url": "https://www.tvmaze.com/shows/180/firefly",
+  "name": "Firefly",
+  "type": "Scripted",
+  "language": "English",
+  "genres": [
+    "Drama",
+    "Adventure",
+    "Science-Fiction"
+  ],
+  "status": "Ended",
+  "runtime": 60,
+  "averageRuntime": 64,
+  "premiered": "2002-09-20",
+  "ended": "2002-12-20",
+  "officialSite": null,
+  "schedule": {
+    "time": "20:00",
+    "days": [
+      "Friday"
+    ]
+  },
+  "rating": {
+    "average": 9
+  },
+  "weight": 99,
+  "network": {
+    "id": 4,
+    "name": "FOX",
+    "country": {
+      "name": "United States",
+      "code": "US",
+      "timezone": "America/New_York"
+    },
+    "officialSite": "https://www.fox.com/"
+  },
+  "webChannel": null,
+  "dvdCountry": null,
+  "externals": {
+    "tvrage": 3548,
+    "thetvdb": 78874,
+    "imdb": "tt0303461"
+  },
+  "image": {
+    "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/1/2600.jpg",
+    "original": "https://static.tvmaze.com/uploads/images/original_untouched/1/2600.jpg"
+  },
+  "summary": "<p>Five hundred years in the future, a renegade crew aboard a small spacecraft tries to survive as they travel the unknown parts of the galaxy and evade warring factions as well as authority agents out to get them.</p>",
+  "updated": 1779009049,
+  "_links": {
+    "self": {
+      "href": "https://api.tvmaze.com/shows/180"
+    },
+    "previousepisode": {
+      "href": "https://api.tvmaze.com/episodes/13005",
+      "name": "Serenity"
+    }
+  },
+  "_embedded": {
+    "cast": [
+      {
+        "person": {
+          "id": 9135,
+          "url": "https://www.tvmaze.com/people/9135/nathan-fillion",
+          "name": "Nathan Fillion",
+          "country": {
+            "name": "Canada",
+            "code": "CA",
+            "timezone": "America/Toronto"
+          },
+          "birthday": "1971-03-27",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/248/620269.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/248/620269.jpg"
+          },
+          "updated": 1790600735,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/9135"
+            }
+          }
+        },
+        "character": {
+          "id": 49339,
+          "url": "https://www.tvmaze.com/characters/49339/firefly-captain-malcolm-mal-reynolds",
+          "name": "Captain Malcolm \"Mal\" Reynolds",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/1/2601.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/1/2601.jpg"
+          },
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/characters/49339"
+            }
+          }
+        },
+        "self": false,
+        "voice": false
+      },
+      {
+        "person": {
+          "id": 12877,
+          "url": "https://www.tvmaze.com/people/12877/gina-torres",
+          "name": "Gina Torres",
+          "country": {
+            "name": "United States",
+            "code": "US",
+            "timezone": "America/New_York"
+          },
+          "birthday": "1969-04-25",
+          "deathday": null,
+          "gender": "Female",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/574/1436611.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/574/1436611.jpg"
+          },
+          "updated": 1792939226,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/12877"
+            }
+          }
+        },
+        "character": {
+          "id": 49340,
+          "url": "https://www.tvmaze.com/characters/49340/firefly-zoe-alleyne-washburne",
+          "name": "Zoe Alleyne Washburne",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/1/2604.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/1/2604.jpg"
+          },
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/characters/49340"
+            }
+          }
+        },
+        "self": false,
+        "voice": false
+      },
+      {
+        "person": {
+          "id": 22757,
+          "url": "https://www.tvmaze.com/people/22757/alan-tudyk",
+          "name": "Alan Tudyk",
+          "country": {
+            "name": "United States",
+            "code": "US",
+            "timezone": "America/New_York"
+          },
+          "birthday": "1971-03-16",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/4/10099.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/4/10099.jpg"
+          },
+          "updated": 1792427038,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/22757"
+            }
+          }
+        },
+        "character": {
+          "id": 49341,
+          "url": "https://www.tvmaze.com/characters/49341/firefly-hoban-wash-washburne",
+          "name": "Hoban \"Wash\" Washburne",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/1/2602.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/1/2602.jpg"
+          },
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/characters/49341"
+            }
+          }
+        },
+        "self": false,
+        "voice": false
+      },
+      {
+        "person": {
+          "id": 890,
+          "url": "https://www.tvmaze.com/people/890/morena-baccarin",
+          "name": "Morena Baccarin",
+          "country": {
+            "name": "Brazil",
+            "code": "BR",
+            "timezone": "America/Noronha"
+          },
+          "birthday": "1979-06-02",
+          "deathday": null,
+          "gender": "Female",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/598/1496474.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/598/1496474.jpg"
+          },
+          "updated": 1792266007,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/890"
+            }
+          }
+        },
+        "character": {
+          "id": 49342,
+          "url": "https://www.tvmaze.com/characters/49342/firefly-inara-serra",
+          "name": "Inara Serra",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/1/2603.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/1/2603.jpg"
+          },
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/characters/49342"
+            }
+          }
+        },
+        "self": false,
+        "voice": false
+      },
+      {
+        "person": {
+          "id": 4862,
+          "url": "https://www.tvmaze.com/people/4862/adam-baldwin",
+          "name": "Adam Baldwin",
+          "country": {
+            "name": "United States",
+            "code": "US",
+            "timezone": "America/New_York"
+          },
+          "birthday": "1962-02-27",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/3/8166.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/3/8166.jpg"
+          },
+          "updated": 1731985035,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/4862"
+            }
+          }
+        },
+        "character": {
+          "id": 49343,
+          "url": "https://www.tvmaze.com/characters/49343/firefly-jayne-cobb",
+          "name": "Jayne Cobb",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/1/2605.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/1/2605.jpg"
+          },
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/characters/49343"
+            }
+          }
+        },
+        "self": false,
+        "voice": false
+      },
+      {
+        "person": {
+          "id": 4279,
+          "url": "https://www.tvmaze.com/people/4279/jewel-staite",
+          "name": "Jewel Staite",
+          "country": {
+            "name": "Canada",
+            "code": "CA",
+            "timezone": "America/Toronto"
+          },
+          "birthday": "1982-06-02",
+          "deathday": null,
+          "gender": "Female",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/163/409273.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/163/409273.jpg"
+          },
+          "updated": 1780262332,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/4279"
+            }
+          }
+        },
+        "character": {
+          "id": 49344,
+          "url": "https://www.tvmaze.com/characters/49344/firefly-kaywinnet-lee-kaylee-frye",
+          "name": "Kaywinnet Lee \"Kaylee\" Frye",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/1/2606.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/1/2606.jpg"
+          },
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/characters/49344"
+            }
+          }
+        },
+        "self": false,
+        "voice": false
+      },
+      {
+        "person": {
+          "id": 585,
+          "url": "https://www.tvmaze.com/people/585/sean-maher",
+          "name": "Sean Maher",
+          "country": {
+            "name": "United States",
+            "code": "US",
+            "timezone": "America/New_York"
+          },
+          "birthday": "1975-04-16",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/182/456947.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/182/456947.jpg"
+          },
+          "updated": 1784409146,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/585"
+            }
+          }
+        },
+        "character": {
+          "id": 49345,
+          "url": "https://www.tvmaze.com/characters/49345/firefly-dr-simon-tam",
+          "name": "Dr. Simon Tam",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/1/2609.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/1/2609.jpg"
+          },
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/characters/49345"
+            }
+          }
+        },
+        "self": false,
+        "voice": false
+      },
+      {
+        "person": {
+          "id": 513,
+          "url": "https://www.tvmaze.com/people/513/summer-glau",
+          "name": "Summer Glau",
+          "country": {
+            "name": "United States",
+            "code": "US",
+            "timezone": "America/New_York"
+          },
+          "birthday": "1981-07-24",
+          "deathday": null,
+          "gender": "Female",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/432/1081925.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/432/1081925.jpg"
+          },
+          "updated": 1669998327,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/513"
+            }
+          }
+        },
+        "character": {
+          "id": 49346,
+          "url": "https://www.tvmaze.com/characters/49346/firefly-river-tam",
+          "name": "River Tam",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/1/2608.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/1/2608.jpg"
+          },
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/characters/49346"
+            }
+          }
+        },
+        "self": false,
+        "voice": false
+      },
+      {
+        "person": {
+          "id": 6101,
+          "url": "https://www.tvmaze.com/people/6101/ron-glass",
+          "name": "Ron Glass",
+          "country": {
+            "name": "United States",
+            "code": "US",
+            "timezone": "America/New_York"
+          },
+          "birthday": "1945-07-10",
+          "deathday": "2016-11-25",
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/2/6399.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/2/6399.jpg"
+          },
+          "updated": 1748882237,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/6101"
+            }
+          }
+        },
+        "character": {
+          "id": 963144,
+          "url": "https://www.tvmaze.com/characters/963144/firefly-shepherd-derrial-book",
+          "name": "Shepherd Derrial Book",
+          "image": null,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/characters/963144"
+            }
+          }
+        },
+        "self": false,
+        "voice": false
+      }
+    ],
+    "seasons": [
+      {
+        "id": 800,
+        "url": "https://www.tvmaze.com/seasons/800/firefly-season-1",
+        "number": 1,
+        "name": "",
+        "episodeOrder": 14,
+        "premiereDate": "2002-09-20",
+        "endDate": "2002-12-20",
+        "network": {
+          "id": 4,
+          "name": "FOX",
+          "country": {
+            "name": "United States",
+            "code": "US",
+            "timezone": "America/New_York"
+          },
+          "officialSite": "https://www.fox.com/"
+        },
+        "webChannel": null,
+        "image": {
+          "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/9/23969.jpg",
+          "original": "https://static.tvmaze.com/uploads/images/original_untouched/9/23969.jpg"
+        },
+        "summary": "<p>Captain Malcolm 'Mal' Reynolds is a former galactic war veteran who is the captain of the transport ship \"Serenity\". Mal and his crew, ensign Zoe Alleyne Washburne; Zoe's husband, pilot Hoban 'Wash' Washburne; muscular mercenary Jayne Cobb; young mechanic Kaylee Frye; former Alliance medical officer Simon Tam; his disturbed teenage sister River (both on the run from the interplanetary government \"The Alliance\"); the beautiful courtesan Inara Serra; and preacher Shepherd Book do any jobs, legal or illegal, they can find as the Serenity crew travels across the outskirts of outer space.</p>",
+        "_links": {
+          "self": {
+            "href": "https://api.tvmaze.com/seasons/800"
+          }
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": 2600,
+        "type": "poster",
+        "main": true,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/1/2600.jpg",
+            "width": 680,
+            "height": 1000
+          },
+          "medium": {
+            "url": "https://static.tvmaze.com/uploads/images/medium_portrait/1/2600.jpg",
+            "width": 210,
+            "height": 295
+          }
+        }
+      },
+      {
+        "id": 527060,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/212/530539.jpg",
+            "width": 856,
+            "height": 480
+          }
+        }
+      },
+      {
+        "id": 552901,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/222/556458.jpg",
+            "width": 1920,
+            "height": 1080
+          }
+        }
+      },
+      {
+        "id": 629476,
+        "type": "banner",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/253/633320.jpg",
+            "width": 758,
+            "height": 140
+          },
+          "medium": {
+            "url": "https://static.tvmaze.com/uploads/images/medium_leaderboard/253/633320.jpg",
+            "width": 758,
+            "height": 140
+          }
+        }
+      },
+      {
+        "id": 629477,
+        "type": "banner",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/253/633321.jpg",
+            "width": 758,
+            "height": 140
+          },
+          "medium": {
+            "url": "https://static.tvmaze.com/uploads/images/medium_leaderboard/253/633321.jpg",
+            "width": 758,
+            "height": 140
+          }
+        }
+      },
+      {
+        "id": 1430982,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/579/1448290.jpg",
+            "width": 1712,
+            "height": 964
+          }
+        }
+      },
+      {
+        "id": 1430983,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/579/1448291.jpg",
+            "width": 3840,
+            "height": 2160
+          }
+        }
+      }
+    ],
+    "crew": [
+      {
+        "type": "Creator",
+        "person": {
+          "id": 6085,
+          "url": "https://www.tvmaze.com/people/6085/joss-whedon",
+          "name": "Joss Whedon",
+          "country": {
+            "name": "United States",
+            "code": "US",
+            "timezone": "America/New_York"
+          },
+          "birthday": "1964-06-23",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/20/50628.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/20/50628.jpg"
+          },
+          "updated": 1535811779,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/6085"
+            }
+          }
+        }
+      },
+      {
+        "type": "Associate Producer",
+        "person": {
+          "id": 2937,
+          "url": "https://www.tvmaze.com/people/2937/brian-wankum",
+          "name": "Brian Wankum",
+          "country": null,
+          "birthday": null,
+          "deathday": null,
+          "gender": null,
+          "image": null,
+          "updated": 1792901461,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/2937"
+            }
+          }
+        }
+      },
+      {
+        "type": "Director Of Photography",
+        "person": {
+          "id": 3296,
+          "url": "https://www.tvmaze.com/people/3296/david-boyd",
+          "name": "David Boyd",
+          "country": null,
+          "birthday": null,
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/126/315512.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/126/315512.jpg"
+          },
+          "updated": 1741034477,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/3296"
+            }
+          }
+        }
+      },
+      {
+        "type": "Producer",
+        "person": {
+          "id": 3364,
+          "url": "https://www.tvmaze.com/people/3364/ben-edlund",
+          "name": "Ben Edlund",
+          "country": {
+            "name": "United States",
+            "code": "US",
+            "timezone": "America/New_York"
+          },
+          "birthday": "1968-09-20",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/48/120655.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/48/120655.jpg"
+          },
+          "updated": 1640388430,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/3364"
+            }
+          }
+        }
+      },
+      {
+        "type": "Executive Producer",
+        "person": {
+          "id": 5873,
+          "url": "https://www.tvmaze.com/people/5873/tim-minear",
+          "name": "Tim Minear",
+          "country": {
+            "name": "United States",
+            "code": "US",
+            "timezone": "America/New_York"
+          },
+          "birthday": "1963-10-29",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/596/1490012.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/596/1490012.jpg"
+          },
+          "updated": 1792835388,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/5873"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "id": 3572,
+    "url": "https://www.tvmaze.com/alternatelists/3572/sherlock-ireland-country-premiere",
+    "dvd_release": false,
+    "verbatim_order": false,
+    "country_premiere": true,
+    "streaming_premiere": false,
+    "broadcast_premiere": false,
+    "language_premiere": false,
+    "language": null,
+    "network": {
+      "id": 1054,
+      "name": "RTÉ2",
+      "country": {
+        "name": "Ireland",
+        "code": "IE",
+        "timezone": "Europe/Dublin"
+      },
+      "officialSite": "https://www.rte.ie/tv/"
+    },
+    "webChannel": null,
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/alternatelists/3572"
+      }
+    }
+  }
+]

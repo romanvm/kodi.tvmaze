@@ -1,0 +1,716 @@
+[
+  {
+    "id": 1,
+    "name": "Serenity",
+    "season": 1,
+    "number": 1,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 120,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/13005"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 13005,
+          "url": "https://www.tvmaze.com/episodes/13005/firefly-1x11-serenity",
+          "name": "Serenity",
+          "season": 1,
+          "number": 11,
+          "type": "regular",
+          "airdate": "2002-12-20",
+          "airtime": "20:00",
+          "airstamp": "2002-12-21T01:00:00+00:00",
+          "runtime": 120,
+          "rating": {
+            "average": 8.3
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/9/23984.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/9/23984.jpg"
+          },
+          "summary": "<p>After a flashback to Zoe's and Mal's days in the wars six years previous, we cut to the modern day where the <i>Serenity</i> crew is running a salvage operation on a deserted ship and are forced to flee with the cargo when the Alliance show up.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/13005"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "name": "The Train Job",
+    "season": 1,
+    "number": 2,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/12995"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 12995,
+          "url": "https://www.tvmaze.com/episodes/12995/firefly-1x01-the-train-job",
+          "name": "The Train Job",
+          "season": 1,
+          "number": 1,
+          "type": "regular",
+          "airdate": "2002-09-20",
+          "airtime": "20:00",
+          "airstamp": "2002-09-21T00:00:00+00:00",
+          "runtime": 60,
+          "rating": {
+            "average": 8
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/9/23970.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/9/23970.jpg"
+          },
+          "summary": "<p>After finding themselves in a fight with supporters of The Alliance in a place that fairly resembles a bar, Mal, Zoe and Jayne walk away with knowledge that a man named Niska might have a new job for them.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/12995"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "name": "Bushwhacked",
+    "season": 1,
+    "number": 3,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/12996"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 12996,
+          "url": "https://www.tvmaze.com/episodes/12996/firefly-1x02-bushwhacked",
+          "name": "Bushwhacked",
+          "season": 1,
+          "number": 2,
+          "type": "regular",
+          "airdate": "2002-09-27",
+          "airtime": "20:00",
+          "airstamp": "2002-09-28T00:00:00+00:00",
+          "runtime": 60,
+          "rating": {
+            "average": 8
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/9/23971.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/9/23971.jpg"
+          },
+          "summary": "<p>On a salvage mission aboard a drifting colony ship, the Serenity crew find signs that the crew were killed by the cannibalistic Reavers. They find one survivor, but things take a turn for the worse when an Alliance ship looking for an unspecified Firefly-class ship with brother-and-sister stowaways shows up and takes them in.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/12996"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 4,
+    "name": "Shindig",
+    "season": 1,
+    "number": 4,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/13000"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 13000,
+          "url": "https://www.tvmaze.com/episodes/13000/firefly-1x06-shindig",
+          "name": "Shindig",
+          "season": 1,
+          "number": 6,
+          "type": "regular",
+          "airdate": "2002-11-01",
+          "airtime": "20:00",
+          "airstamp": "2002-11-02T01:00:00+00:00",
+          "runtime": 60,
+          "rating": {
+            "average": 8.1
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/9/23975.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/9/23975.jpg"
+          },
+          "summary": "<p>On the planet Persephone the crew contact their old \"friend\" Badger the ruthless crime lord to transport some goods on behalf of a local lord. While at a ball to arrange a transport job with the lord, Mal defends Inara's honor when her current customer insults her. By local custom he unintentionally challenges her date, Atherton Wing, to a duel.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/13000"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 5,
+    "name": "Safe",
+    "season": 1,
+    "number": 5,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/13001"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 13001,
+          "url": "https://www.tvmaze.com/episodes/13001/firefly-1x07-safe",
+          "name": "Safe",
+          "season": 1,
+          "number": 7,
+          "type": "regular",
+          "airdate": "2002-11-08",
+          "airtime": "20:00",
+          "airstamp": "2002-11-09T01:00:00+00:00",
+          "runtime": 60,
+          "rating": {
+            "average": 8
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/9/23976.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/9/23976.jpg"
+          },
+          "summary": "<p>On a planet, Simon is kidnapped by locals who need a doctor, while River is threatened with burning as a witch.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/13001"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 6,
+    "name": "Our Mrs. Reynolds",
+    "season": 1,
+    "number": 6,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/12997"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 12997,
+          "url": "https://www.tvmaze.com/episodes/12997/firefly-1x03-our-mrs-reynolds",
+          "name": "Our Mrs. Reynolds",
+          "season": 1,
+          "number": 3,
+          "type": "regular",
+          "airdate": "2002-10-04",
+          "airtime": "20:00",
+          "airstamp": "2002-10-05T00:00:00+00:00",
+          "runtime": 60,
+          "rating": {
+            "average": 8.4
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/9/23972.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/9/23972.jpg"
+          },
+          "summary": "<p>While completing a job on a backwater world, Mal is married to a village girl without his knowledge. The girl, Saffron, gets onboard and the crew does not find her until they're already in the air. Mal is not sure what to do with her, but let her come along.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/12997"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 7,
+    "name": "Jaynestown",
+    "season": 1,
+    "number": 7,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/12998"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 12998,
+          "url": "https://www.tvmaze.com/episodes/12998/firefly-1x04-jaynestown",
+          "name": "Jaynestown",
+          "season": 1,
+          "number": 4,
+          "type": "regular",
+          "airdate": "2002-10-18",
+          "airtime": "20:00",
+          "airstamp": "2002-10-19T00:00:00+00:00",
+          "runtime": 60,
+          "rating": {
+            "average": 8.3
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/9/23973.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/9/23973.jpg"
+          },
+          "summary": "<p>Serenity sets down at the mudder colony of Canton where it turns out Jayne is a hero for having dropped a bunch of money there years ago that he and his partner Stitch stole from the local magistrate. The drop was unintentional but Jayne doesn't turn down the attentions. Meanwhile, Kaylee and Simon dance, River rewrites Book's bible, and Inara beds the magistrate's son, a virgin.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/12998"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 8,
+    "name": "Out of Gas",
+    "season": 1,
+    "number": 8,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/12999"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 12999,
+          "url": "https://www.tvmaze.com/episodes/12999/firefly-1x05-out-of-gas",
+          "name": "Out of Gas",
+          "season": 1,
+          "number": 5,
+          "type": "regular",
+          "airdate": "2002-10-25",
+          "airtime": "20:00",
+          "airstamp": "2002-10-26T00:00:00+00:00",
+          "runtime": 60,
+          "rating": {
+            "average": 8.9
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/9/23974.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/9/23974.jpg"
+          },
+          "summary": "<p>In a delirious state after Serenity's engine explodes, draining the ship of its oxygen supply, Mal has a series of flashbacks about how he came to own Serenity and form his crew.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/12999"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 9,
+    "name": "Ariel",
+    "season": 1,
+    "number": 9,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/13002"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 13002,
+          "url": "https://www.tvmaze.com/episodes/13002/firefly-1x08-ariel",
+          "name": "Ariel",
+          "season": 1,
+          "number": 8,
+          "type": "regular",
+          "airdate": "2002-11-15",
+          "airtime": "20:00",
+          "airstamp": "2002-11-16T01:00:00+00:00",
+          "runtime": 60,
+          "rating": {
+            "average": 8.6
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/9/23977.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/9/23977.jpg"
+          },
+          "summary": "<p>The ship heads to Ariel to drop off Inara for her yearly companion health check-up. Simon realizes River's condition is getting worse and decides to sneak her into an Alliance hospital in Ariel for a brain scan. Mal and the others agrees to help him with his plan, but also takes this opportunity to steal some valuable medical supplies in the hospital and sell it at the street market.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/13002"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 10,
+    "name": "War Stories",
+    "season": 1,
+    "number": 10,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/13003"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 13003,
+          "url": "https://www.tvmaze.com/episodes/13003/firefly-1x09-war-stories",
+          "name": "War Stories",
+          "season": 1,
+          "number": 9,
+          "type": "regular",
+          "airdate": "2002-12-06",
+          "airtime": "20:00",
+          "airstamp": "2002-12-07T01:00:00+00:00",
+          "runtime": 60,
+          "rating": {
+            "average": 8.3
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/9/23978.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/9/23978.jpg"
+          },
+          "summary": "<p>Niska finally gets his revenge on Mal when his men find him and Wash on a planet. Nothing would please Niska more than to see them suffer right in front of him. Back at Serenity, Zoe and the crew decide to mount a daring rescue to get their friends back.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/13003"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 11,
+    "name": "Trash",
+    "season": 1,
+    "number": 11,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/13007"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 13007,
+          "url": "https://www.tvmaze.com/episodes/13007/firefly-1x12-trash",
+          "name": "Trash",
+          "season": 1,
+          "number": 12,
+          "type": "regular",
+          "airdate": "",
+          "airtime": "",
+          "airstamp": null,
+          "runtime": 60,
+          "rating": {
+            "average": 8.1
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/78/195476.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/78/195476.jpg"
+          },
+          "summary": "<p>Saffron returns to plague Serenity with a scheme to steal a rare antique weapon from a wealthy landowner. Unfortunately for Mal, she neglects to mention just how she came across the information needed to break into the landowner's home.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/13007"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 12,
+    "name": "The Message",
+    "season": 1,
+    "number": 12,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/13008"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 13008,
+          "url": "https://www.tvmaze.com/episodes/13008/firefly-1x13-the-message",
+          "name": "The Message",
+          "season": 1,
+          "number": 13,
+          "type": "regular",
+          "airdate": "",
+          "airtime": "",
+          "airstamp": null,
+          "runtime": 60,
+          "rating": {
+            "average": 8.1
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/77/194932.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/77/194932.jpg"
+          },
+          "summary": "<p>A former Independence soldier who had served with Mal and Zoe returns in a dramatic manner, with a vicious Alliance officer chasing after him for some unusual smuggled goods.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/13008"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 13,
+    "name": "Heart of Gold",
+    "season": 1,
+    "number": 13,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/13009"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 13009,
+          "url": "https://www.tvmaze.com/episodes/13009/firefly-1x14-heart-of-gold",
+          "name": "Heart of Gold",
+          "season": 1,
+          "number": 14,
+          "type": "regular",
+          "airdate": "",
+          "airtime": "",
+          "airstamp": null,
+          "runtime": 60,
+          "rating": {
+            "average": 8.2
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/78/195473.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/78/195473.jpg"
+          },
+          "summary": "<p>A Companion-trained friend of Inara's who runs a brothel on a remote planet calls for help from Serenity when a local bigwig reveals his intentions to take the baby from a woman he impregnated.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/13009"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "id": 14,
+    "name": "Objects in Space",
+    "season": 1,
+    "number": 14,
+    "type": "regular",
+    "airdate": "",
+    "airtime": "",
+    "airstamp": null,
+    "runtime": 60,
+    "_links": {
+      "episodes": [
+        {
+          "href": "https://api.tvmaze.com/episodes/13004"
+        }
+      ]
+    },
+    "_embedded": {
+      "episodes": [
+        {
+          "id": 13004,
+          "url": "https://www.tvmaze.com/episodes/13004/firefly-1x10-objects-in-space",
+          "name": "Objects in Space",
+          "season": 1,
+          "number": 10,
+          "type": "regular",
+          "airdate": "2002-12-13",
+          "airtime": "20:00",
+          "airstamp": "2002-12-14T01:00:00+00:00",
+          "runtime": 60,
+          "rating": {
+            "average": 8.5
+          },
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/9/23979.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/9/23979.jpg"
+          },
+          "summary": "<p>A bounty hunter boards the Serenity hoping to capture River for the Alliance.</p>",
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/episodes/13004"
+            },
+            "show": {
+              "href": "https://api.tvmaze.com/shows/180",
+              "name": "Firefly"
+            }
+          }
+        }
+      ]
+    }
+  }
+]

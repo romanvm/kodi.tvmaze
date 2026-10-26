@@ -19,6 +19,9 @@ jobs:
     - name: Check with ruff
       run: |
         ruff check
+    - name: Run tests
+      run: |
+        pytest
     - name: Install addon checker
       run: |
         pip install -q kodi-addon-checker

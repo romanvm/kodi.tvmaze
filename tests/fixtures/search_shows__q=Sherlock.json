@@ -1,0 +1,304 @@
+[
+  {
+    "score": 0.8951632,
+    "show": {
+      "id": 335,
+      "url": "https://www.tvmaze.com/shows/335/sherlock",
+      "name": "Sherlock",
+      "type": "Scripted",
+      "language": "English",
+      "genres": [
+        "Drama",
+        "Crime",
+        "Mystery"
+      ],
+      "status": "Ended",
+      "runtime": 90,
+      "averageRuntime": 90,
+      "premiered": "2010-07-25",
+      "ended": "2017-01-15",
+      "officialSite": "http://www.bbc.co.uk/programmes/b018ttws",
+      "schedule": {
+        "time": "21:00",
+        "days": [
+          "Sunday"
+        ]
+      },
+      "rating": {
+        "average": 8.9
+      },
+      "weight": 99,
+      "network": {
+        "id": 12,
+        "name": "BBC One",
+        "country": {
+          "name": "United Kingdom",
+          "code": "GB",
+          "timezone": "Europe/London"
+        },
+        "officialSite": "https://www.bbc.co.uk/bbcone"
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": 23433,
+        "thetvdb": 176941,
+        "imdb": "tt1475582"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/171/428042.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/171/428042.jpg"
+      },
+      "summary": "<p>Sherlock Holmes and Dr. John Watson's adventures in 21st Century London. A thrilling, funny, fast-paced contemporary reimagining of the Arthur Conan Doyle classic.</p>",
+      "updated": 1753373860,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/335"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/1004191",
+          "name": "The Final Problem"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.68805635,
+    "show": {
+      "id": 77427,
+      "url": "https://www.tvmaze.com/shows/77427/young-sherlock",
+      "name": "Young Sherlock",
+      "type": "Scripted",
+      "language": "English",
+      "genres": [
+        "Action",
+        "Crime",
+        "Mystery"
+      ],
+      "status": "Running",
+      "runtime": null,
+      "averageRuntime": 49,
+      "premiered": "2026-03-04",
+      "ended": null,
+      "officialSite": "https://www.amazon.com/dp/B0G2BTDG5G/",
+      "schedule": {
+        "time": "",
+        "days": []
+      },
+      "rating": {
+        "average": 7.3
+      },
+      "weight": 99,
+      "network": null,
+      "webChannel": {
+        "id": 3,
+        "name": "Prime Video",
+        "country": null,
+        "officialSite": "https://www.primevideo.com"
+      },
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 450633,
+        "imdb": "tt8599532"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/616/1540834.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/616/1540834.jpg"
+      },
+      "summary": "<p><b>Young Sherlock</b> is touted as an irreverent, action-packed origin story of Sir Arthur Conan Doyle's beloved detective in an explosive re-imagining of this iconic character. At age 19, Sherlock Holmes is disgraced, raw, unfiltered, and unformed, when he finds himself caught up in a murder mystery at Oxford University which threatens his freedom. Diving into his first-ever case with a wild lack of discipline, Sherlock manages to unravel a globe-trotting conspiracy that will change his life forever.</p>",
+      "updated": 1776225900,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/77427"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/3479681",
+          "name": "The Case of Beatrice Holmes"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.68557096,
+    "show": {
+      "id": 89520,
+      "url": "https://www.tvmaze.com/shows/89520/blind-sherlock",
+      "name": "Blind Sherlock",
+      "type": "Scripted",
+      "language": "Dutch",
+      "genres": [
+        "Crime",
+        "Thriller"
+      ],
+      "status": "To Be Determined",
+      "runtime": null,
+      "averageRuntime": 43,
+      "premiered": "2026-01-23",
+      "ended": null,
+      "officialSite": "https://www.netflix.com/title/81617193",
+      "schedule": {
+        "time": "",
+        "days": []
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 94,
+      "network": null,
+      "webChannel": {
+        "id": 1,
+        "name": "Netflix",
+        "country": null,
+        "officialSite": "https://www.netflix.com/"
+      },
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 472502,
+        "imdb": "tt39387604"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/610/1525980.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/610/1525980.jpg"
+      },
+      "summary": "<p>Blessed with exceptional hearing, blind Roman Mertens lands his dream job in the local police wiretapping unit -- a job more dangerous than he expected.</p>",
+      "updated": 1769797622,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/89520"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/3511514",
+          "name": "Aflevering 6"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.6827697,
+    "show": {
+      "id": 15057,
+      "url": "https://www.tvmaze.com/shows/15057/sherlock-holmes",
+      "name": "Sherlock Holmes",
+      "type": "Scripted",
+      "language": "English",
+      "genres": [
+        "Drama",
+        "Crime",
+        "Mystery"
+      ],
+      "status": "Ended",
+      "runtime": 50,
+      "averageRuntime": 50,
+      "premiered": "1964-05-18",
+      "ended": "1968-12-23",
+      "officialSite": null,
+      "schedule": {
+        "time": "",
+        "days": [
+          "Monday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 89,
+      "network": {
+        "id": 12,
+        "name": "BBC One",
+        "country": {
+          "name": "United Kingdom",
+          "code": "GB",
+          "timezone": "Europe/London"
+        },
+        "officialSite": "https://www.bbc.co.uk/bbcone"
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 71976,
+        "imdb": null
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/536/1340634.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/536/1340634.jpg"
+      },
+      "summary": "<p><b>Sherlock Holmes</b> (alternatively <i>Sir Arthur Conan Doyle's Sherlock Holmes</i>) is a series of Sherlock Holmes adaptations produced by the BBC between 1965 and 1968.</p>",
+      "updated": 1769199286,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/15057"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/684386",
+          "name": "The Blue Carbuncle"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.67971385,
+    "show": {
+      "id": 22618,
+      "url": "https://www.tvmaze.com/shows/22618/sherlock-holmes",
+      "name": "Sherlock Holmes",
+      "type": "Scripted",
+      "language": "English",
+      "genres": [
+        "Drama",
+        "Crime",
+        "Mystery"
+      ],
+      "status": "Ended",
+      "runtime": 30,
+      "averageRuntime": 30,
+      "premiered": "1954-10-18",
+      "ended": "1955-10-17",
+      "officialSite": null,
+      "schedule": {
+        "time": "",
+        "days": [
+          "Monday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 83,
+      "network": {
+        "id": 72,
+        "name": "Syndication",
+        "country": {
+          "name": "United States",
+          "code": "US",
+          "timezone": "America/New_York"
+        },
+        "officialSite": null
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 73529,
+        "imdb": "tt0046642"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/544/1362262.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/544/1362262.jpg"
+      },
+      "summary": "<p>Based on the characters created by Arthur Conan Doyle: Dr. John Watson returns from Afghanistan, and decides to share lodgings in Baker Street with Sherlock Holmes, an acquaintance of one of Watson's own friends. Not long afterward, Holmes brings Watson with him when he solves a murder case that has confused Inspector Lestrade. Watson soon becomes Holmes's friend, assistant, and chronicler, as the private detective takes on one baffling case after another.</p>",
+      "updated": 1762183816,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/22618"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/981368",
+          "name": "The Case of the Tyrant's Daughter"
+        }
+      }
+    }
+  }
+]

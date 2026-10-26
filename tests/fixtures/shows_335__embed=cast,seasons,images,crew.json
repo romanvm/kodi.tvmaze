@@ -1,0 +1,665 @@
+{
+  "id": 335,
+  "url": "https://www.tvmaze.com/shows/335/sherlock",
+  "name": "Sherlock",
+  "type": "Scripted",
+  "language": "English",
+  "genres": [
+    "Drama",
+    "Crime",
+    "Mystery"
+  ],
+  "status": "Ended",
+  "runtime": 90,
+  "averageRuntime": 90,
+  "premiered": "2010-07-25",
+  "ended": "2017-01-15",
+  "officialSite": "http://www.bbc.co.uk/programmes/b018ttws",
+  "schedule": {
+    "time": "21:00",
+    "days": [
+      "Sunday"
+    ]
+  },
+  "rating": {
+    "average": 8.9
+  },
+  "weight": 99,
+  "network": {
+    "id": 12,
+    "name": "BBC One",
+    "country": {
+      "name": "United Kingdom",
+      "code": "GB",
+      "timezone": "Europe/London"
+    },
+    "officialSite": "https://www.bbc.co.uk/bbcone"
+  },
+  "webChannel": null,
+  "dvdCountry": null,
+  "externals": {
+    "tvrage": 23433,
+    "thetvdb": 176941,
+    "imdb": "tt1475582"
+  },
+  "image": {
+    "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/171/428042.jpg",
+    "original": "https://static.tvmaze.com/uploads/images/original_untouched/171/428042.jpg"
+  },
+  "summary": "<p>Sherlock Holmes and Dr. John Watson's adventures in 21st Century London. A thrilling, funny, fast-paced contemporary reimagining of the Arthur Conan Doyle classic.</p>",
+  "updated": 1753373860,
+  "_links": {
+    "self": {
+      "href": "https://api.tvmaze.com/shows/335"
+    },
+    "previousepisode": {
+      "href": "https://api.tvmaze.com/episodes/1004191",
+      "name": "The Final Problem"
+    }
+  },
+  "_embedded": {
+    "cast": [
+      {
+        "person": {
+          "id": 40682,
+          "url": "https://www.tvmaze.com/people/40682/benedict-cumberbatch",
+          "name": "Benedict Cumberbatch",
+          "country": {
+            "name": "United Kingdom",
+            "code": "GB",
+            "timezone": "Europe/London"
+          },
+          "birthday": "1976-07-19",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/108/270283.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/108/270283.jpg"
+          },
+          "updated": 1790346079,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/40682"
+            }
+          }
+        },
+        "character": {
+          "id": 66736,
+          "url": "https://www.tvmaze.com/characters/66736/sherlock-sherlock-holmes",
+          "name": "Sherlock Holmes",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/91/228015.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/91/228015.jpg"
+          },
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/characters/66736"
+            }
+          }
+        },
+        "self": false,
+        "voice": false
+      },
+      {
+        "person": {
+          "id": 6041,
+          "url": "https://www.tvmaze.com/people/6041/martin-freeman",
+          "name": "Martin Freeman",
+          "country": {
+            "name": "United Kingdom",
+            "code": "GB",
+            "timezone": "Europe/London"
+          },
+          "birthday": "1971-09-08",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/473/1182658.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/473/1182658.jpg"
+          },
+          "updated": 1768472194,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/6041"
+            }
+          }
+        },
+        "character": {
+          "id": 275135,
+          "url": "https://www.tvmaze.com/characters/275135/sherlock-dr-john-watson",
+          "name": "Dr. John Watson",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/91/228016.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/91/228016.jpg"
+          },
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/characters/275135"
+            }
+          }
+        },
+        "self": false,
+        "voice": false
+      }
+    ],
+    "seasons": [
+      {
+        "id": 1353,
+        "url": "https://www.tvmaze.com/seasons/1353/sherlock-season-1",
+        "number": 1,
+        "name": "",
+        "episodeOrder": 3,
+        "premiereDate": "2010-07-25",
+        "endDate": "2010-08-08",
+        "network": {
+          "id": 12,
+          "name": "BBC One",
+          "country": {
+            "name": "United Kingdom",
+            "code": "GB",
+            "timezone": "Europe/London"
+          },
+          "officialSite": "https://www.bbc.co.uk/bbcone"
+        },
+        "webChannel": null,
+        "image": {
+          "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/41/102754.jpg",
+          "original": "https://static.tvmaze.com/uploads/images/original_untouched/41/102754.jpg"
+        },
+        "summary": "<p>Dr John Watson returns from service in Afghanistan and finds himself drawn inexorably into the world of the brilliant but baffling 'consulting detective', Sherlock Holmes.</p>",
+        "_links": {
+          "self": {
+            "href": "https://api.tvmaze.com/seasons/1353"
+          }
+        }
+      },
+      {
+        "id": 1354,
+        "url": "https://www.tvmaze.com/seasons/1354/sherlock-season-2",
+        "number": 2,
+        "name": "",
+        "episodeOrder": 3,
+        "premiereDate": "2012-01-01",
+        "endDate": "2012-01-15",
+        "network": {
+          "id": 12,
+          "name": "BBC One",
+          "country": {
+            "name": "United Kingdom",
+            "code": "GB",
+            "timezone": "Europe/London"
+          },
+          "officialSite": "https://www.bbc.co.uk/bbcone"
+        },
+        "webChannel": null,
+        "image": {
+          "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/41/102755.jpg",
+          "original": "https://static.tvmaze.com/uploads/images/original_untouched/41/102755.jpg"
+        },
+        "summary": "<p>Sherlock and John Watson return in a contemporary take on Conan Doyle's iconic adventures.</p>",
+        "_links": {
+          "self": {
+            "href": "https://api.tvmaze.com/seasons/1354"
+          }
+        }
+      },
+      {
+        "id": 1355,
+        "url": "https://www.tvmaze.com/seasons/1355/sherlock-season-3",
+        "number": 3,
+        "name": "",
+        "episodeOrder": 3,
+        "premiereDate": "2014-01-01",
+        "endDate": "2014-01-12",
+        "network": {
+          "id": 12,
+          "name": "BBC One",
+          "country": {
+            "name": "United Kingdom",
+            "code": "GB",
+            "timezone": "Europe/London"
+          },
+          "officialSite": "https://www.bbc.co.uk/bbcone"
+        },
+        "webChannel": null,
+        "image": {
+          "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/41/102756.jpg",
+          "original": "https://static.tvmaze.com/uploads/images/original_untouched/41/102756.jpg"
+        },
+        "summary": "<p>Sherlock returns - but will things ever be the same again?</p>",
+        "_links": {
+          "self": {
+            "href": "https://api.tvmaze.com/seasons/1355"
+          }
+        }
+      },
+      {
+        "id": 20855,
+        "url": "https://www.tvmaze.com/seasons/20855/sherlock-season-4",
+        "number": 4,
+        "name": "",
+        "episodeOrder": 3,
+        "premiereDate": "2016-01-01",
+        "endDate": "2017-01-15",
+        "network": {
+          "id": 12,
+          "name": "BBC One",
+          "country": {
+            "name": "United Kingdom",
+            "code": "GB",
+            "timezone": "Europe/London"
+          },
+          "officialSite": "https://www.bbc.co.uk/bbcone"
+        },
+        "webChannel": null,
+        "image": {
+          "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/230/576017.jpg",
+          "original": "https://static.tvmaze.com/uploads/images/original_untouched/230/576017.jpg"
+        },
+        "summary": "<p>Sherlock and Dr John Watson return in Steven Moffat and Mark Gatiss's contemporary take on Conan Doyle's most iconic adventures.</p>",
+        "_links": {
+          "self": {
+            "href": "https://api.tvmaze.com/seasons/20855"
+          }
+        }
+      }
+    ],
+    "images": [
+      {
+        "id": 5307,
+        "type": "poster",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/2/5311.jpg",
+            "width": 680,
+            "height": 1000
+          },
+          "medium": {
+            "url": "https://static.tvmaze.com/uploads/images/medium_portrait/2/5311.jpg",
+            "width": 210,
+            "height": 295
+          }
+        }
+      },
+      {
+        "id": 155943,
+        "type": "poster",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/62/157476.jpg",
+            "width": 552,
+            "height": 827
+          },
+          "medium": {
+            "url": "https://static.tvmaze.com/uploads/images/medium_portrait/62/157476.jpg",
+            "width": 210,
+            "height": 295
+          }
+        }
+      },
+      {
+        "id": 219985,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/88/221873.jpg",
+            "width": 1024,
+            "height": 768
+          }
+        }
+      },
+      {
+        "id": 219986,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/88/221874.jpg",
+            "width": 640,
+            "height": 360
+          }
+        }
+      },
+      {
+        "id": 219987,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/88/221875.jpg",
+            "width": 2560,
+            "height": 1440
+          }
+        }
+      },
+      {
+        "id": 219989,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/88/221877.jpg",
+            "width": 1600,
+            "height": 1067
+          }
+        }
+      },
+      {
+        "id": 231147,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/93/233088.jpg",
+            "width": 976,
+            "height": 549
+          }
+        }
+      },
+      {
+        "id": 231148,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/93/233089.jpg",
+            "width": 1296,
+            "height": 730
+          }
+        }
+      },
+      {
+        "id": 231149,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/93/233090.jpg",
+            "width": 1600,
+            "height": 1067
+          }
+        }
+      },
+      {
+        "id": 231150,
+        "type": null,
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/93/233091.jpg",
+            "width": 660,
+            "height": 634
+          }
+        }
+      },
+      {
+        "id": 231151,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/93/233092.jpg",
+            "width": 1920,
+            "height": 1080
+          }
+        }
+      },
+      {
+        "id": 425069,
+        "type": "poster",
+        "main": true,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/171/428042.jpg",
+            "width": 680,
+            "height": 1000
+          },
+          "medium": {
+            "url": "https://static.tvmaze.com/uploads/images/medium_portrait/171/428042.jpg",
+            "width": 210,
+            "height": 295
+          }
+        }
+      },
+      {
+        "id": 425070,
+        "type": "poster",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/171/428043.jpg",
+            "width": 680,
+            "height": 1000
+          },
+          "medium": {
+            "url": "https://static.tvmaze.com/uploads/images/medium_portrait/171/428043.jpg",
+            "width": 210,
+            "height": 295
+          }
+        }
+      },
+      {
+        "id": 425072,
+        "type": "poster",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/171/428045.jpg",
+            "width": 680,
+            "height": 1000
+          },
+          "medium": {
+            "url": "https://static.tvmaze.com/uploads/images/medium_portrait/171/428045.jpg",
+            "width": 210,
+            "height": 295
+          }
+        }
+      },
+      {
+        "id": 425073,
+        "type": "poster",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/171/428046.jpg",
+            "width": 680,
+            "height": 1000
+          },
+          "medium": {
+            "url": "https://static.tvmaze.com/uploads/images/medium_portrait/171/428046.jpg",
+            "width": 210,
+            "height": 295
+          }
+        }
+      },
+      {
+        "id": 425074,
+        "type": "poster",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/171/428047.jpg",
+            "width": 680,
+            "height": 1000
+          },
+          "medium": {
+            "url": "https://static.tvmaze.com/uploads/images/medium_portrait/171/428047.jpg",
+            "width": 210,
+            "height": 295
+          }
+        }
+      },
+      {
+        "id": 544235,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/219/547788.jpg",
+            "width": 1920,
+            "height": 1080
+          }
+        }
+      },
+      {
+        "id": 651343,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/262/655285.jpg",
+            "width": 1920,
+            "height": 1080
+          }
+        }
+      },
+      {
+        "id": 782509,
+        "type": "background",
+        "main": false,
+        "resolutions": {
+          "original": {
+            "url": "https://static.tvmaze.com/uploads/images/original_untouched/315/787548.jpg",
+            "width": 7680,
+            "height": 4320
+          }
+        }
+      }
+    ],
+    "crew": [
+      {
+        "type": "Creator",
+        "person": {
+          "id": 14887,
+          "url": "https://www.tvmaze.com/people/14887/mark-gatiss",
+          "name": "Mark Gatiss",
+          "country": {
+            "name": "United Kingdom",
+            "code": "GB",
+            "timezone": "Europe/London"
+          },
+          "birthday": "1966-10-17",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/8/20404.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/8/20404.jpg"
+          },
+          "updated": 1791244470,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/14887"
+            }
+          }
+        }
+      },
+      {
+        "type": "Creator",
+        "person": {
+          "id": 34559,
+          "url": "https://www.tvmaze.com/people/34559/steven-moffat",
+          "name": "Steven Moffat",
+          "country": {
+            "name": "United Kingdom",
+            "code": "GB",
+            "timezone": "Europe/London"
+          },
+          "birthday": "1961-11-18",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/423/1057719.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/423/1057719.jpg"
+          },
+          "updated": 1773068382,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/34559"
+            }
+          }
+        }
+      },
+      {
+        "type": "Executive Producer",
+        "person": {
+          "id": 14887,
+          "url": "https://www.tvmaze.com/people/14887/mark-gatiss",
+          "name": "Mark Gatiss",
+          "country": {
+            "name": "United Kingdom",
+            "code": "GB",
+            "timezone": "Europe/London"
+          },
+          "birthday": "1966-10-17",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/8/20404.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/8/20404.jpg"
+          },
+          "updated": 1791244470,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/14887"
+            }
+          }
+        }
+      },
+      {
+        "type": "Executive Producer",
+        "person": {
+          "id": 34559,
+          "url": "https://www.tvmaze.com/people/34559/steven-moffat",
+          "name": "Steven Moffat",
+          "country": {
+            "name": "United Kingdom",
+            "code": "GB",
+            "timezone": "Europe/London"
+          },
+          "birthday": "1961-11-18",
+          "deathday": null,
+          "gender": "Male",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/423/1057719.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/423/1057719.jpg"
+          },
+          "updated": 1773068382,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/34559"
+            }
+          }
+        }
+      },
+      {
+        "type": "Executive Producer",
+        "person": {
+          "id": 40683,
+          "url": "https://www.tvmaze.com/people/40683/sue-vertue",
+          "name": "Sue Vertue",
+          "country": {
+            "name": "United Kingdom",
+            "code": "GB",
+            "timezone": "Europe/London"
+          },
+          "birthday": "1960-09-21",
+          "deathday": null,
+          "gender": "Female",
+          "image": {
+            "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/423/1057718.jpg",
+            "original": "https://static.tvmaze.com/uploads/images/original_untouched/423/1057718.jpg"
+          },
+          "updated": 1756507969,
+          "_links": {
+            "self": {
+              "href": "https://api.tvmaze.com/people/40683"
+            }
+          }
+        }
+      }
+    ]
+  }
+}

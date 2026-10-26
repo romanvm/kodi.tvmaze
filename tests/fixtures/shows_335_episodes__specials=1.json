@@ -1,0 +1,524 @@
+[
+  {
+    "id": 32178,
+    "url": "https://www.tvmaze.com/episodes/32178/sherlock-1x01-a-study-in-pink",
+    "name": "A Study in Pink",
+    "season": 1,
+    "number": 1,
+    "type": "regular",
+    "airdate": "2010-07-25",
+    "airtime": "21:00",
+    "airstamp": "2010-07-25T20:00:00+00:00",
+    "runtime": 90,
+    "rating": {
+      "average": 8.6
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/432/1082204.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/432/1082204.jpg"
+    },
+    "summary": "<p>A war hero, invalided home from Afghanistan, meets a strange but charismatic genius who is looking for a flatmate - it is London in 2010, and Dr Watson and Sherlock Holmes are meeting for the first time. A string of impossible suicides has Scotland Yard baffled - and only one man can help.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/32178"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 32179,
+    "url": "https://www.tvmaze.com/episodes/32179/sherlock-1x02-the-blind-banker",
+    "name": "The Blind Banker",
+    "season": 1,
+    "number": 2,
+    "type": "regular",
+    "airdate": "2010-08-01",
+    "airtime": "21:00",
+    "airstamp": "2010-08-01T20:00:00+00:00",
+    "runtime": 90,
+    "rating": {
+      "average": 7.9
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/432/1082205.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/432/1082205.jpg"
+    },
+    "summary": "<p>A mysterious cipher is being scrawled on the walls around London. The first person to see the cipher is dead within hours of reading it. Sherlock plunges into a world of codes and symbols, consulting with London's best graffiti artists. He soon learns that the city is in the grip a gang of international smugglers, a secret society called the Black Lotus.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/32179"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 32180,
+    "url": "https://www.tvmaze.com/episodes/32180/sherlock-1x03-the-great-game",
+    "name": "The Great Game",
+    "season": 1,
+    "number": 3,
+    "type": "regular",
+    "airdate": "2010-08-08",
+    "airtime": "21:00",
+    "airstamp": "2010-08-08T20:00:00+00:00",
+    "runtime": 90,
+    "rating": {
+      "average": 8.5
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/432/1082206.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/432/1082206.jpg"
+    },
+    "summary": "<p>A strange clue in an empty room, a blood-soaked car, a priceless Old Master, a deranged bomber. With the clock ticking, the curtain rises on a battle of wits between Sherlock, John and the shadowy stranger who seems to know all the answers...</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/32180"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 32181,
+    "url": "https://www.tvmaze.com/episodes/32181/sherlock-2x01-a-scandal-in-belgravia",
+    "name": "A Scandal in Belgravia",
+    "season": 2,
+    "number": 1,
+    "type": "regular",
+    "airdate": "2012-01-01",
+    "airtime": "21:00",
+    "airstamp": "2012-01-01T21:00:00+00:00",
+    "runtime": 90,
+    "rating": {
+      "average": 8.7
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/234/587222.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/234/587222.jpg"
+    },
+    "summary": "<p>Rejoin the 21st-century team of Sherlock Holmes and Dr. Watson as they battle the worst that modern criminality has to offer.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/32181"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 32182,
+    "url": "https://www.tvmaze.com/episodes/32182/sherlock-2x02-the-hounds-of-baskerville",
+    "name": "The Hounds of Baskerville",
+    "season": 2,
+    "number": 2,
+    "type": "regular",
+    "airdate": "2012-01-08",
+    "airtime": "21:00",
+    "airstamp": "2012-01-08T21:00:00+00:00",
+    "runtime": 90,
+    "rating": {
+      "average": 7.9
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/234/587221.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/234/587221.jpg"
+    },
+    "summary": "<p>Watch Sherlock and Watson pursue information about research on genetically engineered animals for military use.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/32182"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 32183,
+    "url": "https://www.tvmaze.com/episodes/32183/sherlock-2x03-the-reichenbach-fall",
+    "name": "The Reichenbach Fall",
+    "season": 2,
+    "number": 3,
+    "type": "regular",
+    "airdate": "2012-01-15",
+    "airtime": "21:00",
+    "airstamp": "2012-01-15T21:00:00+00:00",
+    "runtime": 90,
+    "rating": {
+      "average": 8.6
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/234/587220.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/234/587220.jpg"
+    },
+    "summary": "<p>Watch as Moriarty poses the \"final problem\" and a tabloid reporter reveals the \"shocking truth\" about Sherlock.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/32183"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 32184,
+    "url": "https://www.tvmaze.com/episodes/32184/sherlock-3x01-the-empty-hearse",
+    "name": "The Empty Hearse",
+    "season": 3,
+    "number": 1,
+    "type": "regular",
+    "airdate": "2014-01-01",
+    "airtime": "21:00",
+    "airstamp": "2014-01-01T21:00:00+00:00",
+    "runtime": 90,
+    "rating": {
+      "average": 8.1
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/234/587219.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/234/587219.jpg"
+    },
+    "summary": "<p>'Just one more miracle, Sherlock. Stop being dead.' Two years after the devastating events of The Reichenbach Fall, Dr John Watson has got on with his life. New horizons, romance and a comforting domestic future beckon.</p><p>But with London under threat of a huge terrorist attack, Sherlock Holmes is about to rise from the grave with all the theatricality that comes so naturally to him. It's what his best friend wanted more than anything, but for John Watson it might well be a case of 'be careful what you wish for!'</p><p>If Sherlock thinks everything will be just as he left it, though, he is in for a very big surprise...</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/32184"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 32185,
+    "url": "https://www.tvmaze.com/episodes/32185/sherlock-3x02-the-sign-of-three",
+    "name": "The Sign of Three",
+    "season": 3,
+    "number": 2,
+    "type": "regular",
+    "airdate": "2014-01-05",
+    "airtime": "21:00",
+    "airstamp": "2014-01-05T21:00:00+00:00",
+    "runtime": 90,
+    "rating": {
+      "average": 8.1
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/234/587218.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/234/587218.jpg"
+    },
+    "summary": "<p>Sherlock faces his biggest challenge of all - delivering a best man's speech on John's wedding day.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/32185"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 32186,
+    "url": "https://www.tvmaze.com/episodes/32186/sherlock-3x03-his-last-vow",
+    "name": "His Last Vow",
+    "season": 3,
+    "number": 3,
+    "type": "regular",
+    "airdate": "2014-01-12",
+    "airtime": "22:00",
+    "airstamp": "2014-01-12T22:00:00+00:00",
+    "runtime": 90,
+    "rating": {
+      "average": 8.1
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/234/587217.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/234/587217.jpg"
+    },
+    "summary": "<p>Sherlock goes after publishing magnate and blackmailer Charles Magnussen, one of the most despicable criminals that he has ever encountered.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/32186"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 401163,
+    "url": "https://www.tvmaze.com/episodes/401163/sherlock-s04-special-the-abominable-bride",
+    "name": "The Abominable Bride",
+    "season": 4,
+    "number": null,
+    "type": "significant_special",
+    "airdate": "2016-01-01",
+    "airtime": "21:00",
+    "airstamp": "2016-01-01T21:00:00+00:00",
+    "runtime": 93,
+    "rating": {
+      "average": 8
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/579/1449251.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/579/1449251.jpg"
+    },
+    "summary": "<p>In Victorian London, Sherlock Holmes and Dr. John Watson attempt to solve a murder committed by a ghost bride.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/401163"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 941297,
+    "url": "https://www.tvmaze.com/episodes/941297/sherlock-4x01-the-six-thatchers",
+    "name": "The Six Thatchers",
+    "season": 4,
+    "number": 1,
+    "type": "regular",
+    "airdate": "2017-01-01",
+    "airtime": "20:30",
+    "airstamp": "2017-01-01T20:30:00+00:00",
+    "runtime": 90,
+    "rating": {
+      "average": 7.3
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/234/587215.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/234/587215.jpg"
+    },
+    "summary": "<p>While waiting for Moriarty to make good on his beyond-the-grave threat, Sherlock is intrigued by cases of vandalism where the criminal is breaking open busts of Margaret Thatcher. He soon discovers that the vandalism is tied to Mary's past.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/941297"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 941298,
+    "url": "https://www.tvmaze.com/episodes/941298/sherlock-4x02-the-lying-detective",
+    "name": "The Lying Detective",
+    "season": 4,
+    "number": 2,
+    "type": "regular",
+    "airdate": "2017-01-08",
+    "airtime": "21:00",
+    "airstamp": "2017-01-08T21:00:00+00:00",
+    "runtime": 90,
+    "rating": {
+      "average": 7.9
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/234/587214.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/234/587214.jpg"
+    },
+    "summary": "<p>To save John, Sherlock takes on the most dangerous case of his career: bring serial killer and milliionaire-philanthropist Culverton Smith to justice. Meanwhile, the mystery of Sherringford Holmes deepens.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/941298"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 1004191,
+    "url": "https://www.tvmaze.com/episodes/1004191/sherlock-4x03-the-final-problem",
+    "name": "The Final Problem",
+    "season": 4,
+    "number": 3,
+    "type": "regular",
+    "airdate": "2017-01-15",
+    "airtime": "21:00",
+    "airstamp": "2017-01-15T21:00:00+00:00",
+    "runtime": 90,
+    "rating": {
+      "average": 7.4
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/234/587213.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/234/587213.jpg"
+    },
+    "summary": "<p>Sherlock and John confirm that Eurus is still alive, and go to Sherringford to meet with her. However, they soon discover that it is all part of Eurus' master plan.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/1004191"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 839178,
+    "url": "https://www.tvmaze.com/episodes/839178/sherlock-s01-special-unaired-pilot",
+    "name": "Unaired Pilot",
+    "season": 1,
+    "number": null,
+    "type": "insignificant_special",
+    "airdate": "2010-08-30",
+    "airtime": "21:00",
+    "airstamp": "2010-08-30T20:00:00+00:00",
+    "runtime": 55,
+    "rating": {
+      "average": 8.7
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/90/226345.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/90/226345.jpg"
+    },
+    "summary": "<p>Original pilot version of \"A Study in Pink\". Invalided home from the war in Afghanistan, Dr. John Watson becomes roommates with the world's only \"consulting detective,\" Sherlock Holmes. Within a day their friendship is forged and several murders are solved.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/839178"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 1785540,
+    "url": "https://www.tvmaze.com/episodes/1785540/sherlock-s01-special-unlocking-sherlock",
+    "name": "Unlocking Sherlock",
+    "season": 1,
+    "number": null,
+    "type": "insignificant_special",
+    "airdate": "2010-08-30",
+    "airtime": "21:00",
+    "airstamp": "2010-08-30T20:00:00+00:00",
+    "runtime": 32,
+    "rating": {
+      "average": 9.5
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/279/698806.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/279/698806.jpg"
+    },
+    "summary": "<p>A 32-minute documentary about the production of the series.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/1785540"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 839479,
+    "url": "https://www.tvmaze.com/episodes/839479/sherlock-s02-special-sherlock-uncovered",
+    "name": "Sherlock Uncovered",
+    "season": 2,
+    "number": null,
+    "type": "insignificant_special",
+    "airdate": "2012-01-23",
+    "airtime": "21:00",
+    "airstamp": "2012-01-23T21:00:00+00:00",
+    "runtime": 20,
+    "rating": {
+      "average": 9.2
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/90/226342.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/90/226342.jpg"
+    },
+    "summary": "<p>The stars of Sherlock, Benedict Cumberbatch and Martin Freeman, talk in depth about the success of the first season and look ahead to season 2. This bonus feature also includes the show's creators, Steven Moffat and Mark Gatiss, discussing the dilemmas and pitfalls they faced when bringing these classic Holmes stories into the 21st century.</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/839479"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 32189,
+    "url": "https://www.tvmaze.com/episodes/32189/sherlock-s03-special-many-happy-returns",
+    "name": "Many Happy Returns",
+    "season": 3,
+    "number": null,
+    "type": "insignificant_special",
+    "airdate": "2013-12-24",
+    "airtime": "21:00",
+    "airstamp": "2013-12-24T21:00:00+00:00",
+    "runtime": 7,
+    "rating": {
+      "average": 8.9
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/234/587226.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/234/587226.jpg"
+    },
+    "summary": "<p>A series of seemingly unconnected crimes stretching from Tibet to India to Germany. Sherlock Holmes has been gone for two years. But someone isn't quite convinced that he's dead...</p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/32189"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  },
+  {
+    "id": 1785539,
+    "url": "https://www.tvmaze.com/episodes/1785539/sherlock-s03-special-unlocking-sherlock-2013",
+    "name": "Unlocking Sherlock (2013)",
+    "season": 3,
+    "number": null,
+    "type": "insignificant_special",
+    "airdate": "2013-12-25",
+    "airtime": "21:00",
+    "airstamp": "2013-12-25T21:00:00+00:00",
+    "runtime": 60,
+    "rating": {
+      "average": 8.7
+    },
+    "image": {
+      "medium": "https://static.tvmaze.com/uploads/images/medium_landscape/279/698807.jpg",
+      "original": "https://static.tvmaze.com/uploads/images/original_untouched/279/698807.jpg"
+    },
+    "summary": "<p>Unlocking Sherlock is a one-hour special that explores how writers Steven Moffat and Mark Gatiss created the hit television sensation. The special takes viewers on a personal voyage through the versions of Holmes that have served as inspirations for the new series – the original stories, their factual origins, hundreds of film adaptations – to arrive at their thoroughly modern Sherlock. Moffat and Gatiss explain the challenges they encountered adapting the original adventures of the iconic super-sleuth. The special goes behind the scenes on the set of the hit television series, and includes interviews with actors Benedict Cumberbatch, Martin Freeman and Lara Pulver, who talk about the reinvention of their fictional characters. </p>",
+    "_links": {
+      "self": {
+        "href": "https://api.tvmaze.com/episodes/1785539"
+      },
+      "show": {
+        "href": "https://api.tvmaze.com/shows/335",
+        "name": "Sherlock"
+      }
+    }
+  }
+]

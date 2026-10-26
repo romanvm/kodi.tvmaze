@@ -68,16 +68,26 @@ feature checks (see `CastSetter`, `set_show_artwork`). Kodi Python API reference
 
 - Python: must stay compatible with Python 3.8 (the local `.venv` is 3.8). Use `typing.Optional/Dict/List`,
   not `X | None` or `list[...]`. Walrus operator is fine.
-- No tests and no way to run the add-on outside Kodi; `xbmc*` modules only exist inside Kodi. Verify changes by
-  linting and reasoning; real testing is done by the maintainer in Kodi.
-- Dependencies (`requirements.txt`): `Kodistubs`, `ruff`, `simple-requests` (the add-on's only runtime dep,
-  provided in Kodi by `script.module.simple-requests`; import as `import simple_requests as requests`).
+- Integration tests in `tests/` (pytest) call `libs.actions.router()` like Kodi does; real testing in Kodi is
+  still done by the maintainer.
+  - `tests/fakes/kodi.py` subclasses Kodistubs classes (recording `InfoTagVideo`, stateful `ListItem`,
+    `Window`, `Addon`) and records `xbmcplugin` results. `kodi.install()` must run before any `libs` import
+    (`KODI_VERSION` and `HANDLE` are read at import time); `conftest.py` does that.
+  - `tests/fakes/tvmaze.py` replaces `simple_requests.get` and serves recorded TVmaze responses from
+    `tests/fixtures/` (file name derived from URL + params). Unknown requests fail the test; use
+    `tvmaze.set_response()` / `set_error()` for edge cases.
+  - `tests/record_fixtures.py` re-records fixtures from the live API (manual only, never in CI). Shows used:
+    Firefly (180, DVD order) and Sherlock (335, specials).
+  - Known add-on bugs are documented with `xfail` tests (`xfail_strict = true`).
+- Dependencies (`requirements.txt`): `Kodistubs`, `pytest`, `ruff`, `simple-requests` (the add-on's only runtime
+  dep, provided in Kodi by `script.module.simple-requests`; import as `import simple_requests as requests`).
 - Commands (Makefile, use the `.venv`):
   - `make lint` — `ruff check`
   - `make format` — `ruff format`
   - `make ruff` — autofix + format
-  Run `make ruff` (or at least `make lint`) after every code change.
-- CI (`.github/workflows/check-addon.yml`): ruff + `kodi-addon-checker --branch omega` on every push/PR.
+  - `make test` — `pytest`
+  Run `make ruff` (or at least `make lint`) and `make test` after every code change.
+- CI (`.github/workflows/check-addon.yml`): ruff + pytest + `kodi-addon-checker --branch omega` on every push/PR.
   Pushing a tag (not ending in `-beta`) triggers `publish-addon.yml`, which submits to `repo-scrapers`.
 
 ## Code style

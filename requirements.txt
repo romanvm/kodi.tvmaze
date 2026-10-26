@@ -1,3 +1,4 @@
 Kodistubs
+pytest
 ruff
 git+https://github.com/romanvm/kodi.simple-requests.git

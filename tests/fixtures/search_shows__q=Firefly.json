@@ -1,0 +1,328 @@
+[
+  {
+    "score": 0.8950711,
+    "show": {
+      "id": 180,
+      "url": "https://www.tvmaze.com/shows/180/firefly",
+      "name": "Firefly",
+      "type": "Scripted",
+      "language": "English",
+      "genres": [
+        "Drama",
+        "Adventure",
+        "Science-Fiction"
+      ],
+      "status": "Ended",
+      "runtime": 60,
+      "averageRuntime": 64,
+      "premiered": "2002-09-20",
+      "ended": "2002-12-20",
+      "officialSite": null,
+      "schedule": {
+        "time": "20:00",
+        "days": [
+          "Friday"
+        ]
+      },
+      "rating": {
+        "average": 9
+      },
+      "weight": 99,
+      "network": {
+        "id": 4,
+        "name": "FOX",
+        "country": {
+          "name": "United States",
+          "code": "US",
+          "timezone": "America/New_York"
+        },
+        "officialSite": "https://www.fox.com/"
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": 3548,
+        "thetvdb": 78874,
+        "imdb": "tt0303461"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/1/2600.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/1/2600.jpg"
+      },
+      "summary": "<p>Five hundred years in the future, a renegade crew aboard a small spacecraft tries to survive as they travel the unknown parts of the galaxy and evade warring factions as well as authority agents out to get them.</p>",
+      "updated": 1779009049,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/180"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/13005",
+          "name": "Serenity"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.6869335,
+    "show": {
+      "id": 41101,
+      "url": "https://www.tvmaze.com/shows/41101/firefly-lane",
+      "name": "Firefly Lane",
+      "type": "Scripted",
+      "language": "English",
+      "genres": [
+        "Drama",
+        "Romance"
+      ],
+      "status": "Ended",
+      "runtime": null,
+      "averageRuntime": 52,
+      "premiered": "2021-02-03",
+      "ended": "2023-04-27",
+      "officialSite": "https://www.netflix.com/title/80994340",
+      "schedule": {
+        "time": "",
+        "days": []
+      },
+      "rating": {
+        "average": 6.8
+      },
+      "weight": 97,
+      "network": null,
+      "webChannel": {
+        "id": 1,
+        "name": "Netflix",
+        "country": null,
+        "officialSite": "https://www.netflix.com/"
+      },
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 384248,
+        "imdb": "tt9012876"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/458/1147479.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/458/1147479.jpg"
+      },
+      "summary": "<p>Kate and Tully meet as young girls and become inseparable best friends throughout thirty years of ups and downs, successes and failures, depression and disappointments. When an unthinkable betrayal breaks them apart, the two women go their separate ways and it's unclear whether they will ever be able to reconcile.</p>",
+      "updated": 1762784570,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/41101"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/2478776",
+          "name": "This Must Be the Place"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.6844584,
+    "show": {
+      "id": 91069,
+      "url": "https://www.tvmaze.com/shows/91069/firefly-wedding",
+      "name": "Firefly Wedding",
+      "type": "Animation",
+      "language": "Japanese",
+      "genres": [
+        "Drama",
+        "Anime",
+        "Romance"
+      ],
+      "status": "Running",
+      "runtime": 30,
+      "averageRuntime": 30,
+      "premiered": "2026-10-09",
+      "ended": null,
+      "officialSite": "https://hotaru-anime.com/",
+      "schedule": {
+        "time": "23:30",
+        "days": [
+          "Friday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 92,
+      "network": {
+        "id": 131,
+        "name": "Fuji TV",
+        "country": {
+          "name": "Japan",
+          "code": "JP",
+          "timezone": "Asia/Tokyo"
+        },
+        "officialSite": null
+      },
+      "webChannel": {
+        "id": 135,
+        "name": "AbemaTV",
+        "country": {
+          "name": "Japan",
+          "code": "JP",
+          "timezone": "Asia/Tokyo"
+        },
+        "officialSite": null
+      },
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 472641,
+        "imdb": null
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/645/1613210.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/645/1613210.jpg"
+      },
+      "summary": "<p>Satoko Kirigaya has everything a noblewoman could want—except time. With her life running out, she's determined to marry well and make her father proud. But when a ruthless assassin kidnaps her, she makes a desperate offer: \"Marry me, and we'll have it all.\" Shinpei Goto accepts, only to become dangerously obsessed. Now Satoko must choose between duty and a love that could consume them both.</p>",
+      "updated": 1792771573,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/91069"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/3784410",
+          "name": "A Watchful Rat"
+        },
+        "nextepisode": {
+          "href": "https://api.tvmaze.com/episodes/3784411",
+          "name": "Episode 4"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.5235348,
+    "show": {
+      "id": 47868,
+      "url": "https://www.tvmaze.com/shows/47868/balala-the-fairies-ocean-magic",
+      "name": "Balala the Fairies: Ocean Magic",
+      "type": "Animation",
+      "language": "Chinese",
+      "genres": [
+        "Anime",
+        "Children"
+      ],
+      "status": "Ended",
+      "runtime": 25,
+      "averageRuntime": 25,
+      "premiered": "2018-11-16",
+      "ended": "2018-12-11",
+      "officialSite": null,
+      "schedule": {
+        "time": "",
+        "days": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 74,
+      "network": {
+        "id": 1752,
+        "name": "Jiajia Cartoon Channel",
+        "country": {
+          "name": "China",
+          "code": "CN",
+          "timezone": "Asia/Shanghai"
+        },
+        "officialSite": null
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": null,
+        "imdb": null
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/255/638969.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/255/638969.jpg"
+      },
+      "summary": "<p>In the magical underwater world, there is a mysterious and charming place called HǎiYíngBǎo. When human girls LingHaijun and XiaFan ,Accidentally met the Princess of the Icy Blue City, Nahiya, they transform from ordinary girls into magic fairies</p>",
+      "updated": 1588779964,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/47868"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/1860176",
+          "name": "最后一击"
+        }
+      }
+    }
+  },
+  {
+    "score": 0.48514444,
+    "show": {
+      "id": 29781,
+      "url": "https://www.tvmaze.com/shows/29781/atesbocegi",
+      "name": "Ateşböceği",
+      "type": "Scripted",
+      "language": "Turkish",
+      "genres": [
+        "Drama",
+        "Comedy",
+        "Romance"
+      ],
+      "status": "Ended",
+      "runtime": 150,
+      "averageRuntime": 150,
+      "premiered": "2017-06-29",
+      "ended": "2017-10-25",
+      "officialSite": "http://www.startv.com.tr/dizi/atesbocegi",
+      "schedule": {
+        "time": "20:00",
+        "days": [
+          "Sunday"
+        ]
+      },
+      "rating": {
+        "average": null
+      },
+      "weight": 38,
+      "network": {
+        "id": 409,
+        "name": "Star TV",
+        "country": {
+          "name": "Turkey",
+          "code": "TR",
+          "timezone": "Europe/Istanbul"
+        },
+        "officialSite": "https://www.startv.com.tr/"
+      },
+      "webChannel": null,
+      "dvdCountry": null,
+      "externals": {
+        "tvrage": null,
+        "thetvdb": 329088,
+        "imdb": "tt7172080"
+      },
+      "image": {
+        "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/527/1317575.jpg",
+        "original": "https://static.tvmaze.com/uploads/images/original_untouched/527/1317575.jpg"
+      },
+      "summary": "<p>A divorce lawyer who feels that there is nothing left to surprise him in life meets a beautiful young girl who work as a taxi driver to help her family. When the pair cross paths their lives will change forever.</p>",
+      "updated": 1766512847,
+      "_links": {
+        "self": {
+          "href": "https://api.tvmaze.com/shows/29781"
+        },
+        "previousepisode": {
+          "href": "https://api.tvmaze.com/episodes/1339424",
+          "name": "17. Bölüm"
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,60 @@
+{
+  "id": 335,
+  "url": "https://www.tvmaze.com/shows/335/sherlock",
+  "name": "Sherlock",
+  "type": "Scripted",
+  "language": "English",
+  "genres": [
+    "Drama",
+    "Crime",
+    "Mystery"
+  ],
+  "status": "Ended",
+  "runtime": 90,
+  "averageRuntime": 90,
+  "premiered": "2010-07-25",
+  "ended": "2017-01-15",
+  "officialSite": "http://www.bbc.co.uk/programmes/b018ttws",
+  "schedule": {
+    "time": "21:00",
+    "days": [
+      "Sunday"
+    ]
+  },
+  "rating": {
+    "average": 8.9
+  },
+  "weight": 99,
+  "network": {
+    "id": 12,
+    "name": "BBC One",
+    "country": {
+      "name": "United Kingdom",
+      "code": "GB",
+      "timezone": "Europe/London"
+    },
+    "officialSite": "https://www.bbc.co.uk/bbcone"
+  },
+  "webChannel": null,
+  "dvdCountry": null,
+  "externals": {
+    "tvrage": 23433,
+    "thetvdb": 176941,
+    "imdb": "tt1475582"
+  },
+  "image": {
+    "medium": "https://static.tvmaze.com/uploads/images/medium_portrait/171/428042.jpg",
+    "original": "https://static.tvmaze.com/uploads/images/original_untouched/171/428042.jpg"
+  },
+  "summary": "<p>Sherlock Holmes and Dr. John Watson's adventures in 21st Century London. A thrilling, funny, fast-paced contemporary reimagining of the Arthur Conan Doyle classic.</p>",
+  "updated": 1753373860,
+  "_links": {
+    "self": {
+      "href": "https://api.tvmaze.com/shows/335"
+    },
+    "previousepisode": {
+      "href": "https://api.tvmaze.com/episodes/1004191",
+      "name": "The Final Problem"
+    }
+  }
+}
