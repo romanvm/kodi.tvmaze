@@ -36,13 +36,13 @@ class Settings:
     def __new__(cls):
         if cls._instance is None:
             cls._instance = super().__new__(cls)
+            cls._instance._path_settings = {}
         return cls._instance
 
-    def __init__(self):
-        self._path_settings = {}
-
     def initialize(self, path_settings: Dict[str, Any]) -> None:
-        self._path_settings.update(path_settings)
+        # Replace, not update: with reuselanguageinvoker the instance survives between calls
+        # and path settings of one media source must not leak into another one.
+        self._path_settings = dict(path_settings)
 
     def get_value_str(self, key: str) -> str:
         value = self._path_settings.get(key)
